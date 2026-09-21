@@ -99,6 +99,18 @@ code, and adding them up in code, scored **100 percent**.
 Whether a file exists at a path, whether a count exceeds a budget, whether every part
 passed: none of those need a model, and asking one makes them worse.
 
+## The parts come from code too
+
+That check asks one question per part of a task, which means something has to say what the parts
+are. Nothing in a live agent did: every measured run above used parts a person typed into a case
+file. `extractTaskParts()` reads them out of the sentence instead, from the paths that were typed,
+the verbs that were used, and the conjunctions they were joined with. No model, no cost per turn,
+and the same answer to the same string every time.
+
+Scored against the 61 tasks whose parts were written by hand for the case sets, it gets the count,
+every kind and every path right on **57**. That is a development set rather than a blind one, and
+[USAGE.md](USAGE.md) has the numbers, the rules, and what it still gets wrong.
+
 ## Principles, and what they cost to learn
 
 **A band for every case, including the bottom.** There is no undefined confidence, so there

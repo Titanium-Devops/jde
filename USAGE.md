@@ -168,6 +168,9 @@ const outcome = await completionCheck({
 });
 ```
 
+`task_parts` is optional. Leave it out and the parts are read out of `task` by the extractor
+below, which is what a caller with only a task string wants. Pass them and nothing is parsed.
+
 `outcome.verdict` is `done`, `partial`, `not_done`, or null when the judge did not answer. A task
 with one part is never partial. `outcome.result_is_echo` says whether the claimed result restates
 the task instead of reporting an outcome; per the design note it is reported beside the verdict
@@ -178,3 +181,81 @@ One thing the design history gets wrong and the blind set settles: a run with no
 not automatically a failure. A task whose only part is a reply, such as a recommendation that was
 asked for, is delivered by saying it and leaves no receipt. That case is in the blind set and it is
 labelled done.
+
+
+## The task parts extractor
+
+```ts
+import { extractTaskParts } from "@titanium/jde";
+
+extractTaskParts(
+  "Research the three managed Postgres providers, write the comparison to notes/pg-pricing.md, and tell me which to pick.",
+);
+// [
+//   { id: "part_0", kind: "action", text: "research the three managed Postgres providers" },
+//   { id: "part_1", kind: "file",   text: "write the comparison to notes/pg-pricing.md", path: "notes/pg-pricing.md" },
+//   { id: "part_2", kind: "reply",  text: "state which to pick" },
+// ]
+```
+
+The completion check asks one question per part of a task, so something has to produce the parts.
+Nothing in a live agent did: every measured run so far used parts a person typed into a case file.
+This is that missing piece, and it is a parser rather than a judgment, because a task is a sentence
+somebody wrote and its parts are in the sentence.
+
+What it reads:
+
+| | |
+|---|---|
+| **file** | A path shaped token, and a verb near it that puts something there. `docs/x.md`, `report.csv`, `CHANGELOG.md`. A folder (`drafts/`) is not a file part, because no exact path can be checked against the receipts. A reading verb is not one either: "read the notes in docs/setup.md" leaves nothing at that path. |
+| **action** | The task's own verbs and their objects, split on the conjunctions people actually write: "and", "then", a semicolon, a comma, a numbered or bulleted list. A named list inside one clause becomes one part per name. |
+| **reply** | What is asked for with no file and no action attached: "tell me which one to pick", "recommend one", anything said to belong "in your reply". |
+
+Order is the order they were written. A one clause task is one part, never zero. A sentence that
+takes work away ("No file needed.") is dropped whole.
+
+### What it scores, and against what
+
+```bash
+npm run build
+node scripts/parts-eval.mjs                 # add --quiet for the counts alone
+```
+
+The scorer runs the extractor over the 61 tasks in `cases/completion-check-blind.json` and
+`cases/completion-check-tuned.json`, whose parts were written by hand by the people who wrote those
+sets, and compares part for part: the count, the kind of each, the path of each file part, and a
+lenient text match that asks for the same verb and a third of the same object words.
+
+**Those two files are a development set for the extractor, not a blind one.** They are blind to the
+completion check, whose questions they were written for, and the parser was then iterated against
+its score on them. Read the numbers as an upper bound. A blind set for the extractor is a fresh file
+of tasks and parts written by someone who has not seen `src/parts.ts`, and it is the thing to write
+before this is trusted anywhere the parts are not shown to the person who typed the task.
+
+| | first run | after iterating |
+|---|---|---|
+| Exact part count | 57/61 | 57/61 |
+| Count, kinds and paths all correct | 52/61 | **57/61** |
+| Kind, per part | 115/129 | **120/129** |
+| Path, per file part | 46/54 | **51/54** |
+| Text, verb and object | 103/129 | 103/129 |
+
+Three rules closed the gap between those columns: a clause that points back at a file the sentence
+already named ("and make it skip the push") stays in that file, a sentence that asks for nothing is
+context for the next one rather than a part, and a reading verb with a path is an action.
+
+The text column did not move and is not expected to. A person writing parts by hand rewrites them
+("write the price table" for "put them in data/cindermill-prices.csv"), and this keeps the words
+that were typed. It costs nothing: a file part's text never reaches a model, and an action or reply
+part's text is the question, where the typed words are the more literal thing to ask about.
+
+### What it gets wrong
+
+Written out in full at the top of `src/parts.ts`, and worth reading before trusting a split. The
+four tasks it misses in the sets above are each one of them: a counted enumeration ("draft two
+replies, one accepting and one asking for a lower rate"), work hidden in an adjunct ("using the
+commit log"), and two tasks where the hand written parts fold a "draft it, then save it at this
+path" pair into one file part while the other set's author kept both.
+
+None of these is a case for a judge. A wrong split shows up in the ledger as a part nobody could
+satisfy; a model call on every task costs money on every turn and answers the same string two ways.
