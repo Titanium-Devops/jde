@@ -93,12 +93,66 @@ The decision's own row carries `question: "aggregate"`, the aggregate rule as it
 action code actually took. On a decision that never got an answer it is the only row there is, and
 it carries the failure as `error`.
 
-The state is never written. Not the request, not the evidence, not the claimed result. A person
-marks a row wrong with `markWrong(ledger, id, by)`, which appends a marker rather than editing the
-row, so the judgment and the correction both survive.
+The state is never written. Not the request, not the evidence, not the claimed result.
 
 Default path `.jde/ledger.jsonl`, moved with `JDE_LEDGER_PATH`, or pass `fileLedger(path)`,
 `memoryLedger()` or `nullLedger()`.
+
+## Reviewing a judgment
+
+A reviewer records both halves of the answer:
+
+```ts
+await markWrong(ledger, rowId, "jason", { why: "the scan said nothing of the kind" });
+await markRight(ledger, rowId, "jason");
+await markReviewed(ledger, rowId, { wrong: false, by: "jason" });   // either verdict
+```
+
+or from a terminal, against a ledger file:
+
+```
+node scripts/mark-judgment.mjs --id <row id> --right --by jason --why "the file really was written"
+node scripts/mark-judgment.mjs --id <row id> --wrong --by kelley
+```
+
+**Reviewed and right is a fact worth writing down.** A ledger that records only the wrong ones can
+count mistakes and never divide by anything, because an unmarked row is either right or never looked
+at and nothing in the file says which. `markWrong` is unchanged and writes exactly what it always
+wrote; `markRight` is its other half.
+
+A marker never edits the row it points at, and a later marker never deletes an earlier one. When a
+row carries two verdicts that disagree, **the most recent one counts**, by timestamp, and by the
+order they were appended when the timestamps tie. Both stay in the file, and the reader reports how
+many rows were reviewed twice, so a reviewer who changed their mind is visible rather than erased.
+
+## What the ledger can tell you
+
+```
+node scripts/calibration.mjs [--decision completion-check] [--question aggregate]
+```
+
+Reviewed judgments only, in ten bins, with the reviewed count printed beside every bin, because a
+bin of four decisions and a bin of four hundred print the same percentage and only one of them is an
+answer. The report ends with the smallest confidence whose pooled error is at or under 5 percent
+with at least 100 reviewed judgments behind it, or a sentence saying why it cannot say.
+
+```ts
+const { join, calibration } = await calibrateLedger();
+calibration.threshold;   // { confidence, reviewed, pooledError } or null
+calibration.shortfall;   // why it is null, in words
+```
+
+Three rules this reader keeps:
+
+- **An unreviewed row is not a correct row.** It is in neither the numerator nor the denominator.
+- **An empty bin has no error rate**, which is not the same as an error rate of zero.
+- **A fallback row is held out.** A judgment that never happened has a placeholder confidence, not a
+  judge's answer, so a reviewed one is counted separately rather than dropped into the bottom bin.
+
+Run it against this repo's own ledger today and it says there is nothing there: no judgment has ever
+been reviewed, so there is no denominator and no threshold. That is the honest state, and it is the
+reason a confidence threshold in this package is still a number someone chose rather than a number
+anything measured.
 
 ## Adding a decision
 

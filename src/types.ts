@@ -145,16 +145,34 @@ export interface LedgerRow {
   readonly error?: FailureReason;
 }
 
-/** A person marking a row wrong appends this. It never edits the row it points at. */
-export interface WrongMarker {
+/**
+ * A reviewer's verdict on one row. It never edits the row it points at, and a later marker never
+ * deletes an earlier one: both are in the file, and the reader resolves them.
+ *
+ * `wrong` carries the whole answer, not half of it. `false` means reviewed and right, which is the
+ * fact that makes a denominator possible: without it an unmarked row is either correct or never
+ * looked at, and those are not the same thing.
+ */
+export interface ReviewMarker {
+  /** The id of the ledger row this is about. */
   readonly id: string;
-  readonly wrong: true;
+  readonly wrong: boolean;
   readonly by: string;
   readonly ts: string;
+  /** One line on why, for the person reading the row later. Optional. */
+  readonly why?: string;
+}
+
+/**
+ * What `markWrong` writes: a review whose verdict is wrong. Kept as its own name because it is
+ * public surface, and every marker written before reviewed-and-right existed has this shape.
+ */
+export interface WrongMarker extends ReviewMarker {
+  readonly wrong: true;
 }
 
 export interface Ledger {
-  append(row: LedgerRow | WrongMarker): Promise<void>;
+  append(row: LedgerRow | ReviewMarker): Promise<void>;
 }
 
 export interface AskInput<State = unknown> {

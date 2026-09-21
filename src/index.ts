@@ -30,8 +30,18 @@ import type {
 export * from "./types.ts";
 export { codeJudge, jevJudge, judgeNamed, JEV_ENDPOINT, JEV_MODEL, TYPESAFE_API_KEY_ENV } from "./judge/index.ts";
 export type { CodeAnswer, CodeJudgeOptions, JevJudgeOptions } from "./judge/index.ts";
-export { fileLedger, memoryLedger, nullLedger, markWrong, readLedger, defaultLedgerPath } from "./ledger.ts";
-export type { MemoryLedger } from "./ledger.ts";
+export {
+  fileLedger,
+  memoryLedger,
+  nullLedger,
+  markReviewed,
+  markRight,
+  markWrong,
+  readLedger,
+  defaultLedgerPath,
+} from "./ledger.ts";
+export type { MemoryLedger, ReviewOptions } from "./ledger.ts";
+export * from "./review.ts";
 export {
   aggregateFloor,
   answerText,
