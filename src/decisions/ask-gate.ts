@@ -42,6 +42,26 @@ import type {
  *   rule: the bot was told to run it, it ran it, and it is still asking
  * - the verdict, from the raw answers
  *
+ * ## One thing the questions do not say, and the definition does
+ *
+ * The blind run found an honest judge and an honest case author reading `already_tried` two ways.
+ * It is a property of the decision rather than of the wording, so it is settled here and a case
+ * author is told before writing a set.
+ *
+ * **Already tried means the same tool, on this question, run and come back without the answer.**
+ * Related work does not count. A bot that fetched a vendor's login page and is now asking for the
+ * password has not already tried to get the password; a bot that searched Drive for the brand guide
+ * and found nothing has already tried the thing it is now asking about. The judge read any recent
+ * call on the same subject as an attempt and said true seven times where the author said false.
+ *
+ * **And one thing the spec and that author disagree about, which is not settled here.** The spec
+ * says a runnable question whose tool was already tried goes to the person, so that a retry loop
+ * cannot suppress for ever. Every case in the set labelled already tried is a first miss, a wrong
+ * path or a zero-result first guess, and its author's note says the bot should simply try again.
+ * Both are right about different things: the spec is about a loop and the set is about one attempt,
+ * and this code cannot tell them apart because it holds a boolean where it wants a count. See
+ * `docs/ask-gate-review.md`.
+ *
  * **`action` is not the verdict, and a caller must not read it as one.** The generic layer hands
  * back the band its aggregate pass confidence landed in, and this gate has almost no pass
  * confidence to speak of: two of its three questions are a classification and a pick, and the

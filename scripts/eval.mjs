@@ -43,6 +43,8 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   answerText,
+  ASK_GATE_DECISION,
+  askGate,
   completionCheck,
   COMPLETION_DECISION,
   fileLedger,
@@ -63,7 +65,7 @@ const USD_PER_MILLION_INPUT_TOKENS = 0.042;
 const RETRYABLE = new Set(["http_error", "network", "timeout"]);
 const BASE_BACKOFF_MS = 600;
 
-if (!process.env.TYPESAFE_API_KEY) {
+if (!process.env.TYPESAFE_API_KEY && !process.argv.includes("--regrade")) {
   console.error("TYPESAFE_API_KEY is not set. Export it in the shell that runs this script and try again.");
   process.exit(1);
 }
@@ -83,6 +85,10 @@ const concurrency = Number(flag("--concurrency", 4));
 const maxAttempts = Number(flag("--attempts", 5));
 const only = flag("--only", undefined);
 const endpoint = flag("--endpoint", undefined);
+// Grade a run that already happened, from its own out/ file, without calling the judge again. A
+// harness bug in reading labels is not a reason to spend a blind set twice, and re-running one to
+// fix a reader would replace a measurement with a second, differently conditioned measurement.
+const regradeFrom = flag("--regrade", undefined);
 const repeats = Math.max(1, Number(flag("--repeats", 1)));
 const ledgerPath = resolve(process.cwd(), flag("--ledger", resolve(REPO, "out/ledger/eval.jsonl")));
 const keepLedger = !args.includes("--no-ledger");
@@ -380,7 +386,230 @@ function restatementExtraLines(records, push) {
 // The two profiles, and the run.
 // ---------------------------------------------------------------------------
 
+
+// ---------------------------------------------------------------------------
+// ask-gate: is this question the person's to answer.
+// ---------------------------------------------------------------------------
+
+const ASK_GATE_POLICY = {
+  [ASK_GATE_DECISION]: {
+    bands: [
+      { at_least: 0.9, action: "accept" },
+      { at_least: 0.7, action: "accept_with_note" },
+      { at_least: 0, action: "pass_flagged" },
+    ],
+    aggregate: "min_confidence",
+    on_error: "pass",
+    timeout_ms: timeoutMs,
+  },
+};
+
+/**
+ * A blind set is written before this script knows what it will look like, so every label is read
+ * through the names it might plausibly carry rather than the one name this harness would have
+ * chosen. A label it cannot read is not graded, and the report says how many that was, which is
+ * the only honest way to find out that a reader missed a field.
+ */
+function pick(source, ...names) {
+  for (const name of names) {
+    if (source !== null && source !== undefined && source[name] !== undefined) return source[name];
+  }
+  return undefined;
+}
+
+function normVerdict(value) {
+  if (typeof value !== "string") return undefined;
+  const flat = value.trim().toLowerCase().replace(/[\s-]+/g, "_");
+  if (flat === "suppress" || flat === "suppressed" || flat === "hold" || flat === "held") return "suppress";
+  if (flat === "pass_flagged" || flat === "passflagged" || flat === "flagged" || flat === "pass_flag") return "pass_flagged";
+  if (flat === "pass" || flat === "send" || flat === "ask") return "pass";
+  return undefined;
+}
+
+function normKind(value) {
+  if (typeof value !== "string") return undefined;
+  const flat = value.trim().toLowerCase();
+  return ["runnable", "preference", "blocked", "none_of_these"].includes(flat) ? flat : undefined;
+}
+
+function normTool(value) {
+  if (value === null) return null;
+  if (typeof value !== "string") return undefined;
+  const flat = value.trim();
+  if (flat.length === 0 || /^(none|no_tool|no tool|null|n\/a)$/i.test(flat)) return null;
+  return flat;
+}
+
+function normBool(value) {
+  if (typeof value === "boolean") return value;
+  if (typeof value !== "string") return undefined;
+  const flat = value.trim().toLowerCase();
+  if (flat === "true" || flat === "yes") return true;
+  if (flat === "false" || flat === "no") return false;
+  return undefined;
+}
+
+function askGateStateOf(testCase) {
+  const state = testCase.state ?? testCase;
+  return {
+    question: pick(state, "question", "message", "text", "outbound"),
+    taskSummary: pick(state, "taskSummary", "task_summary", "task", "summary"),
+    toolManifest: pick(state, "toolManifest", "tool_manifest", "tools", "manifest", "skills"),
+    recentToolCalls: pick(state, "recentToolCalls", "recent_tool_calls", "recentCalls", "recent_calls", "toolCalls"),
+  };
+}
+
+/**
+ * The blind set calls the classification `verdict`, and labels no band at all. That is worth
+ * reading twice, because this harness first guessed the other way round and graded nothing: it
+ * looked for runnable under `kind` and for a band under `verdict`, found a band vocabulary where a
+ * classification was, and scored zero of forty without saying so. Hence `preflight()` below.
+ *
+ * So the band is derived, from the labels the author did write, through the same rule code uses.
+ * That holds the aggregation constant and measures the judge, and it is not the same thing as a
+ * band the author signed off: nothing here can tell you whether they would have agreed with the
+ * rule, only whether the judge's answers reach the end of it in the same place their labels do.
+ */
+function askGateLabels(testCase) {
+  const expected = testCase.expected ?? {};
+  const kind = normKind(pick(expected, "verdict", "kind", "classification", "category", "class", "type", "label"));
+  const tool = normTool(pick(expected, "tool", "chosenTool", "chosen_tool", "expectedTool", "expected_tool", "toolName", "tool_name"));
+  const tried = normBool(pick(expected, "alreadyTried", "already_tried", "tried", "alreadyAttempted", "already_attempted"));
+  const labelled = normVerdict(pick(expected, "band", "action", "outcome", "decision"));
+  return { kind, tool, tried, verdict: labelled ?? derivedVerdict(kind, tool, tried), derived: labelled === undefined };
+}
+
+/** The band the set did not label, worked out from the labels it did, by the rule in askGateVerdict. */
+function derivedVerdict(kind, tool, tried) {
+  if (kind === undefined) return undefined;
+  if (kind !== "runnable") return "pass";
+  return tool !== null && tool !== undefined && tried !== true ? "suppress" : "pass_flagged";
+}
+
+function askGateInput(testCase) {
+  const state = askGateStateOf(testCase);
+  return {
+    question: String(state.question ?? ""),
+    ...(state.taskSummary === undefined ? {} : { taskSummary: String(state.taskSummary) }),
+    ...(state.toolManifest === undefined ? {} : { toolManifest: state.toolManifest }),
+    ...(state.recentToolCalls === undefined ? {} : { recentToolCalls: state.recentToolCalls }),
+  };
+}
+
+/**
+ * Each answer is graded as itself, and the verdict is graded as what code would actually have done.
+ * The tool pick is only graded where the set said which tool it wanted; a set that labels only the
+ * verdict still grades, on one row instead of four.
+ */
+function askGateGrade(testCase, labels, outcome) {
+  const grades = [];
+  const scored = labels.verdict !== undefined;
+  if (outcome.error !== undefined) {
+    return { grades, verdict: { labelled: labels.verdict, computed: null, correct: false, scored } };
+  }
+
+  if (labels.kind !== undefined) {
+    grades.push({
+      question: "question_kind", kind: "kind", by: "judge",
+      expected: labels.kind, got: outcome.kind ?? "none",
+      correct: outcome.kind === labels.kind, confidence: outcome.kindConfidence,
+    });
+  }
+
+  if (labels.tool !== undefined) {
+    const got = outcome.tool?.name ?? null;
+    grades.push({
+      question: "answering_tool", kind: "tool", by: "judge",
+      expected: labels.tool ?? "no_tool", got: got ?? "no_tool",
+      correct: got === labels.tool, confidence: outcome.tool?.confidence ?? null,
+    });
+  }
+
+  if (labels.tried !== undefined) {
+    const noul = outcome.alreadyTried.noul;
+    grades.push({
+      question: "already_tried", kind: "tried",
+      by: outcome.alreadyTried.noul === null ? "code" : "judge",
+      expected: labels.tried, got: outcome.alreadyTried.value,
+      correct: outcome.alreadyTried.value === labels.tried,
+      ...(noul === null ? {} : { raw: noul }),
+      confidence: noul === null ? null : Math.max(noul, 1 - noul),
+    });
+  }
+
+  return {
+    grades,
+    verdict: { labelled: labels.verdict, computed: outcome.verdict, correct: scored ? outcome.verdict === labels.verdict : null, scored },
+  };
+}
+
+function askGateQuestionLines(allGrades, push) {
+  const kind = slice(allGrades, (g) => g.kind === "kind");
+  const tool = slice(allGrades, (g) => g.kind === "tool");
+  const tried = slice(allGrades, (g) => g.kind === "tried");
+  const triedByCode = slice(allGrades, (g) => g.kind === "tried" && g.by === "code");
+  const triedByJudge = slice(allGrades, (g) => g.kind === "tried" && g.by === "judge");
+  const every = slice(allGrades, () => true);
+  push(`  question_kind, a three way pick ${padLeft(pct(kind.correct, kind.rows.length), 7)}  (${kind.correct} of ${kind.rows.length})`);
+  for (const one of ["runnable", "preference", "blocked"]) {
+    const rows = kind.rows.filter((row) => row.expected === one);
+    const right = rows.filter((row) => row.correct).length;
+    push(`    labelled ${pad(one, 21)} ${padLeft(pct(right, rows.length), 7)}  (${right} of ${rows.length})`);
+  }
+  push(`  answering_tool, from the manifest${padLeft(pct(tool.correct, tool.rows.length), 7)}  (${tool.correct} of ${tool.rows.length})`);
+  push(`  already_tried, code and judge   ${padLeft(pct(tried.correct, tried.rows.length), 7)}  (${tried.correct} of ${tried.rows.length})`);
+  push(`    settled with no model at all  ${padLeft(pct(triedByCode.correct, triedByCode.rows.length), 7)}  (${triedByCode.correct} of ${triedByCode.rows.length})`);
+  push(`    asked of the judge            ${padLeft(pct(triedByJudge.correct, triedByJudge.rows.length), 7)}  (${triedByJudge.correct} of ${triedByJudge.rows.length})`);
+  push(`  every question                  ${padLeft(pct(every.correct, every.rows.length), 7)}  (${every.correct} of ${every.rows.length})`);
+}
+
+function askGateVerdictLine(record) {
+  const outcome = record.outcome;
+  const kind = `${outcome.kind ?? "none"}@${(outcome.kindConfidence ?? 0).toFixed(2)}`;
+  return `kind=${kind} tool=${outcome.tool?.name ?? "none"} tried=${outcome.alreadyTried.value} ${outcome.reason}`;
+}
+
+/**
+ * The asymmetry, which is the whole point of this gate. Sending a question the bot could have run
+ * costs a person one sentence. Holding back a question the person needed to see costs them a bot
+ * that went quiet, and the spec says that failure must not exist. They are counted apart.
+ */
+function askGateExtraLines(records, push) {
+  const judged = records.filter((r) => r.outcome.error === undefined && r.verdict.scored);
+  const shouldReach = judged.filter((r) => r.verdict.labelled !== "suppress");
+  const swallowed = shouldReach.filter((r) => r.outcome.verdict === "suppress");
+  const shouldHold = judged.filter((r) => r.verdict.labelled === "suppress");
+  const notHeld = shouldHold.filter((r) => r.outcome.verdict !== "suppress");
+  const unsureOnly = judged.filter((r) => r.outcome.verdict === "pass_flagged" && r.outcome.reason.includes("not sure enough"));
+  const unread = records.filter((r) => r.labels.verdict === undefined).length;
+  push("");
+  push("the error that matters, and the one that does not");
+  push(`  held back a question the set sends to a person  ${padLeft(String(swallowed.length), 3)} of ${shouldReach.length}`);
+  push(`  sent a question the set says a tool answers     ${padLeft(String(notHeld.length), 3)} of ${shouldHold.length}`);
+  push(`  flagged only because the judge was unsure       ${padLeft(String(unsureOnly.length), 3)} of ${judged.length}`);
+  push(`  cases whose verdict label could not be read     ${padLeft(String(unread), 3)} of ${records.length}`);
+  const derived = records.filter((r) => r.labels.derived).length;
+  if (derived > 0) {
+    push(`  verdicts derived from the set's own labels      ${padLeft(String(derived), 3)} of ${records.length}, no band was labelled`);
+  }
+  for (const record of swallowed) {
+    push(`    SWALLOWED ${pad(record.id, 20)} labelled ${pad(record.verdict.labelled, 12)} ${record.outcome.reason}`);
+  }
+}
+
 const PROFILES = {
+  [ASK_GATE_DECISION]: {
+    policy: ASK_GATE_POLICY,
+    labels: askGateLabels,
+    input: (testCase) => askGateInput(testCase),
+    call: (input, options) => askGate(input, options),
+    grade: askGateGrade,
+    questionLines: askGateQuestionLines,
+    verdicts: ["suppress", "pass", "pass_flagged"],
+    verdictHeading: "suppress, pass or pass_flagged",
+    verdictLine: askGateVerdictLine,
+    extraLines: askGateExtraLines,
+  },
   [COMPLETION_DECISION]: {
     policy: COMPLETION_POLICY,
     labels: completionLabels,
@@ -415,6 +644,26 @@ if (profile === undefined) {
 
 const raw = JSON.parse(await readFile(casesPath, "utf8"));
 const allCases = (Array.isArray(raw) ? raw : raw.cases).filter((c) => (only ? String(c.id).includes(only) : true));
+
+/**
+ * Read every label before calling the judge once, and refuse to run if none of them came back.
+ *
+ * A blind set is written before this script knows its field names, so a reader that guesses wrong
+ * fails silently: every case runs, every case costs, and every row grades nothing. That happened,
+ * on a set of forty. The cheap half of the run is free and catches it, so it is not optional.
+ */
+function preflight(cases) {
+  const read = cases.filter((testCase) => profile.labels(testCase).verdict !== undefined).length;
+  if (read > 0) return { read, total: cases.length };
+  const keys = [...new Set(cases.flatMap((testCase) => Object.keys(testCase.expected ?? {})))];
+  console.error(
+    `${casesPath} has ${cases.length} cases and not one label this harness can read, so nothing would be graded.\n` +
+      `The expected keys in that file are: ${keys.join(", ") || "none"}.\n` +
+      "Teach the decision's labels() function to read them before spending the set.",
+  );
+  process.exit(1);
+}
+const labelsRead = preflight(allCases);
 
 // Every repeat writes its own rows, so the count has to come from the calls rather than from the
 // graded record, which only holds repeat 0.
@@ -493,8 +742,23 @@ async function inPool(items, size, worker) {
   return results;
 }
 
+async function regrade(path) {
+  const prior = JSON.parse(await readFile(resolve(process.cwd(), path), "utf8"));
+  const byId = new Map(prior.records.map((record) => [record.id, record]));
+  const missing = allCases.filter((testCase) => !byId.has(testCase.id));
+  if (missing.length > 0) {
+    console.error(`${path} has no record for ${missing.length} of these cases, so a regrade would be partial.`);
+    process.exit(1);
+  }
+  return allCases.map((testCase) => {
+    const saved = byId.get(testCase.id);
+    const labels = profile.labels(testCase);
+    return { id: testCase.id, note: testCase.note, labels, outcome: saved.outcome, attempts: saved.attempts, ...profile.grade(testCase, labels, saved.outcome) };
+  });
+}
+
 const startedAt = Date.now();
-const records = await inPool(allCases, concurrency, runCase);
+const records = regradeFrom === undefined ? await inPool(allCases, concurrency, runCase) : await regrade(regradeFrom);
 const wallMs = Date.now() - startedAt;
 
 // ---------------------------------------------------------------------------
@@ -537,6 +801,11 @@ const lines = [];
 const push = (line) => lines.push(line);
 push(`JDE eval, ${decision}, ${setLabel}`);
 push(`${records.length} cases, ${allGrades.length} graded questions, answered by ${models.join(", ")}`);
+push(
+  regradeFrom === undefined
+    ? `${labelsRead.read} of ${labelsRead.total} verdict labels read before the first call`
+    : `regraded from ${regradeFrom}: no judgment was asked for again`,
+);
 push("");
 push("accuracy by question");
 profile.questionLines(allGrades, push);
@@ -645,9 +914,11 @@ push(`latency p50 ${percentile(0.5)}ms, p95 ${percentile(0.95)}ms, wall ${(wallM
 push(`input tokens ${inputTokens}, about $${((inputTokens / 1_000_000) * USD_PER_MILLION_INPUT_TOKENS).toFixed(4)} at $${USD_PER_MILLION_INPUT_TOKENS} per million`);
 const judgmentRows = rowsWritten;
 push(
-  keepLedger
-    ? `${judgmentRows} judgment rows appended to ${ledgerPath}, stamped run ${runId}`
-    : "judgments discarded: --no-ledger was passed",
+  regradeFrom !== undefined
+    ? "no rows appended: a regrade judges nothing"
+    : keepLedger
+      ? `${judgmentRows} judgment rows appended to ${ledgerPath}, stamped run ${runId}`
+      : "judgments discarded: --no-ledger was passed",
 );
 
 const report = lines.join("\n");
