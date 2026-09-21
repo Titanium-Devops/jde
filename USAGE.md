@@ -230,18 +230,21 @@ on the 30 case blind set. The task restatement check's bar, measured once on 202
 verdicts and 221 of 229 questions on its own 40 case blind set, written by an author who never saw
 the questions. The numbers and what is behind them are at the end of this file.
 
-**A verdict score moves between runs, and a question score does not.** Both sealed sets were rerun
-five times each on 2026-09-21, identical requests, no change to the code. Not one of 290 question
-answers changed its yes or no, and every case gave the same answers all five times. The restatement
-verdict count, over five separate runs, was 36, 33, 37, 36 and 36 of 40. Eight of its forty cases
-produced more than one verdict from five identical asks.
+**Our thresholds sit where the confidences cluster, and that is what moves a score.** Both sealed
+sets were rerun five times each on 2026-09-21, identical requests, no change to the code. The judge
+is not deterministic: its stated confidence moved by as much as **0.23**, a quarter of the scale,
+between identical asks. Its pick never changed, across all 290 of them, because that movement never
+crossed the argmax boundary. It crossed **our** 0.7 action floor nine times in 218 answers.
 
-The reason is that a verdict turns on confidences and a question answer does not. The judge's
-confidence wanders by about 0.017 on average and by as much as 0.23, and roughly 4 percent of
-answers cross the 0.7 action floor without ever changing their mind. So **a verdict number is only
-honest with its range attached**, and any single one of them is worth about four cases either way.
-`npm run regression` gates on the question count for that reason and prints the verdict count
-without gating it.
+That is where a verdict comes from, so the restatement verdict count over five runs was 36, 33, 37,
+36 and 36 of 40, and eight of its forty cases produced more than one verdict from five identical
+asks. The question count did not move once. The instability is in the placement of our floors, not
+in the judge: it is stable where it matters to itself and unstable where it matters to us, which is
+ours to fix rather than the vendor's.
+
+So **a verdict number is only honest with its range attached**, and any single one is worth about
+four cases either way. `npm run regression` gates on the question count for that reason and prints
+the verdict count without gating it.
 
 ## The completion check
 

@@ -31,7 +31,7 @@
         36,
         36
       ],
-      "observedNote": "Five runs of this sealed set on 2026-09-20 and 2026-09-21 scored 36, 33, 37, 36 and 36 of 40 verdicts with no change to the code and none to the judge's yes-or-no answers, which were identical every time. The movement is confidence drift across the 0.7 action floor. The suite therefore gates on the question count, which did not move once, and reports the verdict count without gating it."
+      "observedNote": "Five runs of this sealed set on 2026-09-20 and 2026-09-21 scored 36, 33, 37, 36 and 36 of 40 verdicts with no change to the code. The judge's picks were identical every time; its stated confidence was not, moving by as much as 0.23 between identical requests. That movement never crossed the argmax boundary and so never changed an answer, and it crossed our 0.7 action floor nine times in 218 answers, which is what moved the verdicts. The cause is where our floors sit, not the judge. The suite therefore gates on the question count and reports the verdict count without gating it."
     }
   },
   "gate": "questions",
