@@ -1,0 +1,36 @@
+{
+  "note": "The scores both blind sets recorded when they were spent. A spent set cannot measure an improvement, because its answers are known and anything tuned against it is tuned against a ruler. It can still tell you the same day that something broke. These numbers are the floor: the suite fails on a drop and prints a line when a score rises, because a rise on a set nobody should be tuning against is worth a look rather than a cheer.",
+  "recorded": "completion-check on 2026-09-20, task-restatement on 2026-09-21",
+  "decisions": {
+    "completion-check": {
+      "cases": 30,
+      "questions": {
+        "correct": 99,
+        "total": 99
+      },
+      "verdicts": {
+        "correct": 30,
+        "total": 30
+      },
+      "note": "69 part answers plus 30 result_is_echo answers, every one correct"
+    },
+    "task-restatement": {
+      "cases": 40,
+      "questions": {
+        "correct": 221,
+        "total": 229
+      },
+      "verdicts": {
+        "correct": 36,
+        "total": 40
+      },
+      "observedVerdictRuns": [
+        36,
+        33,
+        37,
+        36
+      ],
+      "observedNote": "Four runs of this sealed set on 2026-09-20 and 2026-09-21 scored 36, 33, 37 and 36 of 40 verdicts with no change to the code and no change to the judge's yes-or-no answers. The movement is confidence drift across the 0.7 action floor. A single drop inside that range is noise, not a regression: read the stability block before believing a failure."
+    }
+  }
+}

@@ -13,6 +13,9 @@
 //          [--concurrency <n>]     default 4
 //          [--attempts <n>]        whole-decision retries on a refusal, default 5
 //          [--only <substring>]    run the cases whose id contains this
+//          [--repeats <n>]         ask every case n times, identical request, default 1. Repeat 0
+//                                  is the one graded and reported; the rest measure whether the
+//                                  judge gives the same answer twice
 //          [--ledger <path>]       judgments are appended here, default out/ledger/eval.jsonl
 //          [--no-ledger]           discard the judgments instead of recording them
 //          [--endpoint <url>]      a stand in for the judge, so the harness itself can be tested
@@ -39,6 +42,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
+  answerText,
   completionCheck,
   COMPLETION_DECISION,
   fileLedger,
@@ -79,6 +83,7 @@ const concurrency = Number(flag("--concurrency", 4));
 const maxAttempts = Number(flag("--attempts", 5));
 const only = flag("--only", undefined);
 const endpoint = flag("--endpoint", undefined);
+const repeats = Math.max(1, Number(flag("--repeats", 1)));
 const ledgerPath = resolve(process.cwd(), flag("--ledger", resolve(REPO, "out/ledger/eval.jsonl")));
 const keepLedger = !args.includes("--no-ledger");
 
@@ -411,12 +416,12 @@ if (profile === undefined) {
 const raw = JSON.parse(await readFile(casesPath, "utf8"));
 const allCases = (Array.isArray(raw) ? raw : raw.cases).filter((c) => (only ? String(c.id).includes(only) : true));
 
-async function runCase(testCase) {
-  const labels = profile.labels(testCase);
-  // The case id rides along as the turn id, so a person reviewing a row later can find the case it
-  // judged. It is an id from a synthetic file, not the case's text: the ledger still holds no state.
-  const input = { ...profile.input(testCase, labels), context: { turnId: testCase.id } };
+// Every repeat writes its own rows, so the count has to come from the calls rather than from the
+// graded record, which only holds repeat 0.
+let rowsWritten = 0;
+let tokensSpent = 0;
 
+async function askOnce(input) {
   let outcome;
   let attempts = 0;
   // The engine never retries a judgment; this retries the decision, which is the eval's business.
@@ -428,8 +433,49 @@ async function runCase(testCase) {
       await new Promise((done) => setTimeout(done, BASE_BACKOFF_MS * 2 ** (attempts - 1) + Math.floor(Math.random() * 250)));
     }
   }
+  rowsWritten += outcome.decisions?.length ?? 0;
+  tokensSpent += outcome.usage?.inputTokens ?? 0;
+  return { outcome, attempts };
+}
 
-  return { id: testCase.id, note: testCase.note, labels, outcome, attempts, ...profile.grade(testCase, labels, outcome) };
+/** What two answers to the same question have to agree on to count as the same answer. */
+function comparable(outcome) {
+  const answers = {};
+  const confidence = {};
+  for (const [id, answer] of Object.entries(outcome.answers ?? {})) {
+    answers[id] = answerText(answer);
+    confidence[id] = answer.type === "noul" ? Math.max(answer.noul, 1 - answer.noul) : answer.confidence;
+  }
+  return {
+    answers,
+    confidence,
+    verdict: outcome.verdict ?? null,
+    action: outcome.action ?? null,
+    error: outcome.error?.reason ?? null,
+  };
+}
+
+async function runCase(testCase) {
+  const labels = profile.labels(testCase);
+  // The case id rides along as the turn id, so a person reviewing a row later can find the case it
+  // judged. It is an id from a synthetic file, not the case's text: the ledger still holds no state.
+  const input = { ...profile.input(testCase, labels), context: { turnId: testCase.id } };
+
+  // Repeat 0 is the graded one, so a run with repeats reports the same headline as a run without.
+  const first = await askOnce(input);
+  const tries = [first];
+  for (let round = 1; round < repeats; round += 1) tries.push(await askOnce(input));
+
+  const record = {
+    id: testCase.id,
+    note: testCase.note,
+    labels,
+    outcome: first.outcome,
+    attempts: first.attempts,
+    ...profile.grade(testCase, labels, first.outcome),
+  };
+  if (repeats > 1) record.repeats = tries.map((one) => comparable(one.outcome));
+  return record;
 }
 
 async function inPool(items, size, worker) {
@@ -483,7 +529,8 @@ const BUCKETS = [
 
 const latencies = records.filter((r) => r.outcome.error === undefined).map((r) => r.outcome.latencyMs).sort((a, b) => a - b);
 const percentile = (p) => (latencies.length === 0 ? 0 : latencies[Math.min(Math.max(Math.ceil(p * latencies.length), 1), latencies.length) - 1]);
-const inputTokens = records.reduce((total, r) => total + (r.outcome.usage?.inputTokens ?? 0), 0);
+// Every repeat is paid for, so the cost of a run counts all of them and not just the graded one.
+const inputTokens = tokensSpent;
 const models = [...new Set(records.map((r) => r.outcome.judge))];
 
 const lines = [];
@@ -512,6 +559,79 @@ for (const bucket of BUCKETS) {
   const right = rows.filter((row) => row.correct).length;
   push(`  ${pad(bucket.label, 30)} ${padLeft(pct(right, rows.length), 7)}  (${right} of ${rows.length})`);
 }
+// ---------------------------------------------------------------------------
+// Stability. Not accuracy: whether the same question asked twice comes back the same.
+// ---------------------------------------------------------------------------
+
+const ACTION_FLOOR = 0.7;
+let stability = null;
+const repeated = records.filter((record) => Array.isArray(record.repeats) && record.repeats.length > 1);
+if (repeated.length > 0) {
+  let questionPairs = 0;
+  let questionFlips = 0;
+  let caseFlips = 0;
+  let verdictFlips = 0;
+  let casesStable = 0;
+  let verdictsStable = 0;
+  let spreadTotal = 0;
+  let spreadCount = 0;
+  let spreadMax = 0;
+  let crossedFloor = 0;
+
+  for (const record of repeated) {
+    const [first, second] = record.repeats;
+    const ids = [...new Set(record.repeats.flatMap((one) => Object.keys(one.answers)))];
+    let flipped = false;
+    for (const id of ids) {
+      questionPairs += 1;
+      if (first.answers[id] !== second.answers[id]) {
+        questionFlips += 1;
+        flipped = true;
+      }
+      const seen = record.repeats.map((one) => one.confidence[id]).filter((value) => typeof value === "number");
+      if (seen.length > 1) {
+        const spread = Math.max(...seen) - Math.min(...seen);
+        spreadTotal += spread;
+        spreadCount += 1;
+        spreadMax = Math.max(spreadMax, spread);
+        // The band floor is what an action turns on, so an answer that never changes its mind but
+        // wanders across 0.7 changes what code does while looking perfectly stable.
+        if (Math.min(...seen) < ACTION_FLOOR && Math.max(...seen) >= ACTION_FLOOR) crossedFloor += 1;
+      }
+    }
+    if (flipped) caseFlips += 1;
+    if (first.verdict !== second.verdict) verdictFlips += 1;
+    const sameAnswers = record.repeats.every((one) => JSON.stringify(one.answers) === JSON.stringify(first.answers));
+    if (sameAnswers) casesStable += 1;
+    if (record.repeats.every((one) => one.verdict === first.verdict)) verdictsStable += 1;
+  }
+
+  stability = {
+    repeats,
+    cases: repeated.length,
+    caseFlips,
+    questionPairs,
+    questionFlips,
+    verdictFlips,
+    casesStable,
+    verdictsStable,
+    meanSpread: spreadCount === 0 ? 0 : spreadTotal / spreadCount,
+    maxSpread: spreadMax,
+    crossedFloor,
+    floor: ACTION_FLOOR,
+  };
+
+  push("");
+  push(`stability, every case asked ${repeats} times with an identical request`);
+  push(`  cases whose answers differ, repeat 0 vs 1    ${padLeft(pct(caseFlips, repeated.length), 7)}  (${caseFlips} of ${repeated.length})`);
+  push(`  answers that differ, repeat 0 vs 1           ${padLeft(pct(questionFlips, questionPairs), 7)}  (${questionFlips} of ${questionPairs})`);
+  push(`  verdicts that differ, repeat 0 vs 1          ${padLeft(pct(verdictFlips, repeated.length), 7)}  (${verdictFlips} of ${repeated.length})`);
+  push(`  cases identical across all ${repeats}             ${padLeft(pct(casesStable, repeated.length), 7)}  (${casesStable} of ${repeated.length})`);
+  push(`  verdicts identical across all ${repeats}          ${padLeft(pct(verdictsStable, repeated.length), 7)}  (${verdictsStable} of ${repeated.length})`);
+  push(`  mean confidence spread across ${repeats}          ${stability.meanSpread.toFixed(3)}, widest ${spreadMax.toFixed(3)}`);
+  push(`  answers that crossed the ${ACTION_FLOOR} action floor  ${padLeft(pct(crossedFloor, spreadCount), 7)}  (${crossedFloor} of ${spreadCount})`);
+}
+
 push("");
 for (const grade of allGrades.filter((g) => !g.correct)) {
   const record = records.find((r) => r.grades.includes(grade));
@@ -523,7 +643,7 @@ if (failed.length > 0) {
 push("");
 push(`latency p50 ${percentile(0.5)}ms, p95 ${percentile(0.95)}ms, wall ${(wallMs / 1000).toFixed(1)}s at concurrency ${concurrency}`);
 push(`input tokens ${inputTokens}, about $${((inputTokens / 1_000_000) * USD_PER_MILLION_INPUT_TOKENS).toFixed(4)} at $${USD_PER_MILLION_INPUT_TOKENS} per million`);
-const judgmentRows = records.reduce((total, r) => total + (r.outcome.decisions?.length ?? 0), 0);
+const judgmentRows = rowsWritten;
 push(
   keepLedger
     ? `${judgmentRows} judgment rows appended to ${ledgerPath}, stamped run ${runId}`
@@ -544,6 +664,21 @@ await writeFile(
       models,
       timeout_ms: timeoutMs,
       ran_at: new Date().toISOString(),
+      summary: {
+        decision,
+        set: setLabel,
+        cases: records.length,
+        questions: { correct: allGrades.filter((g) => g.correct).length, total: allGrades.length },
+        verdicts: { correct: verdictsCorrect, total: scoredVerdicts.length },
+        failures: failed.length,
+        stability,
+        inputTokens,
+        costUsd: (inputTokens / 1_000_000) * USD_PER_MILLION_INPUT_TOKENS,
+        ledgerRows: keepLedger ? judgmentRows : 0,
+        ledgerPath: keepLedger ? ledgerPath : null,
+        runId,
+        models,
+      },
       report,
       records,
     },
