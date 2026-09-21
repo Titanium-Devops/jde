@@ -1,0 +1,163 @@
+<title>Decisions, not just answers</title>
+<style>
+:root{
+  --bg:#f7f8f6; --panel:#ffffff; --ink:#0D1117; --mute:#5b6270; --line:#e2e5e0;
+  --accent:#0EA5E9; --cyan:#00C8F0; --warm:#FF8A3D; --code:#f0f2ee;
+  --sans:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#090D14; --panel:#0f141c; --ink:#e8ecf1; --mute:#98a2b0; --line:#1e2632; --code:#131a24;
+}}
+:root[data-theme="dark"]{--bg:#090D14;--panel:#0f141c;--ink:#e8ecf1;--mute:#98a2b0;--line:#1e2632;--code:#131a24;}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:16.5px/1.6 var(--sans);margin:0;padding:0}
+main{max-width:860px;margin:0 auto;padding-block:clamp(28px,6vw,64px);padding-inline:20px}
+h1{font-size:clamp(30px,6vw,46px);line-height:1.08;letter-spacing:-.022em;margin:0 0 14px;font-weight:660}
+h2{font-size:clamp(20px,3.2vw,26px);line-height:1.2;letter-spacing:-.015em;margin:56px 0 12px;font-weight:640}
+h3{font-size:17.5px;margin:30px 0 8px;font-weight:620;letter-spacing:-.01em}
+p{margin:0 0 15px;max-width:68ch}
+.eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin:0 0 16px}
+.tldr{font-size:19px;line-height:1.5;color:var(--mute);max-width:60ch;margin-bottom:8px}
+.tldr strong{color:var(--ink);font-weight:600}
+.rule{height:1px;background:var(--line);border:0;margin:40px 0}
+.quote{border-left:3px solid var(--warm);background:var(--panel);padding:16px 20px;border-radius:0 10px 10px 0;margin:22px 0;font-size:16px}
+.quote p:last-child{margin-bottom:0}
+.quote .who{font-family:var(--mono);font-size:12px;color:var(--mute);margin-top:10px;letter-spacing:.03em}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:14px;margin:24px 0}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:17px 18px}
+.card h4{margin:0 0 6px;font-size:15px;font-weight:620}
+.card p{font-size:14.5px;color:var(--mute);margin:0}
+.big{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:24px 0}
+.big div{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;text-align:center}
+.big b{display:block;font-family:var(--mono);font-size:30px;line-height:1.1;color:var(--accent);font-weight:620}
+.big span{display:block;font-size:13px;color:var(--mute);margin-top:7px}
+table{border-collapse:collapse;width:100%;font-size:15px;display:block;overflow-x:auto;margin:20px 0}
+th,td{border-bottom:1px solid var(--line);padding:11px 13px;text-align:left;vertical-align:top}
+th{font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--mute);font-weight:620}
+td:first-child{font-weight:560}
+pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:15px 17px;overflow-x:auto;font-family:var(--mono);font-size:13.5px;line-height:1.55;margin:18px 0}
+code{font-family:var(--mono);font-size:.92em;background:var(--code);padding:1px 5px;border-radius:4px}
+pre code{background:none;padding:0}
+ul{padding-left:20px;max-width:68ch}
+li{margin:8px 0}
+a{color:var(--accent)}
+.foot{margin-top:56px;padding-top:22px;border-top:1px solid var(--line);color:var(--mute);font-size:14px}
+.pill{display:inline-block;font-family:var(--mono);font-size:11.5px;border:1px solid var(--line);border-radius:999px;padding:3px 11px;color:var(--mute);margin-right:6px}
+</style>
+<main>
+
+<p class="eyebrow">Titanium Computing</p>
+<h1>Decisions, not just answers</h1>
+<p class="tldr sub">An agent that works for you makes dozens of judgment calls an hour. <strong>JDE is where Titan makes them, how we measure them, and the record of what it decided.</strong> Open source, MIT licensed, and running behind the agents our beta customers use every day.</p>
+
+<p><span class="pill">github.com/Titanium-Devops/jde</span><span class="pill">MIT</span></p>
+
+<hr class="rule">
+
+<h2>The thing nobody warns you about</h2>
+
+<p>An AI agent that does real work will tell you it finished. Sometimes it did not.</p>
+
+<div class="quote"><p>"Done. I researched all five suppliers and wrote the comparison."</p></div>
+
+<p>No file was written. Two suppliers were checked. The comparison is your own request, rearranged into a sentence that sounds like an answer. It arrives in the same confident tone the agent uses when it genuinely succeeded, which is what makes it dangerous.</p>
+
+<p>You cannot catch that with ordinary code. Whether a claim matches its evidence is a judgment. So is whether "who has this part near me" is a local question or a price question. So is whether an answer that says <em>nobody</em> carries something has earned the right to say so.</p>
+
+<p>Most teams answer those by asking a large model in prose, parsing the prose, inventing a confidence threshold on the spot, and keeping no record. That holds until the fourth such decision. Then the same number lives in four files, no two agree on what to do when the answer is uncertain, and nobody can say what the agent decided yesterday or why.</p>
+
+<h2>What we built instead</h2>
+
+<p>JDE asks the judgment as a typed question, gets a calibrated probability back rather than a paragraph, keeps the threshold and the policy in a data file, and writes every decision to one ledger.</p>
+
+<pre><code>const outcome = await ask({
+  decision: "completion-check",
+  state: { task, taskParts, claimedResult, receipts },
+});
+
+if (outcome.action === "accept") deliver(result);
+else redispatch(outcome.answers);   // it did not do the work, and now you know</code></pre>
+
+<div class="cards">
+  <div class="card"><h4>Typed questions</h4><p>A choice, a yes or no, or a score. A probability comes back, not prose to parse.</p></div>
+  <div class="card"><h4>Policy as data</h4><p>How sure is sure enough, and what happens otherwise, lives in one file you can read.</p></div>
+  <div class="card"><h4>One ledger</h4><p>Every judgment, its confidence, and what the software did about it. Auditable.</p></div>
+  <div class="card"><h4>Swappable judge</h4><p>A hosted model today, our own tomorrow, plain code where the answer is a fact.</p></div>
+</div>
+
+<h2>The measurement that matters</h2>
+
+<p>The first decision we shipped is the one above: <em>did the agent actually do the work?</em> It was measured once, against thirty cases written by someone who never saw the questions and never saw a result, with no tuning afterwards. A test you can retake until you pass is not a test.</p>
+
+<div class="big">
+  <div><b>30/30</b><span>Correct verdict: done, partial, not done</span></div>
+  <div><b>30/30</b><span>Caught a prompt restated as an answer</span></div>
+  <div><b>171ms</b><span>Median time to a judgment</span></div>
+  <div><b>$0.001</b><span>Cost to check all thirty</span></div>
+</div>
+
+<h3>Why it works: ask small questions</h3>
+
+<p>This is the lesson that produced those numbers, and it is worth more than the code. Asking a model one question about a whole task scored in the seventies. Splitting the same judgment into one question per part of the task, settling the parts that are facts in code, and adding them up in code, scored perfectly.</p>
+
+<p><strong>Give the model the judgment in the middle. Keep the arithmetic.</strong> Whether a file exists at a path, whether every part passed, whether a count exceeds a budget: none of those need a model, and asking one makes them worse.</p>
+
+<h2>What this changed for a real customer</h2>
+
+<p>An MSP owner in our beta asked Titan a question he already knew the answer to: which local stores carry a particular hot-dip galvanized bolt in packs of ten or twenty-five. He knew the answer was awkward, because nobody packages it that way.</p>
+
+<table>
+<thead><tr><th>Before</th><th>After</th></tr></thead>
+<tbody>
+<tr><td>A national price, for a question about local shelves</td><td>A store-level table with stock, address and phone</td></tr>
+<tr><td>"Nobody lists a 25-pack"</td><td>"Confirmed at none of the sources checked; call these"</td></tr>
+<tr><td>One retailer checked, two named ones dropped</td><td>Every named retailer gets a row, even an empty one</td></tr>
+<tr><td>Scored 2 of 8 against the rubric</td><td>Scored 8 of 8</td></tr>
+</tbody>
+</table>
+
+<p>The difference is not a better model. It is a handful of rules about evidence, and a check that the finished answer honours them.</p>
+
+<h2>The part we did not build</h2>
+
+<p>Later that week the same customer pasted a network scan of his own home network and asked Titan what it thought. Titan read every open port, explained which were normal, and made five recommendations. The first one was this:</p>
+
+<div class="quote">
+<p>Outside-in scan, the one test these scans cannot do. From a phone hotspot, off your network, run the same scan against your public address. Everything internal being clean does not verify the edge by itself.</p>
+<p class="who">Titan, unprompted, as recommendation one</p>
+</div>
+
+<p>Nobody asked it for that. There was no scan-reading skill on that machine; we checked the logs afterwards and the feature we thought was responsible had not shipped yet. What the agent had was four standing rules about evidence, the same four that turned the bolt question around, and it applied them to a network instead of a hardware store.</p>
+
+<p>A day earlier, the same agent had written itself a playbook: how to pin an exact specification before searching, what to do when a catalogue does not list a part, and the rule that "not shown" is a finding rather than a blank. It named its own past failures as the proven cases. We did not write that file and we did not ask for it.</p>
+
+<p><strong>That is the shape of the thing.</strong> Teach an agent how evidence works, give it a place to check its own claims, and keep the receipts. It gets better at your work rather than louder about it.</p>
+
+<h2>What we run today</h2>
+
+<table>
+<thead><tr><th>Judgment</th><th>What it catches</th><th>State</th></tr></thead>
+<tbody>
+<tr><td>What is being asked</td><td>A local question answered with a national price</td><td>Live on every workspace</td></tr>
+<tr><td>Does the claim hold</td><td>"Nobody sells this" with no evidence behind it</td><td>Live on every workspace</td></tr>
+<tr><td>Did the agent do the work</td><td>A finished report that was never written</td><td>Measured, shipping</td></tr>
+<tr><td>Is this enough to answer</td><td>Stopping too early, or searching forever</td><td>Held: it failed its blind test</td></tr>
+</tbody>
+</table>
+
+<p>The last row is deliberate. A judgment that does not clear its blind set does not ship, however much we like the idea. The engine is only worth something if the bar is real.</p>
+
+<h2>Why it is open</h2>
+
+<p>The mechanism is not the moat. Anyone can ask a model a typed question. What is hard, and what takes months of real customer work to accumulate, is knowing which questions to ask, what wording survives contact, where the thresholds belong, and having a ledger of decisions to learn from.</p>
+
+<p>So the engine is MIT licensed and public. If it stops another team from shipping an agent that confidently reports work it never did, that is a good outcome for everyone.</p>
+
+<div class="foot">
+<p><strong>JDE, the Jev Decision Engine</strong> · <a href="https://github.com/Titanium-Devops/jde">github.com/Titanium-Devops/jde</a> · MIT licensed<br>
+Extracted from <a href="https://titanium.bot">Titanium Bot</a>, where these decisions run against real customer work every day.</p>
+<p>Built by Titanium Computing. Customer details are used with permission and identifying information removed.</p>
+</div>
+
+</main>
