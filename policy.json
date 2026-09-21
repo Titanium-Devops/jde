@@ -1,0 +1,13 @@
+{
+  "completion-check": {
+    "bands": [
+      { "at_least": 0.9, "action": "accept" },
+      { "at_least": 0.7, "action": "accept_with_note" },
+      { "at_least": 0, "action": "fall_back" }
+    ],
+    "aggregate": "all_parts_at_least_0.7",
+    "on_error": "fall_back",
+    "timeout_ms": 750,
+    "judge": "jev"
+  }
+}
