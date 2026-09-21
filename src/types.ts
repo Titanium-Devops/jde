@@ -125,7 +125,17 @@ export type PolicyBook = Readonly<Record<string, PolicyEntry>>;
 export interface DecisionContext {
   readonly agentId?: string;
   readonly turnId?: string;
+  /**
+   * What kind of traffic this is. Absent means a live decision, made for a real person. A harness
+   * sets "eval", and the reader leaves those rows out unless it is asked for them, so a threshold
+   * is never set on judgments about cases somebody wrote to be judged.
+   */
+  readonly runKind?: RunKind;
+  /** Which run these rows belong to, so one run can be pulled out of a shared file. */
+  readonly runId?: string;
 }
+
+export type RunKind = "eval";
 
 /** One line of the ledger. The state is not here, and never will be. */
 export interface LedgerRow {
@@ -141,6 +151,9 @@ export interface LedgerRow {
   readonly latencyMs: number;
   readonly agentId?: string;
   readonly turnId?: string;
+  /** Present only on a row a harness wrote. A row without it is a live decision. */
+  readonly runKind?: RunKind;
+  readonly runId?: string;
   /** Present only on the aggregate row of a decision that failed. */
   readonly error?: FailureReason;
 }

@@ -13,8 +13,17 @@
 //          [--concurrency <n>]     default 4
 //          [--attempts <n>]        whole-decision retries on a refusal, default 5
 //          [--only <substring>]    run the cases whose id contains this
+//          [--ledger <path>]       judgments are appended here, default out/ledger/eval.jsonl
+//          [--no-ledger]           discard the judgments instead of recording them
 //          [--endpoint <url>]      a stand in for the judge, so the harness itself can be tested
 //                                  offline before a blind set is spent on it
+//
+// Every judgment goes to a ledger, because a decision engine that never records its own judgments
+// can never learn where its confidence is worth acting on. Three things keep that safe. The rows
+// carry no state text, which is the ledger's own rule and does not bend here. Every row is stamped
+// runKind "eval" by the sink, so a reader can never mistake a judgment about a case somebody wrote
+// to be judged for a decision made about a real person's work. And the default path is under out/,
+// which git ignores, well away from cases/.
 //
 // A case file is a bare array or {cases: [...]}. Every label shape a case set uses is converted
 // here in code rather than by hand, because a blind set is written before this script knows what
@@ -32,12 +41,14 @@ import { fileURLToPath } from "node:url";
 import {
   completionCheck,
   COMPLETION_DECISION,
+  fileLedger,
   isBottomBand,
   jevJudge,
   normaliseParts,
   nullLedger,
   partQuestionId,
   RESTATEMENT_DECISION,
+  taggedLedger,
   taskRestatement,
 } from "../dist/index.js";
 
@@ -68,8 +79,16 @@ const concurrency = Number(flag("--concurrency", 4));
 const maxAttempts = Number(flag("--attempts", 5));
 const only = flag("--only", undefined);
 const endpoint = flag("--endpoint", undefined);
+const ledgerPath = resolve(process.cwd(), flag("--ledger", resolve(REPO, "out/ledger/eval.jsonl")));
+const keepLedger = !args.includes("--no-ledger");
 
 const judge = jevJudge(endpoint === undefined ? {} : { endpoint });
+
+// One run, one id, stamped by the sink rather than by each call: a harness that has to remember a
+// field on every judgment is a harness that forgets it on one, and an untagged eval row is
+// indistinguishable from a live one forever after.
+const runId = `${decision}:${setLabel}:${new Date().toISOString()}`;
+const ledger = keepLedger ? taggedLedger(fileLedger(ledgerPath), { runKind: "eval", runId }) : nullLedger();
 
 // ---------------------------------------------------------------------------
 // completion-check: did the agent do the work.
@@ -394,14 +413,16 @@ const allCases = (Array.isArray(raw) ? raw : raw.cases).filter((c) => (only ? St
 
 async function runCase(testCase) {
   const labels = profile.labels(testCase);
-  const input = profile.input(testCase, labels);
+  // The case id rides along as the turn id, so a person reviewing a row later can find the case it
+  // judged. It is an id from a synthetic file, not the case's text: the ledger still holds no state.
+  const input = { ...profile.input(testCase, labels), context: { turnId: testCase.id } };
 
   let outcome;
   let attempts = 0;
   // The engine never retries a judgment; this retries the decision, which is the eval's business.
   while (attempts < maxAttempts) {
     attempts += 1;
-    outcome = await profile.call(input, { policy: profile.policy, judge, ledger: nullLedger() });
+    outcome = await profile.call(input, { policy: profile.policy, judge, ledger });
     if (outcome.error === undefined || !RETRYABLE.has(outcome.error.reason)) break;
     if (attempts < maxAttempts) {
       await new Promise((done) => setTimeout(done, BASE_BACKOFF_MS * 2 ** (attempts - 1) + Math.floor(Math.random() * 250)));
@@ -502,6 +523,12 @@ if (failed.length > 0) {
 push("");
 push(`latency p50 ${percentile(0.5)}ms, p95 ${percentile(0.95)}ms, wall ${(wallMs / 1000).toFixed(1)}s at concurrency ${concurrency}`);
 push(`input tokens ${inputTokens}, about $${((inputTokens / 1_000_000) * USD_PER_MILLION_INPUT_TOKENS).toFixed(4)} at $${USD_PER_MILLION_INPUT_TOKENS} per million`);
+const judgmentRows = records.reduce((total, r) => total + (r.outcome.decisions?.length ?? 0), 0);
+push(
+  keepLedger
+    ? `${judgmentRows} judgment rows appended to ${ledgerPath}, stamped run ${runId}`
+    : "judgments discarded: --no-ledger was passed",
+);
 
 const report = lines.join("\n");
 console.log(report);

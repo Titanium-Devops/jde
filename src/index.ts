@@ -25,6 +25,7 @@ import type {
   PolicyEntry,
   Question,
   Questions,
+  RunKind,
 } from "./types.ts";
 
 export * from "./types.ts";
@@ -38,6 +39,7 @@ export {
   markRight,
   markWrong,
   readLedger,
+  taggedLedger,
   defaultLedgerPath,
 } from "./ledger.ts";
 export type { MemoryLedger, ReviewOptions } from "./ledger.ts";
@@ -240,10 +242,17 @@ function resolvePolicy(decision: string, options: AskOptions): PolicyEntry {
   return entry;
 }
 
-function contextFields(context: AskInput["context"]): { agentId?: string; turnId?: string } {
-  const fields: { agentId?: string; turnId?: string } = {};
+function contextFields(context: AskInput["context"]): {
+  agentId?: string;
+  turnId?: string;
+  runKind?: RunKind;
+  runId?: string;
+} {
+  const fields: { agentId?: string; turnId?: string; runKind?: RunKind; runId?: string } = {};
   if (context?.agentId !== undefined) fields.agentId = context.agentId;
   if (context?.turnId !== undefined) fields.turnId = context.turnId;
+  if (context?.runKind !== undefined) fields.runKind = context.runKind;
+  if (context?.runId !== undefined) fields.runId = context.runId;
   return fields;
 }
 

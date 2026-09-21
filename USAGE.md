@@ -148,6 +148,24 @@ Three rules this reader keeps:
 - **An empty bin has no error rate**, which is not the same as an error rate of zero.
 - **A fallback row is held out.** A judgment that never happened has a placeholder confidence, not a
   judge's answer, so a reviewed one is counted separately rather than dropped into the bottom bin.
+- **An eval row is not a live row.** The reader reads live traffic by default and says how many it
+  left out. Pass `--include eval` to look at a run.
+
+## Eval traffic
+
+`scripts/eval.mjs` appends every judgment it makes to `out/ledger/eval.jsonl`, which git ignores.
+`--ledger <path>` moves it and `--no-ledger` discards it. The rows carry what every row carries and
+no state text; the case id rides along as `turnId` so a reviewer can find the case a row judged.
+
+The sink stamps each row `runKind: "eval"` and a `runId` naming the decision, the case set and the
+moment the run started. The stamp comes from the sink rather than from each call, because a harness
+that has to remember a field on every judgment will forget it on one, and an untagged eval row is
+indistinguishable from a live one forever after.
+
+**A threshold is never set on eval traffic.** A harness judges cases written to be judged, and their
+difficulty is the case author's choice rather than a sample of what an agent meets. The rows are
+worth keeping for latency, cost and confidence distributions, and for reviewing a run by hand; they
+are not a denominator for production.
 
 Run it against this repo's own ledger today and it says there is nothing there: no judgment has ever
 been reviewed, so there is no denominator and no threshold. That is the honest state, and it is the

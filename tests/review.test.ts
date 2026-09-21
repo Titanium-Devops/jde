@@ -5,7 +5,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { ask } from "../src/index.ts";
 import { codeJudge } from "../src/judge/index.ts";
-import { fileLedger, markReviewed, markRight, markWrong, memoryLedger, readLedger } from "../src/ledger.ts";
+import { fileLedger, markReviewed, markRight, markWrong, memoryLedger, readLedger, taggedLedger } from "../src/ledger.ts";
 import {
   calibrate,
   calibrateLedger,
@@ -259,4 +259,77 @@ test("filtering by decision and question narrows what is calibrated", () => {
   assert.equal(joinReviews(entries, { decision: "completion-check" }).reviewed.length, 2);
   assert.equal(joinReviews(entries, { question: "aggregate" }).reviewed.length, 2);
   assert.equal(joinReviews(entries, { decision: "completion-check", question: "aggregate" }).reviewed.length, 1);
+});
+
+test("the sink stamps a run, so a harness cannot write an untagged judgment", async () => {
+  const inner = memoryLedger();
+  const tagged = taggedLedger(inner, { runKind: "eval", runId: "completion-check:blind:2026-09-21" });
+  await tagged.append(row("a", 0.95));
+  await tagged.append(marker("a", false, "2026-09-21T01:00:00.000Z"));
+
+  const [judgment, verdict] = inner.rows as [LedgerRow, ReviewMarker];
+  assert.equal(judgment.runKind, "eval");
+  assert.equal(judgment.runId, "completion-check:blind:2026-09-21");
+  assert.equal("runKind" in verdict, false, "a person's verdict belongs to them, not to the run");
+});
+
+test("a threshold is never set on eval traffic by accident", () => {
+  const entries = [
+    row("live", 0.95),
+    row("harness", 0.95, { runKind: "eval", runId: "r1" }),
+    marker("live", true, "2026-09-21T01:00:00.000Z"),
+    marker("harness", false, "2026-09-21T01:00:00.000Z"),
+  ];
+
+  const live = joinReviews(entries);
+  assert.equal(live.reviewed.length, 1);
+  assert.equal(live.reviewed[0]?.row.id, "live");
+  assert.equal(live.otherTraffic.rows, 1, "the eval row is left out and counted");
+  assert.equal(calibrate(live.reviewed).pooledError, 1);
+
+  const harness = joinReviews(entries, { include: "eval" });
+  assert.equal(harness.reviewed.length, 1);
+  assert.equal(harness.reviewed[0]?.row.id, "harness");
+  assert.equal(calibrate(harness.reviewed).pooledError, 0);
+
+  const both = joinReviews(entries, { include: "all" });
+  assert.equal(both.reviewed.length, 2);
+  assert.equal(both.otherTraffic.rows, 0);
+
+  assert.match(describeCalibration(live, calibrate(live.reviewed)), /1 eval row\(s\) left out/);
+});
+
+test("one run can be pulled out of a shared file", () => {
+  const entries = [
+    row("a", 0.95, { runKind: "eval", runId: "r1" }),
+    row("b", 0.95, { runKind: "eval", runId: "r2" }),
+    marker("a", false, "2026-09-21T01:00:00.000Z"),
+    marker("b", true, "2026-09-21T01:00:00.000Z"),
+  ];
+  const first = joinReviews(entries, { include: "eval", runId: "r1" });
+  assert.equal(first.reviewed.length, 1);
+  assert.equal(first.reviewed[0]?.row.id, "a");
+});
+
+test("a run tag reaches the row through the context as well as the sink", async () => {
+  const ledger = memoryLedger();
+  const policy: PolicyBook = {
+    "test-decision": {
+      bands: [{ at_least: 0, action: "fall_back" }],
+      aggregate: "min_confidence",
+      on_error: "fall_back",
+      timeout_ms: 750,
+    },
+  };
+  const questions: Questions = {
+    only: { type: "noul", instructions: "Does it hold?", criteria: { true: "it holds", false: "it does not" } },
+  };
+  await ask(
+    { decision: "test-decision", state: {}, questions, context: { turnId: "case-7", runKind: "eval", runId: "r9" } },
+    { policy, judge: codeJudge({ answers: { only: 0.96 } }), ledger },
+  );
+  const first = ledger.rows[0] as LedgerRow;
+  assert.equal(first.runKind, "eval");
+  assert.equal(first.runId, "r9");
+  assert.equal(first.turnId, "case-7");
 });

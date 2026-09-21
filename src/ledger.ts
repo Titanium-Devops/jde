@@ -1,6 +1,6 @@
 import { appendFile, chmod, mkdir, readFile } from "node:fs/promises";
 import { dirname } from "node:path";
-import type { Ledger, LedgerRow, ReviewMarker, WrongMarker } from "./types.ts";
+import type { Ledger, LedgerRow, ReviewMarker, RunKind, WrongMarker } from "./types.ts";
 
 /**
  * One line per judgment, appended, never rewritten.
@@ -50,6 +50,24 @@ export function memoryLedger(): MemoryLedger {
 /** A ledger that records nothing, for a caller that only wants the action. */
 export function nullLedger(): Ledger {
   return { async append(): Promise<void> {} };
+}
+
+/**
+ * A sink that stamps every judgment it is handed as belonging to one run.
+ *
+ * The tag comes from the sink rather than from each call on purpose. A harness that has to
+ * remember a field on every ask() is a harness that will one day forget it on one, and an untagged
+ * eval row is indistinguishable from a live one forever after. Wrap the file once and it cannot be
+ * forgotten. Review markers pass through untouched: a verdict belongs to the person who wrote it,
+ * not to the run that produced the row.
+ */
+export function taggedLedger(inner: Ledger, tag: { readonly runKind: RunKind; readonly runId: string }): Ledger {
+  return {
+    async append(row: LedgerRow | ReviewMarker): Promise<void> {
+      if (!("question" in row)) return inner.append(row);
+      return inner.append({ ...row, runKind: tag.runKind, runId: tag.runId });
+    },
+  };
 }
 
 export interface ReviewOptions {

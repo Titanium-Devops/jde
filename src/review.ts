@@ -44,6 +44,14 @@ export interface JoinOptions {
   readonly decision?: string;
   /** Only this question id, such as "aggregate" or "part_0_done". */
   readonly question?: string;
+  /**
+   * Which traffic to read. Live by default, which is the only kind a threshold may be set on: a
+   * harness judges cases written to be judged, and their difficulty is the case author's choice
+   * rather than a sample of what an agent meets. Pass "eval" to look at a run, "all" to see both.
+   */
+  readonly include?: "live" | "eval" | "all";
+  /** Only this run, by the id its harness stamped. */
+  readonly runId?: string;
 }
 
 export interface Join {
@@ -54,6 +62,8 @@ export interface Join {
   /** Reviewed rows for judgments that never happened, which carry no confidence to calibrate. */
   readonly reviewedErrorRows: readonly ReviewedRow[];
   readonly contradicted: number;
+  /** Rows left out because they are the other kind of traffic. */
+  readonly otherTraffic: { readonly kind: "live" | "eval"; readonly rows: number };
 }
 
 export function isLedgerRow(entry: unknown): entry is LedgerRow {
@@ -112,11 +122,19 @@ export function joinReviews(entries: readonly unknown[], options: JoinOptions = 
   const { rows, markers } = classifyEntries(entries);
   const { latest, all, contradicted } = resolveReviews(markers);
 
-  const wanted = rows.filter((row) => {
+  const include = options.include ?? "live";
+  const matching = rows.filter((row) => {
     if (options.decision !== undefined && row.decision !== options.decision) return false;
     if (options.question !== undefined && row.question !== options.question) return false;
+    if (options.runId !== undefined && row.runId !== options.runId) return false;
     return true;
   });
+  const isEval = (row: LedgerRow): boolean => row.runKind === "eval";
+  const wanted = include === "all" ? matching : matching.filter((row) => (include === "eval" ? isEval(row) : !isEval(row)));
+  const otherTraffic = {
+    kind: (include === "eval" ? "live" : "eval") as "live" | "eval",
+    rows: include === "all" ? 0 : matching.length - wanted.length,
+  };
 
   const reviewed: ReviewedRow[] = [];
   const reviewedErrorRows: ReviewedRow[] = [];
@@ -136,7 +154,7 @@ export function joinReviews(entries: readonly unknown[], options: JoinOptions = 
 
   const known = new Set(rows.map((row) => row.id));
   const dangling = markers.filter((marker) => !known.has(marker.id));
-  return { reviewed, unreviewed, dangling, reviewedErrorRows, contradicted };
+  return { reviewed, unreviewed, dangling, reviewedErrorRows, contradicted, otherTraffic };
 }
 
 /**
@@ -268,6 +286,10 @@ export function describeCalibration(join: Join, calibration: Calibration, label 
   );
   if (join.reviewedErrorRows.length > 0) {
     lines.push(`${join.reviewedErrorRows.length} reviewed row(s) are fallbacks with no judge answer, left out of the bins`);
+  }
+  if (join.otherTraffic.rows > 0) {
+    const hint = join.otherTraffic.kind === "eval" ? "pass --include eval to read them" : "these are live decisions";
+    lines.push(`${join.otherTraffic.rows} ${join.otherTraffic.kind} row(s) left out: ${hint}`);
   }
   if (join.dangling.length > 0) lines.push(`${join.dangling.length} marker(s) point at a row this ledger does not hold`);
   if (join.contradicted > 0) lines.push(`${join.contradicted} row(s) carry markers that disagree; the most recent one counts`);
