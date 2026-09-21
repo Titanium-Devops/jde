@@ -1,0 +1,36 @@
+{
+  "name": "@titanium/jde",
+  "version": "0.1.0",
+  "private": true,
+  "description": "JDE, the Jev Decision Engine: one place where an agent's judgments are asked, answered, thresholded and recorded.",
+  "license": "UNLICENSED",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "policy.json",
+    "README.md",
+    "DESIGN.md",
+    "USAGE.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck:tests": "tsc -p tsconfig.test.json",
+    "test": "npm run build && npm run typecheck:tests && node --test \"tests/*.test.ts\"",
+    "eval": "node scripts/eval.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "typescript": "^5.9.2"
+  }
+}
