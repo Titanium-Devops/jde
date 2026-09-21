@@ -44,6 +44,7 @@ export {
   validatePolicyEntry,
 } from "./policy.ts";
 export * from "./decisions/completion-check.ts";
+export * from "./parts.ts";
 
 export interface AskOptions {
   /** Overrides the judge the policy names. A test passes its own; production passes nothing. */
