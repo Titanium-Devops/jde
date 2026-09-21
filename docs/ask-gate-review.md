@@ -21,6 +21,13 @@ because a second agent was editing the same working copy at the time.
 | Median latency | 140 ms |
 | Cost for the whole run | $0.0015 |
 
+One caveat on the payload. `already_tried` declares `passingAnswer: "either"`, and at the time of
+this run that field was still being serialised to the judge along with the rest of the question.
+It was stripped from the wire shortly afterwards, in `a6e1d81`. A single real call was made before
+the run to confirm the judge accepted the payload rather than rejecting it, and it did. So the
+artifact measured here differs from the one that now ships by one field on one of three questions,
+and that is one more reason the proposals below need a set of their own rather than this one.
+
 Two notes on how to read that table. The verdict row is **derived**: the set labels a
 classification, a tool and a boolean, and never labels a band, so the band is its own labels run
 through the same rule code uses. It measures the judge with the aggregation held constant, and it
