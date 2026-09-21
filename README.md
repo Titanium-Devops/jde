@@ -45,15 +45,21 @@ what your agent decided yesterday or why.
 ## What JDE does
 
 ```ts
-const outcome = await ask({
-  decision: "completion-check",
+const check = await completionCheck({
   state: { task, taskParts, claimedResult, receipts },
   context: { agentId, turnId },
 });
 
-if (outcome.action === "accept") deliver(result);
-else redispatch(outcome.answers);          // it did not do the work, and now you know
+if (check.verdict === "done" && !check.result_is_echo.value) deliver(result);
+else redispatch(check.parts);              // it did not do the work, and now you know
 ```
+
+Branch on `verdict`, not on `outcome.action`. A decision's `action` comes from how *sure* the
+judge was, and right now a judge that is sure a part **failed** is still a confident judge, so a
+confident failure bands as `accept`. Measured on 2026-09-21: 88 of 360 ledger rows answer `false`
+at 0.9 or better and every one of them carries `action: "accept"`. `verdict` reads the raw answers
+and is correct on all 30 blind cases. This is being fixed; until it is, `verdict` is the field to
+trust.
 
 Four things, each of which you would otherwise build yourself:
 
