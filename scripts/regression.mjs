@@ -12,8 +12,11 @@
 //          [--no-ledger]           passed through
 //          [--endpoint <url>]      passed through, so the suite can be tested without the judge
 //
-// Exit 1 on any drop below a recorded score, on a case that got no answer, or on a run that did
-// not finish. Exit 0 otherwise. Nothing here writes to cases/ and nothing edits a baseline.
+// Exit 1 on a drop in the QUESTION-level count, on a case that got no answer, or on a run that did
+// not finish. The verdict count is printed beside it and never gated: five repeats of both sealed
+// sets showed the question count perfectly stable and the verdict count moving by four cases on
+// confidence drift alone, so gating it would cry wolf while hiding a real regression in the noise.
+// Exit 0 otherwise. Nothing here writes to cases/ and nothing edits a baseline.
 
 import { spawn } from "node:child_process";
 import { readFile } from "node:fs/promises";
@@ -80,25 +83,38 @@ for (const [decision, expected] of Object.entries(baseline.decisions)) {
   rows += summary.ledgerRows;
 
   lines.push(`${pad(decision, 18)} ${summary.cases} cases, ${summary.inputTokens} tokens`);
-  for (const metric of ["questions", "verdicts"]) {
-    const was = expected[metric];
-    const now = summary[metric];
-    const mark = now.correct < was.correct ? "DROP" : now.correct > was.correct ? "rose" : "same";
-    lines.push(
-      `  ${pad(metric, 10)} recorded ${pad(`${was.correct} of ${was.total}`, 12)} now ${pad(`${now.correct} of ${now.total}`, 12)} ${pad(pct(now.correct, now.total), 7)} ${mark}`,
-    );
-    if (now.total !== was.total) {
-      failures.push(`${decision} ${metric}: the set now has ${now.total} graded items and the baseline has ${was.total}. The case set changed, which a baseline cannot speak for.`);
-    } else if (now.correct < was.correct) {
-      const seen = metric === "verdicts" ? expected.observedVerdictRuns : undefined;
-      const range = Array.isArray(seen) && seen.length > 1
-        ? ` Earlier runs of this sealed set scored ${seen.join(", ")}, so read the stability block before calling this a regression.`
-        : "";
-      failures.push(`${decision} ${metric}: ${now.correct} of ${now.total}, and it recorded ${was.correct}. That is ${was.correct - now.correct} fewer.${range}`);
-    } else if (now.correct > was.correct) {
-      rises.push(`${decision} ${metric}: ${now.correct} of ${now.total}, above the recorded ${was.correct}. Worth reading before it is celebrated.`);
-    }
+
+  // The gate is the question-level count, and only that.
+  //
+  // Five repeats of both sealed sets moved it not once in 290 answers, while the verdict count on
+  // the same runs moved by four cases with the judge never changing its mind: the verdicts turn on
+  // confidences drifting across our own floors. A strict test on the noisy number cries wolf until
+  // nobody reads it, and a loose one wide enough to absorb that drift would swallow a real
+  // three-case regression inside the same band. So the strict test points at the stable number.
+  const was = expected.questions;
+  const now = summary.questions;
+  const mark = now.correct < was.correct ? "DROP" : now.correct > was.correct ? "rose" : "same";
+  lines.push(
+    `  ${pad("questions", 10)} recorded ${pad(`${was.correct} of ${was.total}`, 12)} now ${pad(`${now.correct} of ${now.total}`, 12)} ${pad(pct(now.correct, now.total), 7)} ${mark}  <- the gate`,
+  );
+  if (now.total !== was.total) {
+    failures.push(`${decision} questions: the set now has ${now.total} graded items and the baseline has ${was.total}. The case set changed, which a baseline cannot speak for.`);
+  } else if (now.correct < was.correct) {
+    failures.push(`${decision} questions: ${now.correct} of ${now.total}, and it recorded ${was.correct}. That is ${was.correct - now.correct} fewer. This number does not drift, so read it as real and check the stability block only to confirm.`);
+  } else if (now.correct > was.correct) {
+    rises.push(`${decision} questions: ${now.correct} of ${now.total}, above the recorded ${was.correct}. Worth reading before it is celebrated.`);
   }
+
+  // The verdict count is reported and never gated.
+  const wasVerdicts = expected.verdicts;
+  const nowVerdicts = summary.verdicts;
+  const seen = expected.observedVerdictRuns;
+  const drift = Array.isArray(seen) && seen.length > 1
+    ? `drifts, seen at ${seen.join(", ")}`
+    : "not gated: it turns on confidences that drift between runs";
+  lines.push(
+    `  ${pad("verdicts", 10)} recorded ${pad(`${wasVerdicts.correct} of ${wasVerdicts.total}`, 12)} now ${pad(`${nowVerdicts.correct} of ${nowVerdicts.total}`, 12)} ${pad(pct(nowVerdicts.correct, nowVerdicts.total), 7)} ${drift}`,
+  );
   if (summary.failures > 0) {
     failures.push(`${decision}: ${summary.failures} case(s) got no answer from the judge.`);
   }
@@ -125,4 +141,4 @@ if (failures.length > 0) {
 }
 
 console.log("");
-console.log("suite passed: every recorded score met or beaten");
+console.log("suite passed: the question level gate met or beaten on every decision");

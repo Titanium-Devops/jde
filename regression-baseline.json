@@ -28,9 +28,12 @@
         36,
         33,
         37,
+        36,
         36
       ],
-      "observedNote": "Four runs of this sealed set on 2026-09-20 and 2026-09-21 scored 36, 33, 37 and 36 of 40 verdicts with no change to the code and no change to the judge's yes-or-no answers. The movement is confidence drift across the 0.7 action floor. A single drop inside that range is noise, not a regression: read the stability block before believing a failure."
+      "observedNote": "Five runs of this sealed set on 2026-09-20 and 2026-09-21 scored 36, 33, 37, 36 and 36 of 40 verdicts with no change to the code and none to the judge's yes-or-no answers, which were identical every time. The movement is confidence drift across the 0.7 action floor. The suite therefore gates on the question count, which did not move once, and reports the verdict count without gating it."
     }
-  }
+  },
+  "gate": "questions",
+  "gateNote": "npm run regression fails on a drop in the question-level count only. The verdict count is reported beside it and never gated: it carries about four cases of natural drift."
 }
