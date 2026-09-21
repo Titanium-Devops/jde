@@ -167,6 +167,13 @@ difficulty is the case author's choice rather than a sample of what an agent mee
 worth keeping for latency, cost and confidence distributions, and for reviewing a run by hand; they
 are not a denominator for production.
 
+**When the file grows.** A row is about 360 bytes, so a 30 case blind run adds roughly 100 rows and
+36 KB, and a run every day for a year comes to about 13 MB: `out/ledger/eval.jsonl` is append-only
+forever, and nothing rotates or prunes it, on purpose. If a file ever does get in the way, rename it
+rather than edit it, because every row carries the `runId` that says which run it came from and the
+reader takes any path you point it at. The live ledger is the one to watch instead, since it grows
+with real traffic rather than with runs.
+
 Run it against this repo's own ledger today and it says there is nothing there: no judgment has ever
 been reviewed, so there is no denominator and no threshold. That is the honest state, and it is the
 reason a confidence threshold in this package is still a number someone chose rather than a number
