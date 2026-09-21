@@ -1,5 +1,6 @@
 import { ask } from "../index.ts";
 import type { AskOptions } from "../index.ts";
+import { isBottomBand } from "../policy.ts";
 import { extractTaskParts } from "../parts.ts";
 import type { ExtractedPart } from "../parts.ts";
 import type { Answers, DecisionContext, LedgerRow, NoulQuestion, Questions } from "../types.ts";
@@ -248,9 +249,14 @@ export function coverageQuestion(part: RestatementPart): NoulQuestion {
       true: "`restatement` says this part, in any words and in any position, and means the same thing by it",
       false: "`restatement` leaves this part out, or changes what it asks for: a different subject, a different target, a different limit, or the opposite intent",
     },
+    passingAnswer: "true",
   };
 }
 
+/**
+ * A confident yes is the failure here: the restatement invented work. So "no, everything it
+ * requires was asked for" is the answer that passes, and `passingAnswer` says which one that is.
+ */
 export const ADDS_REQUIREMENT_QUESTION: NoulQuestion = {
   type: "noul",
   instructions: "Does `restatement` require something that `task` does not ask for?",
@@ -258,8 +264,10 @@ export const ADDS_REQUIREMENT_QUESTION: NoulQuestion = {
     true: "`restatement` names a deliverable, a step, a limit or an audience that is not in `task` and that nothing in `task` asks for",
     false: "everything `restatement` requires is asked for in `task`. Rewording a part, reordering the parts, leaving one out, or getting one wrong is not an added requirement.",
   },
+  passingAnswer: "false",
 };
 
+/** The other one a confident yes fails: a copy shows no reading, so "no" is the pass. */
 export const IS_PARROT_QUESTION: NoulQuestion = {
   type: "noul",
   instructions: "Is `restatement` a copy of `task` rather than a restatement of it?",
@@ -267,6 +275,7 @@ export const IS_PARROT_QUESTION: NoulQuestion = {
     true: "`restatement` repeats `task`'s own sentences, changed only by dropping a word, moving a clause, or swapping a word for a synonym",
     false: "`restatement` is written in the writer's own sentences, even where names, paths and numbers from `task` have to stay the same",
   },
+  passingAnswer: "false",
 };
 
 export function coverageQuestionId(partId: string): string {
@@ -340,13 +349,10 @@ export function ratioSaysParrot(ratio: number): boolean {
 
 /**
  * The band a policy puts the bottom of its range in, read off the label `bandFor()` built from the
- * policy's own boundaries. A policy always has a band at zero, because loading refuses one that
- * does not, so the bottom band is the one whose label starts there. No threshold is written here.
+ * policy's own boundaries. It lives in `policy.ts` now that the ask gate reads it too, and is
+ * re-exported here because this decision published the name first.
  */
-export function isBottomBand(label: string | null): boolean {
-  if (label === null) return false;
-  return label === "0plus" || label.startsWith("0to");
-}
+export { isBottomBand };
 
 export interface VerdictInput {
   readonly parts: readonly PartCoverage[];
@@ -471,7 +477,11 @@ export async function taskRestatement(
       parts: coverage,
       addedRequirement: addedRequirement.value,
       parrot: parrot.value,
-      bottomBand: isBottomBand(outcome.band),
+      // The certainty band, not the confidence one. This asks whether the judge knew, and a
+      // confidence now says whether the restatement passed: a part confidently missed is a low
+      // confidence and a high certainty, and it belongs in the revise loop rather than with a
+      // person. Only a judge that could not decide escalates here, which is what it always meant.
+      bottomBand: isBottomBand(outcome.certaintyBand),
       loop,
     }),
     parts: coverage,

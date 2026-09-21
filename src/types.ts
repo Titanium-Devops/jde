@@ -17,6 +17,26 @@ export interface NoulQuestion {
   readonly type: "noul";
   readonly instructions: string;
   readonly criteria: { readonly true: string; readonly false: string };
+  /**
+   * Which answer means the thing being judged is in good order. Defaults to `"true"`, which is
+   * what a question phrased as "was this done" wants.
+   *
+   * It exists because a yes-or-no question does not say, by its type alone, which way is the good
+   * way. "Is the result just the task restated?" is answered well by a confident no. Without this
+   * field the bands cannot tell a confident pass from a confident failure, and both land in the
+   * accepting band, which is exactly what happened before it was added.
+   *
+   * Three values, because there are three kinds of yes-or-no question:
+   *
+   * - `"true"` asks whether something holds. A confident no is a failure.
+   * - `"false"` asks whether something is wrong. A confident yes is a failure.
+   * - `"either"` asks for a fact that code will branch on, where both answers are fine and only
+   *   the judge not knowing is a problem. Its confidence is how sure the judge was, either way.
+   *
+   * It is a property of the question, not of the answer, so a judge never sees it: the judge is
+   * asked whether a statement is true and is told nothing about what will be done with the answer.
+   */
+  readonly passingAnswer?: "true" | "false" | "either";
 }
 
 /**
@@ -202,9 +222,25 @@ export interface Outcome {
   readonly answers: Answers;
   /** What code should do. The band's action, or the policy's on_error. */
   readonly action: string;
-  /** The aggregate confidence, or null when there is none because nothing was answered. */
+  /**
+   * The aggregate confidence that this decision passed, or null when there is none because
+   * nothing was answered. Every question's answer is read as the probability of its own passing
+   * answer first, so a confident "no" to "was part one done" is a low confidence here and not a
+   * high one.
+   */
   readonly confidence: number | null;
   readonly band: string | null;
+  /**
+   * The aggregate of how sure the judge was of anything, whichever way it answered, and the band
+   * that lands in. Not the same number as `confidence`: a flat "no" is certain and does not pass.
+   *
+   * It is here for the one thing a pass confidence cannot say, which is that the judge did not
+   * know. A caller that sends genuinely unsure judgments to a person reads this; a caller that
+   * decides what to do about the answer reads `action`. It is not written to the ledger, because
+   * a row's confidence is the number its action was taken on.
+   */
+  readonly certainty: number | null;
+  readonly certaintyBand: string | null;
   /** What was written to the ledger, in the order it was written. */
   readonly decisions: readonly LedgerRow[];
   readonly judge: string;

@@ -30,10 +30,36 @@ What comes back:
 |---|---|
 | `answers` | the judge's answers, keyed by question id. Empty when it did not answer |
 | `action` | what code should do: the band's action, or the policy's `on_error` |
-| `confidence` | the aggregate confidence, or null when nothing was answered |
+| `confidence` | the aggregate confidence that this **passed**, or null when nothing was answered |
 | `band` | the band that confidence landed in, read off the policy's own boundaries |
+| `certainty` | how sure the judge was, whichever way it answered. Not what `action` is read off |
+| `certaintyBand` | the band `certainty` lands in, for callers who escalate a judge that did not know |
 | `decisions` | the rows written: one per question, then one for the decision |
 | `error` | why it fell back, when it fell back |
+
+### Which answer means it passed
+
+A yes-or-no question does not say, by its type alone, which way is the good way. "Was part one
+done?" passes on yes. "Is the result just the task restated?" passes on no. A noul question says so
+with `passingAnswer`, and the confidence you get back is the probability of that answer:
+
+```ts
+{ type: "noul", instructions: "Is `claimed_result` a restatement of `task`?",
+  criteria: { true: "...", false: "..." }, passingAnswer: "false" }
+```
+
+Three values. `"true"` is the default and asks whether something holds; `"false"` asks whether
+something is wrong; `"either"` is for a fact code will branch on, where both answers are fine and
+only the judge not knowing costs anything, and its confidence is how sure the judge was.
+
+Get this wrong and a band cannot tell a confident pass from a confident failure: both read as high
+confidence, both land in the accepting band. One run wrote 88 rows answering `false` at 0.9
+confidence or better, and every one of them carried an accepting action.
+
+`confidenceOf(answer, question)` is the one place that conversion happens. Called without the
+question it reads the question as passing on `"true"`, which is right for most of them and wrong
+for the rest, so pass the question. `certaintyOf(answer)` is the other number, distance from the
+middle, and no band should be read off it as though it were a confidence.
 
 `ask()` does not throw for anything a judge does. A timeout, a refusal, a missing key, an answer it
 cannot read: each returns the policy's `on_error` action with the failure recorded, so a judge that
@@ -71,7 +97,8 @@ Four rules, each refused at load rather than trusted:
   the agent would otherwise have done.
 - **`aggregate` names a rule this build has.** Shipped: `min_confidence` (the weakest answer is the
   decision's confidence), `mean_confidence`, and `all_parts_at_least_<x>`, which is `min_confidence`
-  with the floor written down where a reader can see it.
+  with the floor written down where a reader can see it. Weakest means least confident that it
+  passed, so one part the judge says was not done is the number the bands see.
 - **`judge` is optional** and only `jev` can be named. A judge that needs arguments, like `code`, is
   passed in by the caller.
 
@@ -88,6 +115,10 @@ One line per question, then one for the decision, appended and never rewritten:
  "confidence":0.94,"band":"90plus","action":"accept","judge":"jev-1.13.0","latencyMs":180,
  "agentId":"...","turnId":"..."}
 ```
+
+A row's `confidence` is the confidence its `action` was taken on, which is the confidence that the
+question passed. A row reading `"answer":"false"` with a high confidence is a question that passes
+on `false`, not an accepted failure.
 
 The decision's own row carries `question: "aggregate"`, the aggregate rule as its answer, and the
 action code actually took. On a decision that never got an answer it is the only row there is, and

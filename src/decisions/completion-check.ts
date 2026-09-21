@@ -122,6 +122,11 @@ export interface CompletionOutcome {
   readonly error?: { readonly reason: string; readonly detail: string };
 }
 
+/**
+ * The one question here that a confident yes fails. A result that hands the task back is not a
+ * report of work, so "no, it reports an outcome" is the answer that passes, and `passingAnswer`
+ * says so rather than leaving the bands to read a confident yes as a confident pass.
+ */
 export const RESULT_IS_ECHO_QUESTION: NoulQuestion = {
   type: "noul",
   instructions: "Is `claimed_result` a restatement of `task` rather than a report of an outcome?",
@@ -129,9 +134,17 @@ export const RESULT_IS_ECHO_QUESTION: NoulQuestion = {
     true: "`claimed_result` repeats the task's own words or its instructions back, with no outcome of its own",
     false: "`claimed_result` reports what happened, what was produced, or what was found",
   },
+  passingAnswer: "false",
 };
 
-/** One noul per part that a model judges. A file part never gets here. */
+/**
+ * One noul per part that a model judges. A file part never gets here.
+ *
+ * Both shapes ask whether the part was carried out, so a yes is the pass and a confident no is a
+ * part that did not happen. That is the default, and it is written out because the set of
+ * questions in this file was audited one at a time and a reader should not have to guess which
+ * ones were looked at.
+ */
 export function partQuestion(part: ActionPart | ReplyPart): NoulQuestion {
   if (part.kind === "reply") {
     return {
@@ -141,6 +154,7 @@ export function partQuestion(part: ActionPart | ReplyPart): NoulQuestion {
         true: "`claimed_result` carries that content itself, written as something already produced or found",
         false: "`claimed_result` does not carry it, or only says it will be produced",
       },
+      passingAnswer: "true",
     };
   }
   return {
@@ -150,6 +164,7 @@ export function partQuestion(part: ActionPart | ReplyPart): NoulQuestion {
       true: "`receipts` carry a file, a search, a fetched page or a tool call that carries out this part",
       false: "nothing in `receipts` carries out this part, whatever `claimed_result` says about it",
     },
+    passingAnswer: "true",
   };
 }
 
