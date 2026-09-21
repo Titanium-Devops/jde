@@ -30,7 +30,7 @@ import type {
 } from "./types.ts";
 
 export * from "./types.ts";
-export { codeJudge, jevJudge, judgeNamed, JEV_ENDPOINT, JEV_MODEL, TYPESAFE_API_KEY_ENV } from "./judge/index.ts";
+export { codeJudge, jevJudge, judgeNamed, questionsForWire, JEV_ENDPOINT, JEV_MODEL, TYPESAFE_API_KEY_ENV } from "./judge/index.ts";
 export type { CodeAnswer, CodeJudgeOptions, JevJudgeOptions } from "./judge/index.ts";
 export {
   fileLedger,

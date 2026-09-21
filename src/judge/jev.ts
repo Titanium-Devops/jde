@@ -1,5 +1,5 @@
 import { JudgeError } from "../types.ts";
-import type { Answer, Answers, Judge, JudgeReply, Questions } from "../types.ts";
+import type { Answer, Answers, Judge, JudgeReply, Question, Questions } from "../types.ts";
 
 /**
  * The hosted judge: one POST to TypeSafe's system one endpoint, with the questions as asked.
@@ -41,7 +41,7 @@ export function jevJudge(options: JevJudgeOptions = {}): Judge {
         response = await doFetch(endpoint, {
           method: "POST",
           headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
-          body: JSON.stringify({ state, model, questions }),
+          body: JSON.stringify({ state, model, questions: questionsForWire(questions) }),
           signal,
         });
       } catch (error) {
@@ -73,6 +73,34 @@ export function jevJudge(options: JevJudgeOptions = {}): Judge {
       };
     },
   };
+}
+
+/**
+ * What a judge is allowed to see of a question: what kind it is, what it is being asked, and what
+ * the options mean. Every other field on a question belongs to code.
+ *
+ * This is a whitelist and not a list of things to strip, because the failure it exists to stop is
+ * a field added later for code's use and never thought about again. `passingAnswer` was exactly
+ * that: it says which answer we consider the good one, on questions asked to find out whether the
+ * judge can tell, and it shipped on the wire for one commit. A judge told the answer key is not
+ * measuring anything, and every number in this package assumes it was not told.
+ *
+ * Any other judge that puts a question on a wire calls this. There is one today.
+ */
+export function questionsForWire(questions: Questions): Questions {
+  const out: Record<string, Question> = {};
+  for (const [id, question] of Object.entries(questions)) out[id] = oneForWire(question);
+  return out;
+}
+
+function oneForWire(question: Question): Question {
+  if (question.type === "noul") {
+    return { type: "noul", instructions: question.instructions, criteria: question.criteria };
+  }
+  if (question.type === "choice") {
+    return { type: "choice", instructions: question.instructions, criteria: question.criteria };
+  }
+  return { type: "score", instructions: question.instructions, criteria: question.criteria };
 }
 
 /**

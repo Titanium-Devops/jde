@@ -5,7 +5,7 @@ import { RESULT_IS_ECHO_QUESTION, partQuestion } from "../src/decisions/completi
 import { ADDS_REQUIREMENT_QUESTION, IS_PARROT_QUESTION, coverageQuestion } from "../src/decisions/task-restatement.ts";
 import { ALREADY_TRIED_QUESTION } from "../src/decisions/ask-gate.ts";
 import { aggregateFloor, bandFor, certaintyOf, confidenceOf, loadPolicyBook, policyFor } from "../src/policy.ts";
-import { codeJudge } from "../src/judge/index.ts";
+import { codeJudge, jevJudge, TYPESAFE_API_KEY_ENV } from "../src/judge/index.ts";
 import { memoryLedger } from "../src/ledger.ts";
 import type { Band, LedgerRow, NoulQuestion, PolicyEntry, Questions } from "../src/types.ts";
 
@@ -162,4 +162,52 @@ test("certainty is kept, beside the confidence, and is not what the action is re
   // A choice or a score carries its own confidence, and neither is affected.
   assert.equal(confidenceOf({ type: "choice", choice: "runnable", confidence: 0.81 }), 0.81);
   assert.equal(certaintyOf({ type: "choice", choice: "runnable", confidence: 0.81 }), 0.81);
+});
+
+test("the judge is never told which answer passes", async () => {
+  // `passingAnswer` names the answer we consider good, on questions asked to find out whether the
+  // judge can tell. It reached the wire for one commit. This holds the request body to the three
+  // fields a judge reasons from, so the next field added for code's use cannot follow it out.
+  const sent: string[] = [];
+  const questions: Questions = {
+    result_is_echo: RESULT_IS_ECHO_QUESTION,
+    part_0_done: ACTION_PART,
+    adds_requirement: ADDS_REQUIREMENT_QUESTION,
+    is_parrot: IS_PARROT_QUESTION,
+    already_tried: ALREADY_TRIED_QUESTION,
+  };
+
+  const was = process.env[TYPESAFE_API_KEY_ENV];
+  process.env[TYPESAFE_API_KEY_ENV] = "not-a-key";
+  try {
+    const judge = jevJudge({
+      fetchImpl: async (_url, init) => {
+        sent.push(String((init as RequestInit).body));
+        return new Response(JSON.stringify({ answers: {}, model: "jev-test" }), {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        });
+      },
+    });
+    await judge.ask({ task: "a task" }, questions, new AbortController().signal).catch(() => undefined);
+  } finally {
+    if (was === undefined) delete process.env[TYPESAFE_API_KEY_ENV];
+    else process.env[TYPESAFE_API_KEY_ENV] = was;
+  }
+
+  assert.equal(sent.length, 1);
+  const body = sent[0] as string;
+  assert.equal(body.includes("passingAnswer"), false, "the answer key went to the judge");
+
+  const parsed = JSON.parse(body) as { state: unknown; model: string; questions: Record<string, object> };
+  assert.deepEqual(Object.keys(parsed).sort(), ["model", "questions", "state"]);
+  for (const [id, question] of Object.entries(parsed.questions)) {
+    assert.deepEqual(Object.keys(question).sort(), ["criteria", "instructions", "type"], id);
+  }
+  // Every question was still asked, and the criteria the judge reads are untouched.
+  assert.deepEqual(Object.keys(parsed.questions).sort(), Object.keys(questions).sort());
+  assert.deepEqual(
+    (parsed.questions.result_is_echo as { criteria: unknown }).criteria,
+    RESULT_IS_ECHO_QUESTION.criteria,
+  );
 });

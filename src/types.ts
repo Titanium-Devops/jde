@@ -33,8 +33,11 @@ export interface NoulQuestion {
    * - `"either"` asks for a fact that code will branch on, where both answers are fine and only
    *   the judge not knowing is a problem. Its confidence is how sure the judge was, either way.
    *
-   * It is a property of the question, not of the answer, so a judge never sees it: the judge is
-   * asked whether a statement is true and is told nothing about what will be done with the answer.
+   * It is a property of the question, not of the answer, and a judge must never see it: it names
+   * the answer we consider good, on a question asked to find out whether the judge can tell. That
+   * is enforced by `questionsForWire()`, which builds the request body from a whitelist of the
+   * three fields a judge reasons from, and not by anybody remembering. It shipped on the wire for
+   * one commit before that existed.
    */
   readonly passingAnswer?: "true" | "false" | "either";
 }
