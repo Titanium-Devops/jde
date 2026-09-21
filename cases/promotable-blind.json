@@ -1,0 +1,548 @@
+[
+  {
+    "id": "promotable-001",
+    "decision": "promotable",
+    "state": {
+      "message": "Vendor shortlist is in /files/erp-shortlist.md. Three options scored. Need Mara to pick one by Friday or we slip the cutover.",
+      "roomPurpose": "ERP replacement for Northline Fabrication. Lead agent, research bot, and shop owner Mara Chen.",
+      "botRole": "lead"
+    },
+    "expected": {
+      "verdict": "post"
+    },
+    "rationale": "This is a status plus a deadline the owner has to act on. A reader needs it to know where the work stands and that a decision is blocked on them."
+  },
+  {
+    "id": "promotable-002",
+    "decision": "promotable",
+    "state": {
+      "message": "Carousel or single image for Thursday's Reel cover? I can go either way; brand folder has both.",
+      "roomPurpose": "Instagram room for Harborlight Youth Arts. Marketer bot and the development director.",
+      "botRole": "marketer"
+    },
+    "expected": {
+      "verdict": "post"
+    },
+    "rationale": "A genuine preference question the room has to answer. Questions the room must resolve are post, even when short and informal."
+  },
+  {
+    "id": "promotable-003",
+    "decision": "promotable",
+    "state": {
+      "message": "HelioDesk over Deskly. HelioDesk wins on parts-tracking and shop-floor tablets; Deskly's quoting is nicer but they will not do on-prem. Scores and quotes are in /files/erp-compare.md.",
+      "roomPurpose": "ERP vendor research for Northline Fabrication. Research bot, lead, shop owner.",
+      "botRole": "research"
+    },
+    "expected": {
+      "verdict": "post"
+    },
+    "rationale": "A recommendation with the reason and a pointer to the artifact. That is a conclusion the room needs, not working-out."
+  },
+  {
+    "id": "promotable-004",
+    "decision": "promotable",
+    "state": {
+      "message": "Nightly audit: 3 high CVEs in lodash 4.17.20. Opened PR #412 to bump to 4.17.21. Tests passed on the branch.",
+      "roomPurpose": "Nightly dependency audit for Pinnacle NetOps agent-tools repo. Engineering desk and the on-call.",
+      "botRole": "engineering"
+    },
+    "expected": {
+      "verdict": "post"
+    },
+    "rationale": "Concrete finding, action taken, and where to look. The on-call needs this to know the night did not pass clean."
+  },
+  {
+    "id": "promotable-005",
+    "decision": "promotable",
+    "state": {
+      "message": "Daily digest 9/18. Decided: fall open house stays Oct 12. Open: flyer copy still with the director. Blocked: donor list export waiting on Salesforce access. Full notes: /files/digest-0918.md.",
+      "roomPurpose": "Harborlight Youth Arts ops room. Scribe, lead, development director, program manager.",
+      "botRole": "scribe"
+    },
+    "expected": {
+      "verdict": "post"
+    },
+    "rationale": "A structured digest with decisions, opens, and a block. Readers use it to know where things stand. Length and structure do not make it working-out."
+  },
+  {
+    "id": "promotable-006",
+    "decision": "promotable",
+    "state": {
+      "message": "I am going to split this into three workstreams. First I should probably have research pull the last six months of engagement so we know what beat baseline. Then the marketer can draft against that. Or maybe I draft the calendar myself and have the marketer only handle replies. Also wondering if the director wanted Reels this time or just static. I will sit with the brief a bit more before I assign anything.",
+      "roomPurpose": "Fall campaign room for Harborlight Youth Arts. Lead, marketer, research, development director.",
+      "botRole": "lead"
+    },
+    "expected": {
+      "verdict": "hold"
+    },
+    "rationale": "The lead is weighing how to split the work and has not assigned anyone or stated a plan. That is private working-out; posting it only burns room context."
+  },
+  {
+    "id": "promotable-007",
+    "decision": "promotable",
+    "state": {
+      "message": "Searched for 'midwest sheet metal ERP' and opened four vendor sites. HelioDesk pricing page loaded. Deskly blog post on job shops loaded. Also found a third name, ForgeOS, but their site is mostly a waitlist. Still reading. Will write up a comparison once I have numbers.",
+      "roomPurpose": "ERP vendor research for Northline Fabrication. Research bot, lead, shop owner.",
+      "botRole": "research"
+    },
+    "expected": {
+      "verdict": "hold"
+    },
+    "rationale": "This narrates search steps and promises a writeup later. No conclusion, no artifact, nothing a reader can act on yet."
+  },
+  {
+    "id": "promotable-008",
+    "decision": "promotable",
+    "state": {
+      "message": "Caption tone options I am considering: (1) warm and thank-you-heavy, (2) punchy with a question sticker, (3) straight event facts. Brand voice leans warm but last month's punchy post outperformed. Not picking yet.",
+      "roomPurpose": "Instagram room for Harborlight Youth Arts. Marketer and development director.",
+      "botRole": "marketer"
+    },
+    "expected": {
+      "verdict": "hold"
+    },
+    "rationale": "The bot is listing options it has not chosen and is not asking the room to choose. Weighing tones is working-out until a draft or a question lands."
+  },
+  {
+    "id": "promotable-009",
+    "decision": "promotable",
+    "state": {
+      "message": "Looking at the diff. Touches package.json, lockfile, and one import in audit.js. Does not touch auth. I will run the test suite next and then decide if this is a rubber-stamp.",
+      "roomPurpose": "PR review room for Pinnacle NetOps agent-tools. Engineering desk and submitting engineer.",
+      "botRole": "engineering"
+    },
+    "expected": {
+      "verdict": "hold"
+    },
+    "rationale": "Narrating what files were glanced at and what the bot plans to run next. No review verdict. Belongs in the private trace."
+  },
+  {
+    "id": "promotable-010",
+    "decision": "promotable",
+    "state": {
+      "message": "Thread so far: director asked about the open house date. Lead said the venue hold expires Friday. Marketer posted a draft flyer. Director said 'looks fine but check the time.' Lead said the time is 6–8. Marketer said she would update the flyer. That is the last twelve messages, restated.",
+      "roomPurpose": "Harborlight Youth Arts ops room. Scribe, lead, marketer, development director.",
+      "botRole": "scribe"
+    },
+    "expected": {
+      "verdict": "hold"
+    },
+    "rationale": "A play-by-play restatement of messages everyone in the room already saw, with no decisions or action list pulled out. That is working-out, not a digest."
+  },
+  {
+    "id": "promotable-011",
+    "decision": "promotable",
+    "state": {
+      "message": "I read the three listing packets and the CMA the broker dropped in. Compass-style photos are stronger on the Oak Street bungalow; the Cape on Maple has the better lot but the kitchen photos are dark and will drag online. Days-on-market for comparable capes in the zip is 18, bungalows 24. Pricing: bungalow at $412k looks a little greedy given the two actives at $399k with similar beds. Cape at $387k is inside the band. If I had to call it I would list the Cape first and hold the bungalow a week for kitchen reshoots.\n\nAlso I checked whether the HOA docs were in the packet — they were not, so that is a loose end.\n\nRecommend listing 14 Maple first at $387k, kitchen reshoot on Oak Street before it goes live.",
+      "roomPurpose": "Listing strategy room for Riverbend Realty. Research bot, lead, principal broker.",
+      "botRole": "research"
+    },
+    "expected": {
+      "verdict": "hold"
+    },
+    "rationale": "A real recommendation exists, but it is buried under two paragraphs of working-out. The room needs the last sentence posted alone, not the reasoning stack."
+  },
+  {
+    "id": "promotable-012",
+    "decision": "promotable",
+    "state": {
+      "message": "Hard to say which printer to go with. Inkline's turnaround looks fine if their sample pack is representative. Presshouse is cheaper per unit but I have not seen a sample. Could also wait until the director weighs in on uncoated vs silk. I do not want to box us in. Maybe we just flag both and see.",
+      "roomPurpose": "Print vendor pick for Harborlight Youth Arts gala programs. Lead, research, development director.",
+      "botRole": "lead"
+    },
+    "expected": {
+      "verdict": "hold"
+    },
+    "rationale": "All hedging, no pick, no question posed to the room, no next step. A reader finishes it knowing nothing they did not already know."
+  },
+  {
+    "id": "promotable-013",
+    "decision": "promotable",
+    "state": {
+      "message": "Drafts for the week are scheduled:\nMon 9am — reel cover + caption on the Saturday tournament\nTue 12pm — new-arrival carousel (Commander precons)\nThu 5pm — Friday Night Magic reminder\nSat 10am — recap placeholder, I will swap in photos after close.\nCalendar file: /files/sdf-ig-week36.md",
+      "roomPurpose": "Instagram room for Shuffle & Draw. Marketer bot and the store manager.",
+      "botRole": "marketer"
+    },
+    "expected": {
+      "verdict": "post"
+    },
+    "rationale": "A scheduled calendar the manager can check or override. That is a result the room should carry, not a draft-in-progress monologue."
+  },
+  {
+    "id": "promotable-014",
+    "decision": "promotable",
+    "state": {
+      "message": "Assigned: research compares HelioDesk, Deskly, ForgeOS against the must-haves in /files/erp-musts.md. Marketer is not in this work. I will review the comparison Thursday and put a pick in front of Mara.",
+      "roomPurpose": "ERP replacement for Northline Fabrication. Lead, research, shop owner.",
+      "botRole": "lead"
+    },
+    "expected": {
+      "verdict": "post"
+    },
+    "rationale": "A coordination message: who does what and when the owner will see a pick. Other members need it to know their lane."
+  },
+  {
+    "id": "promotable-015",
+    "decision": "promotable",
+    "state": {
+      "message": "PR #88: request changes. The new webhook handler swallows non-200s and retries without jitter. Add a test for a 429 and cap retries at 3. Diff is otherwise fine.",
+      "roomPurpose": "PR review for Pinnacle NetOps agent-tools. Engineering desk and submitting engineer.",
+      "botRole": "engineering"
+    },
+    "expected": {
+      "verdict": "post"
+    },
+    "rationale": "A review verdict with the specific change required. The submitting engineer has to act on it."
+  },
+  {
+    "id": "promotable-016",
+    "decision": "promotable",
+    "state": {
+      "message": "The claim on the Oak Street flyer ('last sold in this block under $350k was 2019') is false. County records show 12 Birch sold at $342k in March 2025. Screenshot and link in /files/oak-claim-check.md.",
+      "roomPurpose": "Listing review for Riverbend Realty. Research bot, lead, listing agent.",
+      "botRole": "research"
+    },
+    "expected": {
+      "verdict": "post"
+    },
+    "rationale": "A checked claim with evidence and an artifact pointer. The listing agent needs this before the flyer goes out."
+  },
+  {
+    "id": "promotable-017",
+    "decision": "promotable",
+    "state": {
+      "message": "Blocked on Salesforce. The donor export needs a report the integration user cannot see. Someone with admin has to grant 'Campaign History' or drop a CSV in the drive.",
+      "roomPurpose": "Harborlight Youth Arts ops room. Lead, scribe, development director.",
+      "botRole": "lead"
+    },
+    "expected": {
+      "verdict": "post"
+    },
+    "rationale": "A block only a person can lift, stated plainly. The room needs to know work is stuck and what would unstick it."
+  },
+  {
+    "id": "promotable-018",
+    "decision": "promotable",
+    "state": {
+      "message": "August Instagram: 41 posts, 2.1% avg engagement (July 1.6%), saves up, link-in-bio taps flat. Best post was the kiln-opening reel. Full breakdown in /files/aug-ig-report.md.",
+      "roomPurpose": "Monthly social reporting for Harborlight Youth Arts. Marketer, lead, development director.",
+      "botRole": "marketer"
+    },
+    "expected": {
+      "verdict": "post"
+    },
+    "rationale": "A results summary with the headline numbers and a pointer. Long or short, a report the director will use is post."
+  },
+  {
+    "id": "promotable-019",
+    "decision": "promotable",
+    "state": {
+      "message": "Triaged the four new issues. #1309 (sync loop on ticket close) is P1, assigned to night shift notes. #1310 and #1311 are dupes of #1277. #1312 is a feature request, labeled backlog. Board updated.",
+      "roomPurpose": "Issue triage for Pinnacle NetOps service desk repo. Engineering desk and on-call.",
+      "botRole": "engineering"
+    },
+    "expected": {
+      "verdict": "post"
+    },
+    "rationale": "Triage outcomes change what the humans do next. Status the room should carry."
+  },
+  {
+    "id": "promotable-020",
+    "decision": "promotable",
+    "state": {
+      "message": "Staff meeting 9/17 notes. Decisions: drop the Thursday beginner night for October, keep Friday Commander. Actions: manager orders the new playmats by Wednesday; marketer drafts the schedule graphic. Parking lot: whether to host a prerelease at the warehouse.",
+      "roomPurpose": "Shuffle & Draw weekly staff room. Scribe, store manager, marketer.",
+      "botRole": "scribe"
+    },
+    "expected": {
+      "verdict": "post"
+    },
+    "rationale": "Meeting notes that extract decisions and owners. That is the scribe's deliverable to the room, not a transcript of its own thinking."
+  },
+  {
+    "id": "promotable-021",
+    "decision": "promotable",
+    "state": {
+      "message": "On the HelioDesk pricing page the starter tier is $89/user/mo billed annually, implementation listed as 'from $4,500,' and they mention a shop-floor tablet add-on without a price. Deskly's public page only has 'contact us.' ForgeOS is invite-only. I am restating what I just read so I do not lose it.",
+      "roomPurpose": "ERP vendor research for Northline Fabrication. Research bot, lead, shop owner.",
+      "botRole": "research"
+    },
+    "expected": {
+      "verdict": "hold"
+    },
+    "rationale": "The bot is parking raw notes from a page it just fetched. No comparison, no recommendation, no artifact for the room. That is a scratchpad."
+  },
+  {
+    "id": "promotable-022",
+    "decision": "promotable",
+    "state": {
+      "message": "Hashtags I considered and discarded: #youthart (too generic), #kckids (wrong city), #harborlightgala (we are not there yet). Still thinking about a location tag. Not posting a caption yet.",
+      "roomPurpose": "Instagram room for Harborlight Youth Arts. Marketer and development director.",
+      "botRole": "marketer"
+    },
+    "expected": {
+      "verdict": "hold"
+    },
+    "rationale": "A discarded-options list with no draft and no ask. Working-out that other members do not need in the thread."
+  },
+  {
+    "id": "promotable-023",
+    "decision": "promotable",
+    "state": {
+      "message": "Starting the site audit. I will crawl the public pages first, then check load times, then look at the listing schema. Not flagging anything until I have been through the broker's must-fix list.",
+      "roomPurpose": "Website audit for Riverbend Realty. Lead, research, principal broker.",
+      "botRole": "lead"
+    },
+    "expected": {
+      "verdict": "hold"
+    },
+    "rationale": "A plan of steps the bot intends to take, with no finding and no ask. Intent-to-work messages are trace, not room traffic."
+  },
+  {
+    "id": "promotable-024",
+    "decision": "promotable",
+    "state": {
+      "message": "Test plan before I touch the PR: unit tests in /tests/webhooks, the integration fixture that mocks Stripe, and a local curl against the retry helper. If those pass I will look at the error-path comments. Logging this so I remember the order.",
+      "roomPurpose": "PR review for Pinnacle NetOps agent-tools. Engineering desk and submitting engineer.",
+      "botRole": "engineering"
+    },
+    "expected": {
+      "verdict": "hold"
+    },
+    "rationale": "A private test plan written to the room. The engineer does not need the bot's intended order of operations; they need the verdict later."
+  },
+  {
+    "id": "promotable-025",
+    "decision": "promotable",
+    "state": {
+      "message": "I think the meeting was mostly about the gala, or maybe the gala and the open house together. People talked a lot. The director seemed fine. I will try to write real notes in a bit.",
+      "roomPurpose": "Harborlight Youth Arts ops room. Scribe, lead, development director.",
+      "botRole": "scribe"
+    },
+    "expected": {
+      "verdict": "hold"
+    },
+    "rationale": "Vague impression with no decisions, owners, or artifact. A scribe message that does not tell the room where things stand should stay in the trace."
+  },
+  {
+    "id": "promotable-026",
+    "decision": "promotable",
+    "state": {
+      "message": "Possible printers I might look at: Inkline, Presshouse, the in-house machine at the community college, a friend of the director's who does zines. Not sure which of those are real options. Will search in a minute.",
+      "roomPurpose": "Print vendor pick for Harborlight Youth Arts. Lead, research, development director.",
+      "botRole": "lead"
+    },
+    "expected": {
+      "verdict": "hold"
+    },
+    "rationale": "An unfiltered list of names the bot has not yet checked. Speculative inventory is working-out."
+  },
+  {
+    "id": "promotable-027",
+    "decision": "promotable",
+    "state": {
+      "message": "Comparison of the three listing tools the team asked about:\n\nBrightPath — $79/seat, MLS push is native, photo editor is weak, contract templates included.\nHarborCRM — $54/seat, MLS is a paid add-on, strong drip campaigns, no built-in e-sign.\nLotline — $99/seat, MLS native, e-sign included, mobile app is the one the junior agents already use.\n\nRecommendation: Lotline if the budget holds; HarborCRM only if they will accept the MLS add-on and a separate e-sign tool. Detail table: /files/listing-tools.md.",
+      "roomPurpose": "Tooling research for Riverbend Realty. Research bot, lead, principal broker.",
+      "botRole": "research"
+    },
+    "expected": {
+      "verdict": "post"
+    },
+    "rationale": "A long but organized results summary with a recommendation and an artifact. Length does not make it working-out; this is what the room asked the research bot to produce."
+  },
+  {
+    "id": "promotable-028",
+    "decision": "promotable",
+    "state": {
+      "message": "Draft reply to the comment on the kiln reel: 'Doors at 5, making starts at 6, all ages. Sliding scale at the door.' Want the director to pick this or the shorter '5pm doors, 6pm making, all ages.' before I post it.",
+      "roomPurpose": "Instagram room for Harborlight Youth Arts. Marketer and development director.",
+      "botRole": "marketer"
+    },
+    "expected": {
+      "verdict": "post"
+    },
+    "rationale": "A draft plus a clear ask for a human pick. The director has to see it to act. That is room traffic."
+  },
+  {
+    "id": "promotable-029",
+    "decision": "promotable",
+    "state": {
+      "message": "Campaign is live. First three posts are up on Instagram, the Linktree points at the gala ticket page, and the paid boost on the trailer starts at 6am tomorrow. Tracking sheet: /files/gala-boost.md.",
+      "roomPurpose": "Gala campaign room for Harborlight Youth Arts. Lead, marketer, development director.",
+      "botRole": "lead"
+    },
+    "expected": {
+      "verdict": "post"
+    },
+    "rationale": "Launch confirmation with what went out and where to watch it. The room needs the status."
+  },
+  {
+    "id": "promotable-030",
+    "decision": "promotable",
+    "state": {
+      "message": "Two of three vendors are in. HelioDesk and Deskly compared in /files/erp-compare.md. ForgeOS still has not returned the security questionnaire. I am not recommending a winner until that lands or Mara tells me to drop them.",
+      "roomPurpose": "ERP replacement for Northline Fabrication. Lead, research, shop owner.",
+      "botRole": "lead"
+    },
+    "expected": {
+      "verdict": "post"
+    },
+    "rationale": "Partial progress that changes the state of the work and names the remaining gate. Status the owner can use, even though the pick is not ready."
+  },
+  {
+    "id": "promotable-031",
+    "decision": "promotable",
+    "state": {
+      "message": "Brand guidelines I just pulled from the drive: primary navy #1B2A4A, accent clay #C46A3A, no stock photos of gavels, bios in first person, never say 'synergy.' Restating so I do not drift when I draft the partner post.",
+      "roomPurpose": "LinkedIn room for Hale & Voss LLP. Marketer and the managing partner's assistant.",
+      "botRole": "marketer"
+    },
+    "expected": {
+      "verdict": "hold"
+    },
+    "rationale": "The bot is reciting a file it read so it can use it later. The room already has the guidelines; this adds no status and no ask."
+  },
+  {
+    "id": "promotable-032",
+    "decision": "promotable",
+    "state": {
+      "message": "Methodology I will use for the MSP competitor scan: start with the four names in the brief, pull homepage and pricing if public, note whether they advertise 24/7 NOC, then check a couple review sites. I have not fetched anything yet.",
+      "roomPurpose": "Competitor scan for Pinnacle NetOps sales team. Research bot, lead, sales manager.",
+      "botRole": "research"
+    },
+    "expected": {
+      "verdict": "hold"
+    },
+    "rationale": "A method writeup before any source is opened. Process narration with no finding is hold."
+  },
+  {
+    "id": "promotable-033",
+    "decision": "promotable",
+    "state": {
+      "message": "Should we keep the 'free shipping over $75' line in the Facebook ad, or drop it until the new playmat stock actually lands? I cannot tell from inventory whether we will still be able to honor it next week.",
+      "roomPurpose": "Facebook ads room for Shuffle & Draw. Marketer, store manager.",
+      "botRole": "marketer"
+    },
+    "expected": {
+      "verdict": "post"
+    },
+    "rationale": "A risk question only the manager can answer, tied to a live ad. The room has to see it."
+  },
+  {
+    "id": "promotable-034",
+    "decision": "promotable",
+    "state": {
+      "message": "I keep going back and forth on whether the dependency bump is in scope for this PR. On one hand the CVE is real. On the other hand the author only asked for a review of the webhook retry. I could open a separate issue. Or just approve and mention it. Going to think for a second.",
+      "roomPurpose": "PR review for Pinnacle NetOps agent-tools. Engineering desk and submitting engineer.",
+      "botRole": "engineering"
+    },
+    "expected": {
+      "verdict": "hold"
+    },
+    "rationale": "Internal debate with no verdict and no question to the author. The conclusion, when it exists, is what should be posted."
+  },
+  {
+    "id": "promotable-035",
+    "decision": "promotable",
+    "state": {
+      "message": "Open house listing packet is in /files/14-maple-packet.md. Includes CMA, disclosures, and the draft remarks. Broker still owes the HOA resale cert before we can go live.",
+      "roomPurpose": "Listing prep for Riverbend Realty. Lead, research, listing agent.",
+      "botRole": "lead"
+    },
+    "expected": {
+      "verdict": "post"
+    },
+    "rationale": "Pointer to a finished packet plus the remaining human-owned gate. Readers need both."
+  },
+  {
+    "id": "promotable-036",
+    "decision": "promotable",
+    "state": {
+      "message": "Read the last three monthly reports and the comments on the July reel. Engagement is lumpy. Saves look better than reach. I am not sure what that means for the next calendar. Going to stare at the numbers again.",
+      "roomPurpose": "Monthly social reporting for Harborlight Youth Arts. Marketer, lead, development director.",
+      "botRole": "marketer"
+    },
+    "expected": {
+      "verdict": "hold"
+    },
+    "rationale": "Impressions without a finding, a number, or a next calendar. Hedging over already-shared reports is working-out."
+  },
+  {
+    "id": "promotable-037",
+    "decision": "promotable",
+    "state": {
+      "message": "Nightly audit clean. No new CVEs above medium, lockfile unchanged, license scan same as last night. Nothing to open.",
+      "roomPurpose": "Nightly dependency audit for Pinnacle NetOps agent-tools. Engineering desk and on-call.",
+      "botRole": "engineering"
+    },
+    "expected": {
+      "verdict": "post"
+    },
+    "rationale": "A clean-run status still tells the on-call where things stand. Silence would leave them guessing whether the job ran."
+  },
+  {
+    "id": "promotable-038",
+    "decision": "promotable",
+    "state": {
+      "message": "I compared the four NOC pages. AtlasStack talks a lot about their follow-the-sun model. Redline IT lists a 12-minute response target I cannot verify. Our own site says 15 minutes and does not mention after-hours routing. County Fiber's page is a brochure. There is a version of this that says we should tighten our public SLA language before sales quotes it, but I also might be overreading brochure copy, and I have not called anyone, and the sales manager may already know all of this.\n\nAnyway: flag the public SLA line on pinnacle-netops.example before the Q4 packet goes out. It is weaker than two of the four competitors and sales is quoting it.",
+      "roomPurpose": "Competitor scan for Pinnacle NetOps sales. Research bot, lead, sales manager.",
+      "botRole": "research"
+    },
+    "expected": {
+      "verdict": "hold"
+    },
+    "rationale": "The usable flag is at the bottom of a hedging walkthrough. Careless judges will post the whole stack; the room only needs the last two sentences, posted alone."
+  },
+  {
+    "id": "promotable-039",
+    "decision": "promotable",
+    "state": {
+      "message": "Who owns the final sign-off on the gala program proof — the director or the board chair? The printer needs a name tomorrow.",
+      "roomPurpose": "Gala production room for Harborlight Youth Arts. Lead, scribe, development director.",
+      "botRole": "lead"
+    },
+    "expected": {
+      "verdict": "post"
+    },
+    "rationale": "An authority question with a deadline. Only a person in the room can answer it, so the question belongs in the thread."
+  },
+  {
+    "id": "promotable-040",
+    "decision": "promotable",
+    "state": {
+      "message": "Notes I took while listening: someone laughed about the coffee. The venue person called. There was a sidebar about parking. I have timestamps but I have not turned them into decisions yet.",
+      "roomPurpose": "Harborlight Youth Arts ops room. Scribe, lead, development director, program manager.",
+      "botRole": "scribe"
+    },
+    "expected": {
+      "verdict": "hold"
+    },
+    "rationale": "Raw listening scraps with no synthesis. Until the scribe extracts decisions or actions, this is private residue, not a room digest."
+  },
+  {
+    "id": "promotable-041",
+    "decision": "promotable",
+    "state": {
+      "message": "Draft captions I am iterating in private:\n1. 'Precon night is back. Lists at 6, games at 6:30.'\n2. 'Commander precons on the table Thursday. Bring a friend who still thinks 40 life is a lot.'\n3. A drier stock-style line I already know we will not use.\nI will pick one after I look at last Thursday's saves. Not asking anyone yet.",
+      "roomPurpose": "Instagram room for Shuffle & Draw. Marketer bot and the store manager.",
+      "botRole": "marketer"
+    },
+    "expected": {
+      "verdict": "hold"
+    },
+    "rationale": "Internal caption drafts with an explicit 'not asking anyone yet.' Until a pick or a question is offered, this is the marketer's scratchpad."
+  },
+  {
+    "id": "promotable-042",
+    "decision": "promotable",
+    "state": {
+      "message": "I pulled the last two engagement exports and the boost invoices. The $150 trailer boost got 1.8k views and 40 profile taps. The $50 static got almost none. I am turning that over. Could mean video is the channel. Could mean the trailer creative was just better. Not ready to tell the director to move the rest of the budget.",
+      "roomPurpose": "Gala campaign room for Harborlight Youth Arts. Research bot, marketer, development director.",
+      "botRole": "research"
+    },
+    "expected": {
+      "verdict": "hold"
+    },
+    "rationale": "Numbers are present but the bot refuses a conclusion and does not ask the director to decide. Hedged raw reads belong in the trace until a finding is offered."
+  }
+]

@@ -1,0 +1,1524 @@
+[
+  {
+    "id": "ask-gate-001",
+    "decision": "ask-gate",
+    "state": {
+      "question": "Do you happen to know what Weldwright Metalworks lists as the per-sheet rate for 4x8 mild steel on their public pricing page?",
+      "taskSummary": "Research bot comparing three fabrication shops for a restaurant-hood job at Harbor Light Food Rescue's new kitchen.",
+      "toolManifest": [
+        {
+          "name": "web_search",
+          "description": "Search the public web by keyword and return titles, snippets, and URLs"
+        },
+        {
+          "name": "web_fetch",
+          "description": "Fetch a URL and return its text"
+        },
+        {
+          "name": "file_read",
+          "description": "Read a workspace file by path"
+        },
+        {
+          "name": "document_read",
+          "description": "Extract text from a PDF or Office document in the workspace"
+        }
+      ],
+      "recentToolCalls": []
+    },
+    "expected": {
+      "verdict": "runnable",
+      "tool": "web_search",
+      "alreadyTried": false
+    },
+    "rationale": "The rate is a public-page fact. web_search is the better first tool because the bot does not already have a URL to fetch; asking a person skips a lookup the manifest can do."
+  },
+  {
+    "id": "ask-gate-002",
+    "decision": "ask-gate",
+    "state": {
+      "question": "What voice does the Halden brand guide say we should use when we reply to complaint comments?",
+      "taskSummary": "Marketer drafting Instagram comment replies for Halden Day Spa after a product-reaction thread got sharp.",
+      "toolManifest": [
+        {
+          "name": "instagram_post",
+          "description": "Publish a post to the connected Instagram account"
+        },
+        {
+          "name": "instagram_read_comments",
+          "description": "List recent comments on the account's posts"
+        },
+        {
+          "name": "instagram_read_metrics",
+          "description": "Read engagement metrics for Instagram posts"
+        },
+        {
+          "name": "drive_search",
+          "description": "Search the workspace Google Drive by keyword"
+        },
+        {
+          "name": "file_read",
+          "description": "Read a workspace file by path"
+        },
+        {
+          "name": "image_generate",
+          "description": "Generate an image from a text prompt"
+        }
+      ],
+      "recentToolCalls": []
+    },
+    "expected": {
+      "verdict": "runnable",
+      "tool": "drive_search",
+      "alreadyTried": false
+    },
+    "rationale": "The question is what a named document specifies, not what tone the person prefers. drive_search can retrieve the brand guide; a careless judge will tag this preference because it mentions voice."
+  },
+  {
+    "id": "ask-gate-003",
+    "decision": "ask-gate",
+    "state": {
+      "question": "Do you want this week's carousel to lead with the new IPA or the barrel-aged stout?",
+      "taskSummary": "Marketer planning a week of Instagram posts for Cinderwell Brewing's taproom account.",
+      "toolManifest": [
+        {
+          "name": "instagram_post",
+          "description": "Publish a post to the connected Instagram account"
+        },
+        {
+          "name": "instagram_schedule",
+          "description": "Schedule a post for a future time"
+        },
+        {
+          "name": "instagram_read_metrics",
+          "description": "Read engagement metrics for Instagram posts"
+        },
+        {
+          "name": "file_read",
+          "description": "Read a workspace file by path"
+        },
+        {
+          "name": "image_generate",
+          "description": "Generate an image from a text prompt"
+        }
+      ],
+      "recentToolCalls": []
+    },
+    "expected": {
+      "verdict": "preference",
+      "tool": null,
+      "alreadyTried": false
+    },
+    "rationale": "Which beer leads the carousel is a marketing-priority call only the person can make. Image and scheduling tools execute a choice; they do not pick the product."
+  },
+  {
+    "id": "ask-gate-004",
+    "decision": "ask-gate",
+    "state": {
+      "question": "Can you pull last quarter's collected-fee total out of the firm's Clio account so I can finish the vendor comparison?",
+      "taskSummary": "Research bot comparing legal billing platforms for Meridian & Crowe LLP.",
+      "toolManifest": [
+        {
+          "name": "web_search",
+          "description": "Search the public web by keyword and return titles, snippets, and URLs"
+        },
+        {
+          "name": "web_fetch",
+          "description": "Fetch a URL and return its text"
+        },
+        {
+          "name": "file_read",
+          "description": "Read a workspace file by path"
+        },
+        {
+          "name": "document_read",
+          "description": "Extract text from a PDF or Office document in the workspace"
+        }
+      ],
+      "recentToolCalls": []
+    },
+    "expected": {
+      "verdict": "blocked",
+      "tool": null,
+      "alreadyTried": false
+    },
+    "rationale": "Clio is a private practice-management system and nothing in the manifest talks to it. The bot lacks access, not a preference the person is being asked to express."
+  },
+  {
+    "id": "ask-gate-005",
+    "decision": "ask-gate",
+    "state": {
+      "question": "Does the current branch still pass the unit suite?",
+      "taskSummary": "Engineering desk reviewing a PR that touches the invoice parser at Pinebelt Networks.",
+      "toolManifest": [
+        {
+          "name": "shell",
+          "description": "Run a command in the repo sandbox and return stdout and stderr"
+        },
+        {
+          "name": "git",
+          "description": "Run a git command in the repo"
+        },
+        {
+          "name": "repo_read",
+          "description": "Read a file from the repository by path"
+        },
+        {
+          "name": "repo_write",
+          "description": "Write or patch a file in the working tree"
+        },
+        {
+          "name": "test_runner",
+          "description": "Run the repository test suite on the current branch and return pass/fail with failures"
+        }
+      ],
+      "recentToolCalls": []
+    },
+    "expected": {
+      "verdict": "runnable",
+      "tool": "test_runner",
+      "alreadyTried": false
+    },
+    "rationale": "test_runner exists to answer pass/fail on the current branch. Asking a person substitutes a tool the bot already has."
+  },
+  {
+    "id": "ask-gate-006",
+    "decision": "ask-gate",
+    "state": {
+      "question": "Should we put the site audit ahead of the vendor research this week, or the other way around?",
+      "taskSummary": "Lead agent planning the week for Calder Ridge Realty's listing-site refresh and photographer-vendor search.",
+      "toolManifest": [
+        {
+          "name": "delegate_task",
+          "description": "Assign a subtask to another bot in the room"
+        },
+        {
+          "name": "schedule_task",
+          "description": "Schedule a task or reminder for a future time"
+        },
+        {
+          "name": "file_read",
+          "description": "Read a workspace file by path"
+        },
+        {
+          "name": "web_fetch",
+          "description": "Fetch a URL and return its text"
+        },
+        {
+          "name": "drive_search",
+          "description": "Search the workspace Google Drive by keyword"
+        },
+        {
+          "name": "room_read",
+          "description": "Read recent messages in the current room"
+        }
+      ],
+      "recentToolCalls": []
+    },
+    "expected": {
+      "verdict": "preference",
+      "tool": null,
+      "alreadyTried": false
+    },
+    "rationale": "Sequencing two pieces of customer work is a priority call. Delegation and scheduling tools execute an order; they do not choose it."
+  },
+  {
+    "id": "ask-gate-007",
+    "decision": "ask-gate",
+    "state": {
+      "question": "What were the impression and engagement numbers on the last five posts we published on X?",
+      "taskSummary": "Marketer writing the September X report for Stack & Shuffle Games.",
+      "toolManifest": [
+        {
+          "name": "x_post",
+          "description": "Publish a post to the connected X account"
+        },
+        {
+          "name": "x_schedule",
+          "description": "Schedule a post on X for a future time"
+        },
+        {
+          "name": "x_read_metrics",
+          "description": "Read impression, engagement, and follower metrics for recent X posts"
+        },
+        {
+          "name": "x_read_posts",
+          "description": "List recent posts published by the connected X account"
+        },
+        {
+          "name": "file_read",
+          "description": "Read a workspace file by path"
+        },
+        {
+          "name": "image_generate",
+          "description": "Generate an image from a text prompt"
+        }
+      ],
+      "recentToolCalls": []
+    },
+    "expected": {
+      "verdict": "runnable",
+      "tool": "x_read_metrics",
+      "alreadyTried": false
+    },
+    "rationale": "x_read_metrics exists specifically to pull post-level engagement. The person should not be the source of figures the connected API will return."
+  },
+  {
+    "id": "ask-gate-008",
+    "decision": "ask-gate",
+    "state": {
+      "question": "Looking at the three approaches in the PR notes — rewrite the parser, patch the regex, or vendor the library — which one do you want me to go with?",
+      "taskSummary": "Engineering desk triaging a flaky log-parser issue in the Pinebelt Networks agent repo.",
+      "toolManifest": [
+        {
+          "name": "shell",
+          "description": "Run a command in the repo sandbox and return stdout and stderr"
+        },
+        {
+          "name": "git",
+          "description": "Run a git command in the repo"
+        },
+        {
+          "name": "repo_read",
+          "description": "Read a file from the repository by path"
+        },
+        {
+          "name": "repo_write",
+          "description": "Write or patch a file in the working tree"
+        },
+        {
+          "name": "test_runner",
+          "description": "Run the repository test suite on the current branch and return pass/fail with failures"
+        },
+        {
+          "name": "gh_issues",
+          "description": "List or read GitHub issues in the connected repository"
+        }
+      ],
+      "recentToolCalls": []
+    },
+    "expected": {
+      "verdict": "preference",
+      "tool": null,
+      "alreadyTried": false
+    },
+    "rationale": "Choosing among three implementation strategies is an authority and risk call. Repo and test tools can evaluate a choice after it is made; they cannot make it. A careless judge will call this runnable because the notes are already in the repo."
+  },
+  {
+    "id": "ask-gate-009",
+    "decision": "ask-gate",
+    "state": {
+      "question": "Is the campaign brief Mara uploaded last Tuesday still in the shared Drive? I need the audience section.",
+      "taskSummary": "Lead coordinating a spring open-house campaign for Calder Ridge Realty.",
+      "toolManifest": [
+        {
+          "name": "delegate_task",
+          "description": "Assign a subtask to another bot in the room"
+        },
+        {
+          "name": "schedule_task",
+          "description": "Schedule a task or reminder for a future time"
+        },
+        {
+          "name": "file_read",
+          "description": "Read a workspace file by path"
+        },
+        {
+          "name": "drive_search",
+          "description": "Search the workspace Google Drive by keyword"
+        },
+        {
+          "name": "web_fetch",
+          "description": "Fetch a URL and return its text"
+        },
+        {
+          "name": "room_read",
+          "description": "Read recent messages in the current room"
+        }
+      ],
+      "recentToolCalls": []
+    },
+    "expected": {
+      "verdict": "runnable",
+      "tool": "drive_search",
+      "alreadyTried": false
+    },
+    "rationale": "The brief is a workspace file. drive_search finds it; asking a person to re-supply a document the workspace already holds is the wrong move."
+  },
+  {
+    "id": "ask-gate-010",
+    "decision": "ask-gate",
+    "state": {
+      "question": "Do you happen to know what Weldwright Metalworks lists as the per-sheet rate for 4x8 mild steel on their public pricing page?",
+      "taskSummary": "Scribe compiling a one-pager of vendor figures for Harbor Light Food Rescue's kitchen-build committee; this bot only has room and file tools.",
+      "toolManifest": [
+        {
+          "name": "room_read",
+          "description": "Read recent messages in the current room"
+        },
+        {
+          "name": "file_write",
+          "description": "Write a file into the workspace"
+        },
+        {
+          "name": "file_read",
+          "description": "Read a workspace file by path"
+        }
+      ],
+      "recentToolCalls": []
+    },
+    "expected": {
+      "verdict": "blocked",
+      "tool": null,
+      "alreadyTried": false
+    },
+    "rationale": "Same public-page question as a runnable sibling, but this manifest has no web_search or web_fetch. file_read only sees workspace files, so the bot is blocked on access rather than able to look the rate up."
+  },
+  {
+    "id": "ask-gate-011",
+    "decision": "ask-gate",
+    "state": {
+      "question": "What hex values does the brand guidelines doc list for primary and accent?",
+      "taskSummary": "Marketer generating Instagram creatives for Cinderwell Brewing and trying to stay on-brand.",
+      "toolManifest": [
+        {
+          "name": "instagram_post",
+          "description": "Publish a post to the connected Instagram account"
+        },
+        {
+          "name": "image_generate",
+          "description": "Generate an image from a text prompt"
+        },
+        {
+          "name": "image_edit",
+          "description": "Edit an existing image by instruction"
+        },
+        {
+          "name": "drive_search",
+          "description": "Search the workspace Google Drive by keyword"
+        },
+        {
+          "name": "file_read",
+          "description": "Read a workspace file by path"
+        }
+      ],
+      "recentToolCalls": [
+        {
+          "tool": "drive_search",
+          "summary": "searched 'brand guidelines', 0 results"
+        }
+      ]
+    },
+    "expected": {
+      "verdict": "runnable",
+      "tool": "drive_search",
+      "alreadyTried": true
+    },
+    "rationale": "Brand colors live in a workspace document, so drive_search remains the right tool. A zero-result first query does not turn a lookup into a question for a person; the verdict stays runnable with alreadyTried true."
+  },
+  {
+    "id": "ask-gate-012",
+    "decision": "ask-gate",
+    "state": {
+      "question": "Of the three payroll vendors I just compared, which one should Harbor Light actually sign with?",
+      "taskSummary": "Research bot finished a side-by-side of Paylane, Northbrook Payroll, and a regional payroll co-op for Harbor Light Food Rescue.",
+      "toolManifest": [
+        {
+          "name": "web_search",
+          "description": "Search the public web by keyword and return titles, snippets, and URLs"
+        },
+        {
+          "name": "web_fetch",
+          "description": "Fetch a URL and return its text"
+        },
+        {
+          "name": "file_read",
+          "description": "Read a workspace file by path"
+        },
+        {
+          "name": "document_read",
+          "description": "Extract text from a PDF or Office document in the workspace"
+        },
+        {
+          "name": "drive_search",
+          "description": "Search the workspace Google Drive by keyword"
+        }
+      ],
+      "recentToolCalls": [
+        {
+          "tool": "web_fetch",
+          "summary": "fetched three vendor pricing pages and wrote /files/payroll-compare.md"
+        }
+      ]
+    },
+    "expected": {
+      "verdict": "preference",
+      "tool": null,
+      "alreadyTried": false
+    },
+    "rationale": "Vendor selection is an authority and risk-appetite call reserved for the customer. Research tools already gathered the comparison; they cannot choose the signer. A careless judge will call this runnable because the research is done."
+  },
+  {
+    "id": "ask-gate-013",
+    "decision": "ask-gate",
+    "state": {
+      "question": "What did the room decide yesterday about the Saturday tasting-table layout? I need it for the daily digest.",
+      "taskSummary": "Scribe compiling the daily digest for Stack & Shuffle Games' event-planning room.",
+      "toolManifest": [
+        {
+          "name": "room_read",
+          "description": "Read recent messages in the current room"
+        },
+        {
+          "name": "file_write",
+          "description": "Write a file into the workspace"
+        },
+        {
+          "name": "file_read",
+          "description": "Read a workspace file by path"
+        }
+      ],
+      "recentToolCalls": []
+    },
+    "expected": {
+      "verdict": "runnable",
+      "tool": "room_read",
+      "alreadyTried": false
+    },
+    "rationale": "The decision lives in the room thread. room_read is built for this; asking a person to recap a thread the bot can read is skipping the tool."
+  },
+  {
+    "id": "ask-gate-014",
+    "decision": "ask-gate",
+    "state": {
+      "question": "What voice does the Halden brand guide say we should use when we reply to complaint comments?",
+      "taskSummary": "Engineering desk writing a short status note in Halden Day Spa's shared room and trying to match customer-facing voice.",
+      "toolManifest": [
+        {
+          "name": "shell",
+          "description": "Run a command in the repo sandbox and return stdout and stderr"
+        },
+        {
+          "name": "git",
+          "description": "Run a git command in the repo"
+        },
+        {
+          "name": "repo_read",
+          "description": "Read a file from the repository by path"
+        },
+        {
+          "name": "test_runner",
+          "description": "Run the repository test suite on the current branch and return pass/fail with failures"
+        }
+      ],
+      "recentToolCalls": []
+    },
+    "expected": {
+      "verdict": "blocked",
+      "tool": null,
+      "alreadyTried": false
+    },
+    "rationale": "Same document question as a runnable sibling, but this engineering manifest cannot search Drive or read files outside the repo. The bot is blocked on access to the brand guide."
+  },
+  {
+    "id": "ask-gate-015",
+    "decision": "ask-gate",
+    "state": {
+      "question": "Is it alright if the Facebook event copy mentions the noise complaint from last year's block party, or do we leave that out?",
+      "taskSummary": "Marketer promoting a street-fair booth for Stack & Shuffle Games on the shop's Facebook page.",
+      "toolManifest": [
+        {
+          "name": "facebook_post",
+          "description": "Publish a post to the connected Facebook page"
+        },
+        {
+          "name": "facebook_schedule",
+          "description": "Schedule a Facebook post for a future time"
+        },
+        {
+          "name": "facebook_read_metrics",
+          "description": "Read engagement metrics for Facebook posts"
+        },
+        {
+          "name": "file_read",
+          "description": "Read a workspace file by path"
+        },
+        {
+          "name": "image_generate",
+          "description": "Generate an image from a text prompt"
+        }
+      ],
+      "recentToolCalls": []
+    },
+    "expected": {
+      "verdict": "preference",
+      "tool": null,
+      "alreadyTried": false
+    },
+    "rationale": "Whether to air a past complaint is a reputational-risk call. Social APIs can publish whatever they are handed; they cannot decide if the mention is acceptable."
+  },
+  {
+    "id": "ask-gate-016",
+    "decision": "ask-gate",
+    "state": {
+      "question": "Who is listed as registered agent for Calder Ridge Realty LLC on the state business-entity search?",
+      "taskSummary": "Research bot preparing a counterparty memo for Meridian & Crowe LLP on a listing-side entity.",
+      "toolManifest": [
+        {
+          "name": "web_search",
+          "description": "Search the public web by keyword and return titles, snippets, and URLs"
+        },
+        {
+          "name": "web_fetch",
+          "description": "Fetch a URL and return its text"
+        },
+        {
+          "name": "file_read",
+          "description": "Read a workspace file by path"
+        },
+        {
+          "name": "document_read",
+          "description": "Extract text from a PDF or Office document in the workspace"
+        }
+      ],
+      "recentToolCalls": []
+    },
+    "expected": {
+      "verdict": "runnable",
+      "tool": "web_search",
+      "alreadyTried": false
+    },
+    "rationale": "Registered-agent data is on a public state filing site. web_search finds that page; this is not something only a person can know."
+  },
+  {
+    "id": "ask-gate-017",
+    "decision": "ask-gate",
+    "state": {
+      "question": "For tonight's digest, do you want a tight bullet list or a short narrative recap of the donor-call thread?",
+      "taskSummary": "Scribe writing the daily digest for Harbor Light Food Rescue's development room.",
+      "toolManifest": [
+        {
+          "name": "room_read",
+          "description": "Read recent messages in the current room"
+        },
+        {
+          "name": "file_write",
+          "description": "Write a file into the workspace"
+        },
+        {
+          "name": "file_read",
+          "description": "Read a workspace file by path"
+        }
+      ],
+      "recentToolCalls": []
+    },
+    "expected": {
+      "verdict": "preference",
+      "tool": null,
+      "alreadyTried": false
+    },
+    "rationale": "Digest format is a taste and audience-fit choice. room_read supplies content; it does not choose the shape of the write-up."
+  },
+  {
+    "id": "ask-gate-018",
+    "decision": "ask-gate",
+    "state": {
+      "question": "What's the current production image tag in the deploy manifest?",
+      "taskSummary": "Engineering desk running a nightly audit on the Pinebelt Networks agent repo and checking whether prod is pinned.",
+      "toolManifest": [
+        {
+          "name": "shell",
+          "description": "Run a command in the repo sandbox and return stdout and stderr"
+        },
+        {
+          "name": "git",
+          "description": "Run a git command in the repo"
+        },
+        {
+          "name": "repo_read",
+          "description": "Read a file from the repository by path"
+        },
+        {
+          "name": "repo_write",
+          "description": "Write or patch a file in the working tree"
+        },
+        {
+          "name": "test_runner",
+          "description": "Run the repository test suite on the current branch and return pass/fail with failures"
+        }
+      ],
+      "recentToolCalls": [
+        {
+          "tool": "repo_read",
+          "summary": "opened deploy/prod.yaml; file not found at that path"
+        }
+      ]
+    },
+    "expected": {
+      "verdict": "runnable",
+      "tool": "repo_read",
+      "alreadyTried": true
+    },
+    "rationale": "The image tag is a repo fact. A missed first path does not justify asking a person; repo_read is still the right tool, and alreadyTried is true because that named tool was already used for this question."
+  },
+  {
+    "id": "ask-gate-019",
+    "decision": "ask-gate",
+    "state": {
+      "question": "Does the current branch still pass the unit suite?",
+      "taskSummary": "Marketer in Pinebelt Networks' shared room heard engineering mention a broken build and wants to confirm before scheduling the launch thread.",
+      "toolManifest": [
+        {
+          "name": "x_post",
+          "description": "Publish a post to the connected X account"
+        },
+        {
+          "name": "x_schedule",
+          "description": "Schedule a post on X for a future time"
+        },
+        {
+          "name": "x_read_metrics",
+          "description": "Read impression, engagement, and follower metrics for recent X posts"
+        },
+        {
+          "name": "file_read",
+          "description": "Read a workspace file by path"
+        },
+        {
+          "name": "image_generate",
+          "description": "Generate an image from a text prompt"
+        }
+      ],
+      "recentToolCalls": []
+    },
+    "expected": {
+      "verdict": "blocked",
+      "tool": null,
+      "alreadyTried": false
+    },
+    "rationale": "Pass/fail of the unit suite is a repo fact, but this marketing manifest has no test_runner, shell, or git. The bot cannot run the suite and is blocked on access."
+  },
+  {
+    "id": "ask-gate-020",
+    "decision": "ask-gate",
+    "state": {
+      "question": "I don't have the competitor's published SLA in front of me — do you remember what Nexlane MSP quotes for after-hours response?",
+      "taskSummary": "Research comparing regional MSPs for Birch Street Dental's IT refresh.",
+      "toolManifest": [
+        {
+          "name": "web_search",
+          "description": "Search the public web by keyword and return titles, snippets, and URLs"
+        },
+        {
+          "name": "web_fetch",
+          "description": "Fetch a URL and return its text"
+        },
+        {
+          "name": "file_read",
+          "description": "Read a workspace file by path"
+        },
+        {
+          "name": "document_read",
+          "description": "Extract text from a PDF or Office document in the workspace"
+        },
+        {
+          "name": "drive_search",
+          "description": "Search the workspace Google Drive by keyword"
+        }
+      ],
+      "recentToolCalls": []
+    },
+    "expected": {
+      "verdict": "runnable",
+      "tool": "web_search",
+      "alreadyTried": false
+    },
+    "rationale": "The SLA is a public marketing claim. The bot's own wording admits it has not looked; web_search can retrieve it. A person should not be used as a cache for a public page."
+  },
+  {
+    "id": "ask-gate-021",
+    "decision": "ask-gate",
+    "state": {
+      "question": "Are we cleared to put Calder Ridge's client testimonial on the title-company partner page, or does someone on our side still need to sign off?",
+      "taskSummary": "Lead assembling a partner-page draft for a co-marketing piece between Calder Ridge Realty and a title company.",
+      "toolManifest": [
+        {
+          "name": "delegate_task",
+          "description": "Assign a subtask to another bot in the room"
+        },
+        {
+          "name": "file_read",
+          "description": "Read a workspace file by path"
+        },
+        {
+          "name": "web_fetch",
+          "description": "Fetch a URL and return its text"
+        },
+        {
+          "name": "drive_search",
+          "description": "Search the workspace Google Drive by keyword"
+        },
+        {
+          "name": "room_read",
+          "description": "Read recent messages in the current room"
+        }
+      ],
+      "recentToolCalls": [
+        {
+          "tool": "drive_search",
+          "summary": "searched 'testimonial', found /drive/listings/chen-quote.docx"
+        }
+      ]
+    },
+    "expected": {
+      "verdict": "preference",
+      "tool": null,
+      "alreadyTried": false
+    },
+    "rationale": "Using a client's words in public is an authorization call for the person in the room. Drive already produced the quote; the remaining question is permission, which no tool can grant."
+  },
+  {
+    "id": "ask-gate-022",
+    "decision": "ask-gate",
+    "state": {
+      "question": "What were the impression and engagement numbers on the last five posts we published on X?",
+      "taskSummary": "Engineering nightly-audit bot noticed a metrics.json fixture in the Stack & Shuffle marketing repo and wants production numbers to compare.",
+      "toolManifest": [
+        {
+          "name": "shell",
+          "description": "Run a command in the repo sandbox and return stdout and stderr"
+        },
+        {
+          "name": "git",
+          "description": "Run a git command in the repo"
+        },
+        {
+          "name": "repo_read",
+          "description": "Read a file from the repository by path"
+        },
+        {
+          "name": "test_runner",
+          "description": "Run the repository test suite on the current branch and return pass/fail with failures"
+        }
+      ],
+      "recentToolCalls": []
+    },
+    "expected": {
+      "verdict": "blocked",
+      "tool": null,
+      "alreadyTried": false
+    },
+    "rationale": "X engagement lives behind the platform API. This engineering manifest cannot call X, so the bot is blocked on access rather than able to look the figures up."
+  },
+  {
+    "id": "ask-gate-023",
+    "decision": "ask-gate",
+    "state": {
+      "question": "What is the subject of the latest commit on main?",
+      "taskSummary": "Engineering desk reviewing a PR against the Pinebelt Networks agent repo and checking whether main moved under the branch.",
+      "toolManifest": [
+        {
+          "name": "shell",
+          "description": "Run a command in the repo sandbox and return stdout and stderr"
+        },
+        {
+          "name": "git",
+          "description": "Run a git command in the repo"
+        },
+        {
+          "name": "repo_read",
+          "description": "Read a file from the repository by path"
+        },
+        {
+          "name": "repo_write",
+          "description": "Write or patch a file in the working tree"
+        },
+        {
+          "name": "test_runner",
+          "description": "Run the repository test suite on the current branch and return pass/fail with failures"
+        },
+        {
+          "name": "gh_pr",
+          "description": "Read pull-request metadata and comments from the connected GitHub repo"
+        }
+      ],
+      "recentToolCalls": []
+    },
+    "expected": {
+      "verdict": "runnable",
+      "tool": "git",
+      "alreadyTried": false
+    },
+    "rationale": "git log on main answers this in one call. Asking a person for a commit subject the sandbox can read is skipping the tool. git is the better name over shell because it is the dedicated interface."
+  },
+  {
+    "id": "ask-gate-024",
+    "decision": "ask-gate",
+    "state": {
+      "question": "Should the apology post own the mix-up in the first line, or open with 'we're looking into it' and keep the blame off-stage?",
+      "taskSummary": "Marketer drafting an Instagram post after Stack & Shuffle Games oversold a prerelease allocation.",
+      "toolManifest": [
+        {
+          "name": "instagram_post",
+          "description": "Publish a post to the connected Instagram account"
+        },
+        {
+          "name": "instagram_read_comments",
+          "description": "List recent comments on the account's posts"
+        },
+        {
+          "name": "file_read",
+          "description": "Read a workspace file by path"
+        },
+        {
+          "name": "image_generate",
+          "description": "Generate an image from a text prompt"
+        }
+      ],
+      "recentToolCalls": []
+    },
+    "expected": {
+      "verdict": "preference",
+      "tool": null,
+      "alreadyTried": false
+    },
+    "rationale": "How much blame to accept in an apology is a risk-appetite and authority call about this incident. Publishing tools will ship either stance; they cannot choose the legal or reputational one."
+  },
+  {
+    "id": "ask-gate-025",
+    "decision": "ask-gate",
+    "state": {
+      "question": "What does the Q3 donor report say we raised in August?",
+      "taskSummary": "Research bot drafting a mid-year fundraising paragraph for Harbor Light Food Rescue's board packet.",
+      "toolManifest": [
+        {
+          "name": "web_search",
+          "description": "Search the public web by keyword and return titles, snippets, and URLs"
+        },
+        {
+          "name": "web_fetch",
+          "description": "Fetch a URL and return its text"
+        },
+        {
+          "name": "drive_search",
+          "description": "Search the workspace Google Drive by keyword"
+        },
+        {
+          "name": "file_read",
+          "description": "Read a workspace file by path"
+        },
+        {
+          "name": "document_read",
+          "description": "Extract text from a PDF or Office document in the workspace"
+        }
+      ],
+      "recentToolCalls": [
+        {
+          "tool": "drive_search",
+          "summary": "searched 'Q3 donor report', 0 results"
+        }
+      ]
+    },
+    "expected": {
+      "verdict": "runnable",
+      "tool": "drive_search",
+      "alreadyTried": true
+    },
+    "rationale": "August raise is a figure in a workspace report, so drive_search is still the right tool. Zero results on the first filename guess does not make this a question for a person; alreadyTried is true."
+  },
+  {
+    "id": "ask-gate-026",
+    "decision": "ask-gate",
+    "state": {
+      "question": "Should the nightly audit fail the build on high-severity CVEs or only on critical?",
+      "taskSummary": "Engineering desk setting the policy for the nightly dependency audit at Pinebelt Networks.",
+      "toolManifest": [
+        {
+          "name": "shell",
+          "description": "Run a command in the repo sandbox and return stdout and stderr"
+        },
+        {
+          "name": "git",
+          "description": "Run a git command in the repo"
+        },
+        {
+          "name": "repo_read",
+          "description": "Read a file from the repository by path"
+        },
+        {
+          "name": "repo_write",
+          "description": "Write or patch a file in the working tree"
+        },
+        {
+          "name": "test_runner",
+          "description": "Run the repository test suite on the current branch and return pass/fail with failures"
+        }
+      ],
+      "recentToolCalls": [
+        {
+          "tool": "shell",
+          "summary": "ran npm audit; 2 critical, 6 high, 14 moderate"
+        }
+      ]
+    },
+    "expected": {
+      "verdict": "preference",
+      "tool": null,
+      "alreadyTried": false
+    },
+    "rationale": "Severity threshold is a risk-appetite policy. The audit already produced the counts; the remaining question is how much risk the MSP will accept, which no sandbox tool can answer."
+  },
+  {
+    "id": "ask-gate-027",
+    "decision": "ask-gate",
+    "state": {
+      "question": "What's the password for Weldwright's vendor portal so I can download the cut list they said they posted?",
+      "taskSummary": "Research collecting vendor files for Harbor Light Food Rescue's kitchen-hood quote comparison.",
+      "toolManifest": [
+        {
+          "name": "web_search",
+          "description": "Search the public web by keyword and return titles, snippets, and URLs"
+        },
+        {
+          "name": "web_fetch",
+          "description": "Fetch a URL and return its text"
+        },
+        {
+          "name": "file_read",
+          "description": "Read a workspace file by path"
+        },
+        {
+          "name": "document_read",
+          "description": "Extract text from a PDF or Office document in the workspace"
+        }
+      ],
+      "recentToolCalls": [
+        {
+          "tool": "web_fetch",
+          "summary": "fetched https://portal.weldwright-shop.example/login; received a login form, no cut-list content"
+        }
+      ]
+    },
+    "expected": {
+      "verdict": "blocked",
+      "tool": null,
+      "alreadyTried": false
+    },
+    "rationale": "A vendor-portal password is a credential the bot does not have. web_fetch already hit the login wall; asking for the password is requesting missing access, not expressing a preference."
+  },
+  {
+    "id": "ask-gate-028",
+    "decision": "ask-gate",
+    "state": {
+      "question": "Did we already schedule anything for Thursday on the Facebook page, and if so what time?",
+      "taskSummary": "Marketer filling a week of Facebook posts for Calder Ridge Realty open houses.",
+      "toolManifest": [
+        {
+          "name": "facebook_post",
+          "description": "Publish a post to the connected Facebook page"
+        },
+        {
+          "name": "facebook_schedule",
+          "description": "Schedule a Facebook post for a future time"
+        },
+        {
+          "name": "facebook_list_scheduled",
+          "description": "List posts already scheduled on the connected Facebook page, with times"
+        },
+        {
+          "name": "facebook_read_metrics",
+          "description": "Read engagement metrics for Facebook posts"
+        },
+        {
+          "name": "file_read",
+          "description": "Read a workspace file by path"
+        }
+      ],
+      "recentToolCalls": []
+    },
+    "expected": {
+      "verdict": "runnable",
+      "tool": "facebook_list_scheduled",
+      "alreadyTried": false
+    },
+    "rationale": "The page schedule is available through facebook_list_scheduled. Asking a person to be the calendar skips the API the bot already has."
+  },
+  {
+    "id": "ask-gate-029",
+    "decision": "ask-gate",
+    "state": {
+      "question": "Do you still need the vendor memo by Friday close, or can it move to Monday if the third shop is late getting back to us?",
+      "taskSummary": "Lead coordinating a three-shop fabrication comparison for a restaurant group using Harbor Light's kitchen as the reference job.",
+      "toolManifest": [
+        {
+          "name": "delegate_task",
+          "description": "Assign a subtask to another bot in the room"
+        },
+        {
+          "name": "schedule_task",
+          "description": "Schedule a task or reminder for a future time"
+        },
+        {
+          "name": "file_read",
+          "description": "Read a workspace file by path"
+        },
+        {
+          "name": "web_fetch",
+          "description": "Fetch a URL and return its text"
+        },
+        {
+          "name": "room_read",
+          "description": "Read recent messages in the current room"
+        }
+      ],
+      "recentToolCalls": []
+    },
+    "expected": {
+      "verdict": "preference",
+      "tool": null,
+      "alreadyTried": false
+    },
+    "rationale": "Moving a deadline is a priority call only the person can make. schedule_task can record either date; it cannot decide whether Friday still matters."
+  },
+  {
+    "id": "ask-gate-030",
+    "decision": "ask-gate",
+    "state": {
+      "question": "Can someone reconnect the Halden Day Spa Instagram account? The publisher tool is returning 'account not authorized' and I cannot schedule Friday's reel.",
+      "taskSummary": "Marketer trying to schedule a reel for Halden Day Spa after the Instagram token expired.",
+      "toolManifest": [
+        {
+          "name": "instagram_post",
+          "description": "Publish a post to the connected Instagram account"
+        },
+        {
+          "name": "instagram_schedule",
+          "description": "Schedule a post for a future time"
+        },
+        {
+          "name": "instagram_read_metrics",
+          "description": "Read engagement metrics for Instagram posts"
+        },
+        {
+          "name": "file_read",
+          "description": "Read a workspace file by path"
+        },
+        {
+          "name": "image_generate",
+          "description": "Generate an image from a text prompt"
+        }
+      ],
+      "recentToolCalls": [
+        {
+          "tool": "instagram_schedule",
+          "summary": "attempted to schedule Friday 10:00 reel; API returned 401 account not authorized"
+        }
+      ]
+    },
+    "expected": {
+      "verdict": "blocked",
+      "tool": null,
+      "alreadyTried": false
+    },
+    "rationale": "The publisher token is dead. Reconnecting an Instagram account is an OAuth permission the bot cannot grant itself; the person has to restore access. This is missing permission, not a taste call."
+  },
+  {
+    "id": "ask-gate-031",
+    "decision": "ask-gate",
+    "state": {
+      "question": "Did anyone in the room already pick a photographer, or are we still waiting on that?",
+      "taskSummary": "Lead checking status before assigning the open-house flyer task for Calder Ridge Realty.",
+      "toolManifest": [
+        {
+          "name": "delegate_task",
+          "description": "Assign a subtask to another bot in the room"
+        },
+        {
+          "name": "schedule_task",
+          "description": "Schedule a task or reminder for a future time"
+        },
+        {
+          "name": "file_read",
+          "description": "Read a workspace file by path"
+        },
+        {
+          "name": "drive_search",
+          "description": "Search the workspace Google Drive by keyword"
+        },
+        {
+          "name": "room_read",
+          "description": "Read recent messages in the current room"
+        }
+      ],
+      "recentToolCalls": []
+    },
+    "expected": {
+      "verdict": "runnable",
+      "tool": "room_read",
+      "alreadyTried": false
+    },
+    "rationale": "Whether the room already picked a photographer is in the thread. room_read answers it; asking the room to recap itself is skipping the tool. A careless judge will tag this preference because it is phrased as a status question to people."
+  },
+  {
+    "id": "ask-gate-032",
+    "decision": "ask-gate",
+    "state": {
+      "question": "Should this fundraising email go to past donors only, or do we also send it to the board list?",
+      "taskSummary": "Marketer drafting a September appeal for Harbor Light Food Rescue and choosing the send list.",
+      "toolManifest": [
+        {
+          "name": "facebook_post",
+          "description": "Publish a post to the connected Facebook page"
+        },
+        {
+          "name": "file_read",
+          "description": "Read a workspace file by path"
+        },
+        {
+          "name": "drive_search",
+          "description": "Search the workspace Google Drive by keyword"
+        },
+        {
+          "name": "image_generate",
+          "description": "Generate an image from a text prompt"
+        }
+      ],
+      "recentToolCalls": [
+        {
+          "tool": "drive_search",
+          "summary": "searched 'donor list' and 'board list'; found both CSVs"
+        }
+      ]
+    },
+    "expected": {
+      "verdict": "preference",
+      "tool": null,
+      "alreadyTried": false
+    },
+    "rationale": "Who receives an appeal is an authority and audience call. Drive already found both lists; the remaining question is which list the nonprofit is willing to use, which no tool can decide."
+  },
+  {
+    "id": "ask-gate-033",
+    "decision": "ask-gate",
+    "state": {
+      "question": "Can we name the grocery chain in the press release this afternoon?",
+      "taskSummary": "Lead trying to finalize a partnership announcement for Harbor Light Food Rescue before scheduling social posts.",
+      "toolManifest": [
+        {
+          "name": "delegate_task",
+          "description": "Assign a subtask to another bot in the room"
+        },
+        {
+          "name": "schedule_task",
+          "description": "Schedule a task or reminder for a future time"
+        },
+        {
+          "name": "file_read",
+          "description": "Read a workspace file by path"
+        },
+        {
+          "name": "web_fetch",
+          "description": "Fetch a URL and return its text"
+        },
+        {
+          "name": "drive_search",
+          "description": "Search the workspace Google Drive by keyword"
+        },
+        {
+          "name": "room_read",
+          "description": "Read recent messages in the current room"
+        }
+      ],
+      "recentToolCalls": [
+        {
+          "tool": "room_read",
+          "summary": "last 40 messages; no board-vote result, only 'tabled until Thursday'"
+        },
+        {
+          "tool": "drive_search",
+          "summary": "searched 'board minutes September'; 0 results"
+        }
+      ]
+    },
+    "expected": {
+      "verdict": "blocked",
+      "tool": null,
+      "alreadyTried": false
+    },
+    "rationale": "Naming a partner in public needs a board vote that has not happened. Room and Drive already show the vote is tabled until Thursday; no tool can mint an outside decision, so this is blocked rather than preference."
+  },
+  {
+    "id": "ask-gate-034",
+    "decision": "ask-gate",
+    "state": {
+      "question": "Who is listed as managing partner on Meridian & Crowe's own team page?",
+      "taskSummary": "Research bot building a one-paragraph firm profile for a referral-packet cover.",
+      "toolManifest": [
+        {
+          "name": "web_search",
+          "description": "Search the public web by keyword and return titles, snippets, and URLs"
+        },
+        {
+          "name": "web_fetch",
+          "description": "Fetch a URL and return its text"
+        },
+        {
+          "name": "file_read",
+          "description": "Read a workspace file by path"
+        },
+        {
+          "name": "document_read",
+          "description": "Extract text from a PDF or Office document in the workspace"
+        }
+      ],
+      "recentToolCalls": [
+        {
+          "tool": "web_fetch",
+          "summary": "fetched https://meridiancrowe-law.example/team; page returned a JS shell with no partner names in the text"
+        }
+      ]
+    },
+    "expected": {
+      "verdict": "runnable",
+      "tool": "web_search",
+      "alreadyTried": false
+    },
+    "rationale": "The team-page fetch returned no usable text, but web_search can still settle the name from filings, bios, or a directory. Naming web_search (untried) rather than the failed fetch; alreadyTried is false because the named tool was not used."
+  },
+  {
+    "id": "ask-gate-035",
+    "decision": "ask-gate",
+    "state": {
+      "question": "Do you want me to merge PR #184 or leave it open for another pass?",
+      "taskSummary": "Engineering desk finished a review of a billing-parser PR in the Pinebelt Networks agent repo.",
+      "toolManifest": [
+        {
+          "name": "shell",
+          "description": "Run a command in the repo sandbox and return stdout and stderr"
+        },
+        {
+          "name": "git",
+          "description": "Run a git command in the repo"
+        },
+        {
+          "name": "repo_read",
+          "description": "Read a file from the repository by path"
+        },
+        {
+          "name": "repo_write",
+          "description": "Write or patch a file in the working tree"
+        },
+        {
+          "name": "test_runner",
+          "description": "Run the repository test suite on the current branch and return pass/fail with failures"
+        },
+        {
+          "name": "gh_pr",
+          "description": "Read pull-request metadata and comments from the connected GitHub repo"
+        }
+      ],
+      "recentToolCalls": [
+        {
+          "tool": "test_runner",
+          "summary": "unit suite passed, 2 skipped"
+        },
+        {
+          "tool": "gh_pr",
+          "summary": "PR #184 open, 1 approval, no requested changes"
+        }
+      ]
+    },
+    "expected": {
+      "verdict": "preference",
+      "tool": null,
+      "alreadyTried": false
+    },
+    "rationale": "Merge authority sits with the person. Tests and PR metadata are already in; the remaining question is whether they want it shipped, which no sandbox tool can answer."
+  },
+  {
+    "id": "ask-gate-036",
+    "decision": "ask-gate",
+    "state": {
+      "question": "Can you pull the open P1 tickets from ConnectWise for Birch Street Dental so I can finish the onboarding audit?",
+      "taskSummary": "Research bot compiling an onboarding-readiness memo for Pinebelt Networks' new dental-clinic client.",
+      "toolManifest": [
+        {
+          "name": "web_search",
+          "description": "Search the public web by keyword and return titles, snippets, and URLs"
+        },
+        {
+          "name": "web_fetch",
+          "description": "Fetch a URL and return its text"
+        },
+        {
+          "name": "file_read",
+          "description": "Read a workspace file by path"
+        },
+        {
+          "name": "drive_search",
+          "description": "Search the workspace Google Drive by keyword"
+        }
+      ],
+      "recentToolCalls": []
+    },
+    "expected": {
+      "verdict": "blocked",
+      "tool": null,
+      "alreadyTried": false
+    },
+    "rationale": "ConnectWise is a private PSA. Nothing in the manifest talks to it, so the bot cannot read those tickets and is blocked on access. A careless judge will call this runnable because web_search exists."
+  },
+  {
+    "id": "ask-gate-037",
+    "decision": "ask-gate",
+    "state": {
+      "question": "How many open P0 issues are currently labeled on the agent repo?",
+      "taskSummary": "Engineering desk triaging incoming issues for Pinebelt Networks before the nightly audit.",
+      "toolManifest": [
+        {
+          "name": "shell",
+          "description": "Run a command in the repo sandbox and return stdout and stderr"
+        },
+        {
+          "name": "git",
+          "description": "Run a git command in the repo"
+        },
+        {
+          "name": "repo_read",
+          "description": "Read a file from the repository by path"
+        },
+        {
+          "name": "test_runner",
+          "description": "Run the repository test suite on the current branch and return pass/fail with failures"
+        },
+        {
+          "name": "gh_issues",
+          "description": "List or read GitHub issues in the connected repository, including labels and state"
+        }
+      ],
+      "recentToolCalls": [
+        {
+          "tool": "gh_issues",
+          "summary": "listed issues with label P0; API returned 0 issues and a warning that the label may be named p0 or severity:p0"
+        }
+      ]
+    },
+    "expected": {
+      "verdict": "runnable",
+      "tool": "gh_issues",
+      "alreadyTried": true
+    },
+    "rationale": "Open P0 count is an issue-tracker fact. A first query that used the wrong label spelling does not justify asking a person; gh_issues is still the right tool and alreadyTried is true."
+  },
+  {
+    "id": "ask-gate-038",
+    "decision": "ask-gate",
+    "state": {
+      "question": "Which of these two subject lines do you want on the open-house email — 'Saturday 11–2 at 18 Calder Ridge' or 'Walk the new listing before it hits the portal'?",
+      "taskSummary": "Marketer finishing the email package for Calder Ridge Realty's weekend open house.",
+      "toolManifest": [
+        {
+          "name": "facebook_post",
+          "description": "Publish a post to the connected Facebook page"
+        },
+        {
+          "name": "facebook_schedule",
+          "description": "Schedule a Facebook post for a future time"
+        },
+        {
+          "name": "file_read",
+          "description": "Read a workspace file by path"
+        },
+        {
+          "name": "image_generate",
+          "description": "Generate an image from a text prompt"
+        },
+        {
+          "name": "drive_search",
+          "description": "Search the workspace Google Drive by keyword"
+        }
+      ],
+      "recentToolCalls": []
+    },
+    "expected": {
+      "verdict": "preference",
+      "tool": null,
+      "alreadyTried": false
+    },
+    "rationale": "Subject-line choice is taste and brand judgment. Drive could hold old examples, but it cannot pick which of these two lines ships this weekend."
+  },
+  {
+    "id": "ask-gate-039",
+    "decision": "ask-gate",
+    "state": {
+      "question": "Can you drop the AWS access key for the prod log group so I can check last night's 5xx spike?",
+      "taskSummary": "Engineering desk investigating a reported outage on Pinebelt Networks' customer portal.",
+      "toolManifest": [
+        {
+          "name": "shell",
+          "description": "Run a command in the repo sandbox and return stdout and stderr"
+        },
+        {
+          "name": "git",
+          "description": "Run a git command in the repo"
+        },
+        {
+          "name": "repo_read",
+          "description": "Read a file from the repository by path"
+        },
+        {
+          "name": "test_runner",
+          "description": "Run the repository test suite on the current branch and return pass/fail with failures"
+        }
+      ],
+      "recentToolCalls": [
+        {
+          "tool": "shell",
+          "summary": "aws logs tail failed: Unable to locate credentials"
+        }
+      ]
+    },
+    "expected": {
+      "verdict": "blocked",
+      "tool": null,
+      "alreadyTried": false
+    },
+    "rationale": "Prod log access needs a credential the sandbox does not have. shell already failed on missing credentials; asking for the key is requesting access the bot lacks, not a preference."
+  },
+  {
+    "id": "ask-gate-040",
+    "decision": "ask-gate",
+    "state": {
+      "question": "How aggressive should the discount language be on this week's story — 20% off in the first frame, or just 'members get a break' with no number?",
+      "taskSummary": "Marketer building Instagram stories for Stack & Shuffle Games' Friday singles-night promo.",
+      "toolManifest": [
+        {
+          "name": "instagram_post",
+          "description": "Publish a post to the connected Instagram account"
+        },
+        {
+          "name": "instagram_schedule",
+          "description": "Schedule a post for a future time"
+        },
+        {
+          "name": "instagram_read_metrics",
+          "description": "Read engagement metrics for Instagram posts"
+        },
+        {
+          "name": "file_read",
+          "description": "Read a workspace file by path"
+        },
+        {
+          "name": "image_generate",
+          "description": "Generate an image from a text prompt"
+        }
+      ],
+      "recentToolCalls": []
+    },
+    "expected": {
+      "verdict": "preference",
+      "tool": null,
+      "alreadyTried": false
+    },
+    "rationale": "How hard to push a discount is a pricing and brand-risk call. Publishing and image tools will render either version; they cannot choose the stance."
+  }
+]

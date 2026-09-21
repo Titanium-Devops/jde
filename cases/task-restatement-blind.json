@@ -1,0 +1,1467 @@
+[
+  {
+    "id": "task-restatement-001",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Northbridge & Vale needs a launch plan for the new estate-planning webinar series. Split the work: one of you pull last year's attendee list and note which topics pulled the most questions, another draft a three-email sequence for existing clients, and I want a one-page brief I can send the partners Thursday. Do not contact any clients yet.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Pull last year's attendee list and note which topics generated the most questions"
+        },
+        {
+          "id": "p2",
+          "text": "Draft a three-email sequence for existing clients"
+        },
+        {
+          "id": "p3",
+          "text": "Produce a one-page brief for the partners by Thursday"
+        },
+        {
+          "id": "p4",
+          "text": "Do not contact any clients"
+        }
+      ],
+      "restatement": "I'll coordinate three workstreams for the Northbridge & Vale estate-planning webinar launch: recover last year's attendee list and flag the topics that drew the most questions; draft a three-email sequence aimed at current clients; and assemble a one-page partner brief due Thursday. Nobody reaches out to clients at this stage."
+    },
+    "expected": {
+      "verdict": "accept",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered",
+        "p3": "covered",
+        "p4": "covered"
+      },
+      "addedRequirement": false,
+      "parrot": false
+    },
+    "rationale": "Every ask is restated with the same constraints and the no-contact rule is kept. Wording is different enough that this is not a parrot."
+  },
+  {
+    "id": "task-restatement-002",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Write a week's worth of Instagram posts for Hex & Helm. Theme is pre-release week for the new Elderglen set. Need 5 feed posts and 3 stories. Mention Friday night prerelease, $25 entry, and that we still have booster boxes. Don't promise product we might not have after Saturday.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Write five Instagram feed posts for Hex & Helm Elderglen pre-release week"
+        },
+        {
+          "id": "p2",
+          "text": "Write three Instagram stories"
+        },
+        {
+          "id": "p3",
+          "text": "Mention the Friday night prerelease and the $25 entry"
+        },
+        {
+          "id": "p4",
+          "text": "Mention that booster boxes are still in stock"
+        },
+        {
+          "id": "p5",
+          "text": "Do not promise product availability after Saturday"
+        }
+      ],
+      "restatement": "Draft five feed posts and three stories for Hex & Helm covering Elderglen pre-release week. Every relevant post should name the Friday night prerelease ($25) and that booster boxes are still in stock, and none of them should guarantee product after Saturday."
+    },
+    "expected": {
+      "verdict": "accept",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered",
+        "p3": "covered",
+        "p4": "covered",
+        "p5": "covered"
+      },
+      "addedRequirement": false,
+      "parrot": false
+    },
+    "rationale": "Short restatement still hits count, platform, price, stock mention, and the Saturday availability limit. Compression is not omission."
+  },
+  {
+    "id": "task-restatement-003",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Compare HarborStack, NimbusOps, and Redline for a 40-person MSP that already runs Datto RMM. I care about PSA overlap, onboarding time, and whether they can ingest our existing alert rules. One-page rec with a single recommendation.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Compare HarborStack, NimbusOps, and Redline"
+        },
+        {
+          "id": "p2",
+          "text": "Evaluate PSA overlap"
+        },
+        {
+          "id": "p3",
+          "text": "Evaluate onboarding time"
+        },
+        {
+          "id": "p4",
+          "text": "Evaluate whether existing Datto RMM alert rules can be ingested"
+        },
+        {
+          "id": "p5",
+          "text": "Deliver a one-page recommendation naming a single vendor"
+        }
+      ],
+      "restatement": "I'll compare HarborStack, NimbusOps, and Redline for a 40-person shop already on Datto RMM, scoring PSA overlap, time-to-onboard, and whether existing alert rules can be imported. Output is a one-page rec with one vendor picked."
+    },
+    "expected": {
+      "verdict": "accept",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered",
+        "p3": "covered",
+        "p4": "covered",
+        "p5": "covered"
+      },
+      "addedRequirement": false,
+      "parrot": false
+    },
+    "rationale": "All three vendors, all three criteria, the Datto context, and the single-pick one-pager are present. No extra deliverable."
+  },
+  {
+    "id": "task-restatement-004",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Review PR #418 on the shop-floor scanner repo. It's supposed to stop double-scans when the same barcode hits two pistols within 3 seconds. Check the test names match the ticket, and flag if they touched the label printer path. Don't merge it.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Review PR #418 in the shop-floor scanner repo"
+        },
+        {
+          "id": "p2",
+          "text": "Verify it prevents double-scans of the same barcode within 3 seconds"
+        },
+        {
+          "id": "p3",
+          "text": "Check that test names match the ticket"
+        },
+        {
+          "id": "p4",
+          "text": "Flag any changes to the label printer path"
+        },
+        {
+          "id": "p5",
+          "text": "Do not merge the PR"
+        }
+      ],
+      "restatement": "Going through PR 418 on the scanner repo for the 3-second double-scan guard. I'll confirm the tests are named after the ticket and call out any edits in the label-printer path. Leaving it unmerged."
+    },
+    "expected": {
+      "verdict": "accept",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered",
+        "p3": "covered",
+        "p4": "covered",
+        "p5": "covered"
+      },
+      "addedRequirement": false,
+      "parrot": false
+    },
+    "rationale": "Short engineering restatement still names the PR, the 3-second behavior, the test-name check, the printer-path watch, and the no-merge rule."
+  },
+  {
+    "id": "task-restatement-005",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Drop a digest of today's standup in the #ops-room. Capture who owns the freezer-alarm ticket, the decision on Saturday overtime, and the open question about the new press brake vendor. Keep it under half a page. No verbatim quotes.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Post a standup digest in #ops-room"
+        },
+        {
+          "id": "p2",
+          "text": "Record who owns the freezer-alarm ticket"
+        },
+        {
+          "id": "p3",
+          "text": "Record the Saturday overtime decision"
+        },
+        {
+          "id": "p4",
+          "text": "Record the open question about the press brake vendor"
+        },
+        {
+          "id": "p5",
+          "text": "Keep the digest under half a page and avoid verbatim quotes"
+        }
+      ],
+      "restatement": "I'll post a short (under half a page) standup digest to #ops-room covering who has the freezer-alarm ticket, what we decided about Saturday overtime, and the unresolved press-brake vendor question. I won't quote people word for word."
+    },
+    "expected": {
+      "verdict": "accept",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered",
+        "p3": "covered",
+        "p4": "covered",
+        "p5": "covered"
+      },
+      "addedRequirement": false,
+      "parrot": false
+    },
+    "rationale": "Scribe restatement keeps destination, three content items, length cap, and no-quotes rule without copying the request."
+  },
+  {
+    "id": "task-restatement-006",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Go through yesterday's replies on the @CrowfieldPartners account and draft responses for the three that asked about the Millbridge open house. Tone is warm but don't confirm a specific agent until Mara assigns one. Don't post anything, just leave drafts in the room.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Review yesterday's replies on @CrowfieldPartners"
+        },
+        {
+          "id": "p2",
+          "text": "Draft responses to the three Millbridge open-house questions"
+        },
+        {
+          "id": "p3",
+          "text": "Use a warm tone"
+        },
+        {
+          "id": "p4",
+          "text": "Do not name a specific agent"
+        },
+        {
+          "id": "p5",
+          "text": "Do not post; leave drafts in the room"
+        }
+      ],
+      "restatement": "I'll read yesterday's @CrowfieldPartners replies, write warm draft answers for the three Millbridge open-house questions, and leave those drafts in the room without posting. No agent name until Mara assigns one."
+    },
+    "expected": {
+      "verdict": "accept",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered",
+        "p3": "covered",
+        "p4": "covered",
+        "p5": "covered"
+      },
+      "addedRequirement": false,
+      "parrot": false
+    },
+    "rationale": "Platform, which replies, tone, the agent-hold, and draft-only are all present. Not a parrot."
+  },
+  {
+    "id": "task-restatement-007",
+    "decision": "task-restatement",
+    "state": {
+      "task": "We need to audit gablestreetmusic.example before the board packet goes out Friday. Check the donate flow on mobile, list every page still showing last year's gala photos, and write a two-paragraph note the ED can paste into the packet. Don't change anything live.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Audit gablestreetmusic.example before Friday's board packet"
+        },
+        {
+          "id": "p2",
+          "text": "Check the donate flow on mobile"
+        },
+        {
+          "id": "p3",
+          "text": "List pages still showing last year's gala photos"
+        },
+        {
+          "id": "p4",
+          "text": "Write a two-paragraph note for the executive director"
+        },
+        {
+          "id": "p5",
+          "text": "Do not change anything live"
+        }
+      ],
+      "restatement": "Before Friday's board packet I'll review gablestreetmusic.example: test the mobile donate path, inventory pages that still use last year's gala photos, and draft a two-paragraph note the executive director can paste in. No live edits."
+    },
+    "expected": {
+      "verdict": "accept",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered",
+        "p3": "covered",
+        "p4": "covered",
+        "p5": "covered"
+      },
+      "addedRequirement": false,
+      "parrot": false
+    },
+    "rationale": "Site, deadline, two audit items, note length/audience, and the no-live-edit rule are all kept."
+  },
+  {
+    "id": "task-restatement-008",
+    "decision": "task-restatement",
+    "state": {
+      "task": "A partner at Helm & Caster told a client that most Wisconsin counties still require wet-ink originals for quitclaim deeds. Confirm or kill that. I want the statute or a county recorder page, and a sentence I can forward.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Verify whether most Wisconsin counties require wet-ink originals for quitclaim deeds"
+        },
+        {
+          "id": "p2",
+          "text": "Cite a statute or county recorder page"
+        },
+        {
+          "id": "p3",
+          "text": "Provide one forwardable sentence"
+        }
+      ],
+      "restatement": "I'll check whether most Wisconsin counties still insist on wet-ink originals for quitclaim deeds, grab the statute or a recorder's page as evidence, and write one sentence you can forward to the client."
+    },
+    "expected": {
+      "verdict": "accept",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered",
+        "p3": "covered"
+      },
+      "addedRequirement": false,
+      "parrot": false
+    },
+    "rationale": "Claim, evidence type, and forwardable sentence are all present with different wording."
+  },
+  {
+    "id": "task-restatement-009",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Run the nightly dependency audit on pallet-vision. If anything in production-lock is more than two majors behind current, open a ticket and paste the list in #eng-nightly. Skip dev-only packages. Don't bump anything yourself.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Run the nightly dependency audit on pallet-vision"
+        },
+        {
+          "id": "p2",
+          "text": "Open a ticket when a production-lock package is more than two majors behind"
+        },
+        {
+          "id": "p3",
+          "text": "Paste the outdated list in #eng-nightly"
+        },
+        {
+          "id": "p4",
+          "text": "Skip dev-only packages"
+        },
+        {
+          "id": "p5",
+          "text": "Do not bump versions"
+        }
+      ],
+      "restatement": "I'll audit pallet-vision production-lock dependencies, skip anything that's dev-only, and if a prod package is more than two major versions behind I'll open a ticket and drop the list in #eng-nightly. No version bumps from me."
+    },
+    "expected": {
+      "verdict": "accept",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered",
+        "p3": "covered",
+        "p4": "covered",
+        "p5": "covered"
+      },
+      "addedRequirement": false,
+      "parrot": false
+    },
+    "rationale": "Audit target, two-major threshold, channel, dev-only skip, and no-bump rule all survive a compact paraphrase."
+  },
+  {
+    "id": "task-restatement-010",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Take the draft in drafts/summer-sale.md and rewrite it for the Facebook page of Ironwell Works. Same offer — 15% off shop-floor fixtures through June 30 — but drop the slang and write like a plant manager talking to other plant managers. Don't change the price or the end date.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Rewrite drafts/summer-sale.md for Ironwell Works' Facebook page"
+        },
+        {
+          "id": "p2",
+          "text": "Keep the 15% off shop-floor fixtures through June 30 offer"
+        },
+        {
+          "id": "p3",
+          "text": "Remove slang and use a plant-manager-to-peer tone"
+        },
+        {
+          "id": "p4",
+          "text": "Do not change the price or the end date"
+        }
+      ],
+      "restatement": "Rewriting the summer-sale draft for Ironwell's Facebook in a plant-manager-to-plant-manager voice, keeping the 15% fixture discount through June 30 and leaving price and date untouched. Slang comes out."
+    },
+    "expected": {
+      "verdict": "accept",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered",
+        "p3": "covered",
+        "p4": "covered"
+      },
+      "addedRequirement": false,
+      "parrot": false
+    },
+    "rationale": "Source file, platform, offer, tone, and the don't-touch-price-or-date constraint are all covered."
+  },
+  {
+    "id": "task-restatement-011",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Three movers quoted the Harbor Street office: Atlas Cartage, Twin Rivers Transfer, and Peck & Sons. Read the PDFs in /quotes, check whether any of them are bonded for electronics, and recommend one by noon. Budget ceiling is $4,200. I don't need a comparison matrix, just the pick and why.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Read the quotes from Atlas Cartage, Twin Rivers Transfer, and Peck & Sons"
+        },
+        {
+          "id": "p2",
+          "text": "Check which movers are bonded for electronics"
+        },
+        {
+          "id": "p3",
+          "text": "Recommend one vendor by noon"
+        },
+        {
+          "id": "p4",
+          "text": "Stay within a $4,200 budget"
+        },
+        {
+          "id": "p5",
+          "text": "Deliver only the pick and rationale, not a comparison matrix"
+        }
+      ],
+      "restatement": "I'll read the three Harbor Street mover quotes, confirm electronics bonding, and by noon name one vendor under $4,200 with a short why. No matrix."
+    },
+    "expected": {
+      "verdict": "accept",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered",
+        "p3": "covered",
+        "p4": "covered",
+        "p5": "covered"
+      },
+      "addedRequirement": false,
+      "parrot": false
+    },
+    "rationale": "Short and still complete: three quotes, bonding, noon deadline, budget cap, and no-matrix instruction."
+  },
+  {
+    "id": "task-restatement-012",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Who actually runs Barrow & Pike now? I keep seeing the founder's name on the letterhead but I think she stepped back. Need this for the conflict check.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Identify who currently runs Barrow & Pike"
+        },
+        {
+          "id": "p2",
+          "text": "Clarify whether the founder still has an operating role"
+        },
+        {
+          "id": "p3",
+          "text": "Produce an answer usable for a conflict check"
+        }
+      ],
+      "restatement": "I'll find the current operating principal at Barrow & Pike and whether the founder still has an operating role, so you can use it in the conflict check. Letterhead alone isn't enough."
+    },
+    "expected": {
+      "verdict": "accept",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered",
+        "p3": "covered"
+      },
+      "addedRequirement": false,
+      "parrot": false
+    },
+    "rationale": "The request is ambiguous about legal control versus day-to-day management; reading it as current operating principal plus founder status is defensible given the letterhead remark and the conflict-check use. No extra work is promised."
+  },
+  {
+    "id": "task-restatement-013",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Plan seven Instagram posts for Ember House's volunteer week. Include a sign-up link in every caption, use only photos from the /approved-field folder, and put a draft calendar in the room by Wednesday. Do not publish.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Plan seven Instagram posts for Ember House volunteer week"
+        },
+        {
+          "id": "p2",
+          "text": "Include a sign-up link in every caption"
+        },
+        {
+          "id": "p3",
+          "text": "Use only photos from /approved-field"
+        },
+        {
+          "id": "p4",
+          "text": "Put a draft calendar in the room by Wednesday"
+        },
+        {
+          "id": "p5",
+          "text": "Do not publish"
+        }
+      ],
+      "restatement": "I'll draft seven volunteer-week Instagram posts for Ember House, each caption carrying the sign-up link, using only approved-field photos. Nothing goes live."
+    },
+    "expected": {
+      "verdict": "revise",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered",
+        "p3": "covered",
+        "p4": "uncovered",
+        "p5": "covered"
+      },
+      "addedRequirement": false,
+      "parrot": false
+    },
+    "rationale": "The Wednesday draft-calendar deliverable is simply missing. A careless judge sees seven posts, captions, photo source, and don't-publish and accepts; a careful one notices the deadline artifact is gone."
+  },
+  {
+    "id": "task-restatement-014",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Write four X posts announcing Marshview Realty's Oakridge listing. Lead with the Sunday 1-3 open house. No Facebook, no Instagram — the client only paid for X this month.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Write four X posts for the Oakridge listing"
+        },
+        {
+          "id": "p2",
+          "text": "Lead with the Sunday 1-3 open house"
+        },
+        {
+          "id": "p3",
+          "text": "Do not produce Facebook or Instagram content"
+        }
+      ],
+      "restatement": "I'll put together four social posts for the Oakridge listing, opening on the Sunday 1–3 open house, and I can adapt them across X and Instagram so the team has options."
+    },
+    "expected": {
+      "verdict": "revise",
+      "parts": {
+        "p1": "uncovered",
+        "p2": "covered",
+        "p3": "uncovered"
+      },
+      "addedRequirement": true,
+      "parrot": false
+    },
+    "rationale": "The restatement treats the job as multi-platform social and offers Instagram, which the request explicitly forbade. That is both a changed constraint on p1/p3 and an added requirement."
+  },
+  {
+    "id": "task-restatement-015",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Summarize last quarter's engagement on the Split Deck Facebook page. I need saves, shares, and link clicks, not vanity likes. Compare to the same quarter last year.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Summarize last quarter's Split Deck Facebook engagement"
+        },
+        {
+          "id": "p2",
+          "text": "Report saves, shares, and link clicks rather than likes"
+        },
+        {
+          "id": "p3",
+          "text": "Compare those metrics to the same quarter last year"
+        }
+      ],
+      "restatement": "I'll pull Split Deck Facebook saves, shares, and link clicks for the last 30 days and stack them against the prior 30 days, leaving likes out of the writeup."
+    },
+    "expected": {
+      "verdict": "revise",
+      "parts": {
+        "p1": "uncovered",
+        "p2": "covered",
+        "p3": "uncovered"
+      },
+      "addedRequirement": false,
+      "parrot": false
+    },
+    "rationale": "Right metrics, wrong window: last-30-vs-prior-30 is not last-quarter-vs-same-quarter-last-year. Easy to miss because the metric list looks careful."
+  },
+  {
+    "id": "task-restatement-016",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Draft replies to the three complaint comments on Weldwright's Facebook post about lead times. Empathetic, no discounts offered, and do not post them — leave them in the thread for Mara to approve.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Draft replies to the three complaint comments"
+        },
+        {
+          "id": "p2",
+          "text": "Use an empathetic tone"
+        },
+        {
+          "id": "p3",
+          "text": "Do not offer discounts"
+        },
+        {
+          "id": "p4",
+          "text": "Do not post; leave drafts for Mara to approve"
+        }
+      ],
+      "restatement": "I'll write empathetic replies to the three lead-time complaints on Weldwright's Facebook post, skip any discount language, and publish them so the thread doesn't sit unanswered."
+    },
+    "expected": {
+      "verdict": "revise",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered",
+        "p3": "covered",
+        "p4": "uncovered"
+      },
+      "addedRequirement": false,
+      "parrot": false
+    },
+    "rationale": "Three of four constraints look right; the fourth is inverted from hold-for-approval to publish. A careless judge scores it accept."
+  },
+  {
+    "id": "task-restatement-017",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Find out who owns the registered-agent slot at Northline Surveying and whether the firm is in good standing with the Wisconsin DFI. One paragraph is enough.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Identify who holds the registered-agent slot at Northline Surveying"
+        },
+        {
+          "id": "p2",
+          "text": "Check good standing with the Wisconsin DFI"
+        },
+        {
+          "id": "p3",
+          "text": "Deliver the answer in one paragraph"
+        }
+      ],
+      "restatement": "I'll look up Northline Surveying's registered agent and Wisconsin DFI standing and write a one-paragraph note. I'll also pull their UCC filings and any construction-lien history so you have the full picture."
+    },
+    "expected": {
+      "verdict": "revise",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered",
+        "p3": "covered"
+      },
+      "addedRequirement": true,
+      "parrot": false
+    },
+    "rationale": "Every asked part is covered, but UCC filings and lien history are new work the request did not ask for. Helpfulness is still an added requirement."
+  },
+  {
+    "id": "task-restatement-018",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Write a week of X posts for Lakeside Byte's consumer line — homeowners and small landlords, not the enterprise RMM audience. Topics: phishing texts, router checkups, and backup before vacation. Keep each post under 200 characters. No product names.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Write a week of X posts for Lakeside Byte's consumer line"
+        },
+        {
+          "id": "p2",
+          "text": "Address homeowners and small landlords, not the enterprise RMM audience"
+        },
+        {
+          "id": "p3",
+          "text": "Cover phishing texts, router checkups, and pre-vacation backups"
+        },
+        {
+          "id": "p4",
+          "text": "Keep each post under 200 characters"
+        },
+        {
+          "id": "p5",
+          "text": "Do not use product names"
+        }
+      ],
+      "restatement": "I'll draft a week's X content for Lakeside Byte aimed at the IT directors we already sell RMM to, covering phishing texts, router hygiene, and pre-vacation backups. Each post stays under 200 characters and I won't name products. I can also add a CTA to book a QBR if that helps conversion."
+    },
+    "expected": {
+      "verdict": "revise",
+      "parts": {
+        "p1": "covered",
+        "p2": "uncovered",
+        "p3": "covered",
+        "p4": "covered",
+        "p5": "covered"
+      },
+      "addedRequirement": true,
+      "parrot": false
+    },
+    "rationale": "Long restatement keeps platform, topics, length, and no-product-names, so it looks careful. It swaps the audience for the one the request excluded and adds a QBR CTA."
+  },
+  {
+    "id": "task-restatement-019",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Look at three badge printers for Dragonwell Games: Zebra ZD621, Rollo X1040, and Brother QL-1110NWB. I need print quality on foil labels, ribbon cost per 1000, and which one we should buy. Counter space is 10 inches.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Compare the Zebra ZD621, Rollo X1040, and Brother QL-1110NWB"
+        },
+        {
+          "id": "p2",
+          "text": "Evaluate print quality on foil labels"
+        },
+        {
+          "id": "p3",
+          "text": "Report ribbon cost per 1000 labels"
+        },
+        {
+          "id": "p4",
+          "text": "Recommend which printer to buy"
+        },
+        {
+          "id": "p5",
+          "text": "Respect a 10-inch counter-space limit"
+        }
+      ],
+      "restatement": "I'll compare the Zebra ZD621, Rollo X1040, and Brother QL-1110NWB on foil-label print quality and ribbon cost per thousand, and I'll note which ones fit a 10-inch counter."
+    },
+    "expected": {
+      "verdict": "revise",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered",
+        "p3": "covered",
+        "p4": "uncovered",
+        "p5": "covered"
+      },
+      "addedRequirement": false,
+      "parrot": false
+    },
+    "rationale": "Research restatement sounds complete but drops the actual decision the shop asked for. Comparison without a pick is uncovered p4."
+  },
+  {
+    "id": "task-restatement-020",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Need five Instagram stories for Saturday's prerelease at Shuffle & Spar. Use the Thornvale art in /assets/set-art only. Draft them and stop. I'll hit publish from my phone.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Create five Instagram stories for Saturday's prerelease at Shuffle & Spar"
+        },
+        {
+          "id": "p2",
+          "text": "Use only Thornvale art from /assets/set-art"
+        },
+        {
+          "id": "p3",
+          "text": "Draft only; do not publish or schedule"
+        }
+      ],
+      "restatement": "I'll build five Instagram stories for Saturday's Shuffle & Spar prerelease using only the Thornvale art in /assets/set-art, and I'll schedule them to go out Saturday morning so you don't have to touch your phone."
+    },
+    "expected": {
+      "verdict": "revise",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered",
+        "p3": "uncovered"
+      },
+      "addedRequirement": true,
+      "parrot": false
+    },
+    "rationale": "Asset constraint is kept; draft-and-stop is flipped into a scheduled publish, which is both uncovered p3 and an added action."
+  },
+  {
+    "id": "task-restatement-021",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Go through the board deck and clean it up before Thursday's packet.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Review the existing board deck"
+        },
+        {
+          "id": "p2",
+          "text": "Edit/clean the existing deck rather than replace it"
+        },
+        {
+          "id": "p3",
+          "text": "Have it ready for Thursday's packet"
+        }
+      ],
+      "restatement": "I'll rebuild the board deck from scratch with a new narrative arc and fresh charts so Thursday's packet looks like a redesign."
+    },
+    "expected": {
+      "verdict": "revise",
+      "parts": {
+        "p1": "covered",
+        "p2": "uncovered",
+        "p3": "covered"
+      },
+      "addedRequirement": true,
+      "parrot": false
+    },
+    "rationale": "'Clean it up' is ambiguous, but rebuild-from-scratch with a new narrative is not a defensible reading of cleanup. The redesign and fresh charts are added requirements."
+  },
+  {
+    "id": "task-restatement-022",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Triage the new issues in kiln-sense from the last 24 hours. Anything with 'thermocouple' in the title goes to Lena. Anything that mentions the hopper gate needs a repro note before you assign it. Don't close duplicates yet, just tag them.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Triage kiln-sense issues from the last 24 hours"
+        },
+        {
+          "id": "p2",
+          "text": "Assign issues with 'thermocouple' in the title to Lena"
+        },
+        {
+          "id": "p3",
+          "text": "Add a repro note to hopper-gate issues before assigning"
+        },
+        {
+          "id": "p4",
+          "text": "Tag duplicates rather than closing them"
+        }
+      ],
+      "restatement": "I'll triage last night's kiln-sense issues, send thermocouple-titled tickets to Lena, and close anything that looks like a duplicate of an open ticket so the board stays clean. Hopper-gate ones I'll assign as soon as I see them."
+    },
+    "expected": {
+      "verdict": "revise",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered",
+        "p3": "uncovered",
+        "p4": "uncovered"
+      },
+      "addedRequirement": false,
+      "parrot": false
+    },
+    "rationale": "Owner routing is right; the restatement skips the repro-note gate and closes duplicates instead of tagging them."
+  },
+  {
+    "id": "task-restatement-023",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Write notes from the vendor call with Twin Rivers Transfer, not the internal standup. Capture the date they can do Harbor Street, whether overtime is extra, and the insurance-certificate question. File them in /notes/movers.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Write notes from the Twin Rivers Transfer vendor call, not the standup"
+        },
+        {
+          "id": "p2",
+          "text": "Capture the Harbor Street move date"
+        },
+        {
+          "id": "p3",
+          "text": "Capture whether overtime costs extra"
+        },
+        {
+          "id": "p4",
+          "text": "Capture the insurance-certificate question"
+        },
+        {
+          "id": "p5",
+          "text": "File the notes in /notes/movers"
+        }
+      ],
+      "restatement": "I'll write up this morning's standup for the room, including the Harbor Street move date, overtime, and the insurance-certificate question, and drop the file in /notes/movers."
+    },
+    "expected": {
+      "verdict": "revise",
+      "parts": {
+        "p1": "uncovered",
+        "p2": "covered",
+        "p3": "covered",
+        "p4": "covered",
+        "p5": "covered"
+      },
+      "addedRequirement": false,
+      "parrot": false
+    },
+    "rationale": "Every content bullet and the file path are right, so this looks accept-able. The source meeting is the one the request told the scribe not to use."
+  },
+  {
+    "id": "task-restatement-024",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Research whether Peck & Sons has any Better Business Bureau complaints in the last three years and whether they're still bonded. Short answer.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Check Peck & Sons for BBB complaints in the last three years"
+        },
+        {
+          "id": "p2",
+          "text": "Check whether Peck & Sons is still bonded"
+        },
+        {
+          "id": "p3",
+          "text": "Keep the answer short"
+        }
+      ],
+      "restatement": "I'll check Peck & Sons for BBB complaints over the last three years and current bonding status, and I'll write it up as a formal two-page memo with a risk score out of ten so the partners can file it."
+    },
+    "expected": {
+      "verdict": "revise",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered",
+        "p3": "uncovered"
+      },
+      "addedRequirement": true,
+      "parrot": false
+    },
+    "rationale": "Both research asks are covered, but 'short answer' is replaced by a two-page scored memo the request did not ask for."
+  },
+  {
+    "id": "task-restatement-025",
+    "decision": "task-restatement",
+    "state": {
+      "task": "We already picked HarborStack. Write the one-page brief that tells the partners why NimbusOps and Redline lost, not a fresh bake-off.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Write a one-page brief for the partners"
+        },
+        {
+          "id": "p2",
+          "text": "Explain why NimbusOps and Redline lost"
+        },
+        {
+          "id": "p3",
+          "text": "Do not rerun a comparison of all three vendors"
+        }
+      ],
+      "restatement": "I'll reopen the HarborStack / NimbusOps / Redline comparison and write a one-page brief that scores all three again so the partners can confirm the pick."
+    },
+    "expected": {
+      "verdict": "revise",
+      "parts": {
+        "p1": "covered",
+        "p2": "uncovered",
+        "p3": "uncovered"
+      },
+      "addedRequirement": true,
+      "parrot": false
+    },
+    "rationale": "The restatement inverts a closed decision back into a bake-off. p2 (why the losers lost) and p3 (no fresh comparison) are both uncovered."
+  },
+  {
+    "id": "task-restatement-026",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Audit last month's scheduled posts on the @CrowfieldPartners X account. Tell me which ones used the old logo and list the post IDs. Don't delete or unschedule anything.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Audit last month's scheduled posts on @CrowfieldPartners X"
+        },
+        {
+          "id": "p2",
+          "text": "Identify posts that used the old logo"
+        },
+        {
+          "id": "p3",
+          "text": "List those post IDs"
+        },
+        {
+          "id": "p4",
+          "text": "Do not delete or unschedule any posts"
+        }
+      ],
+      "restatement": "I'll scan last month's published @CrowfieldPartners X posts for the old logo and take down any that still have it so the grid is clean."
+    },
+    "expected": {
+      "verdict": "revise",
+      "parts": {
+        "p1": "uncovered",
+        "p2": "covered",
+        "p3": "uncovered",
+        "p4": "uncovered"
+      },
+      "addedRequirement": false,
+      "parrot": false
+    },
+    "rationale": "Wrong object (published vs scheduled), no ID list, and the don't-touch rule is inverted into taking posts down."
+  },
+  {
+    "id": "task-restatement-027",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Pull the attendee list from last year's South Pier Literacy gala and give me a count by zip code. That's the whole ask.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Pull last year's South Pier Literacy gala attendee list"
+        },
+        {
+          "id": "p2",
+          "text": "Count attendees by zip code"
+        }
+      ],
+      "restatement": "I'll pull last year's South Pier Literacy gala attendee list, tally it by zip code, and I'll also tag each household by likely giving tier based on last year's paddle-raise so development can segment the list."
+    },
+    "expected": {
+      "verdict": "revise",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered"
+      },
+      "addedRequirement": true,
+      "parrot": false
+    },
+    "rationale": "Both requested parts are covered. The giving-tier tags are extra work the request boxed out with 'that's the whole ask.'"
+  },
+  {
+    "id": "task-restatement-028",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Review PR #512 on the scanner repo. The ticket says it only changes the beep tone when a double-scan is blocked. Confirm that's the only behavior change, run the existing tests, and leave a comment. Do not request additional reviewers.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Review PR #512 on the scanner repo"
+        },
+        {
+          "id": "p2",
+          "text": "Confirm the only behavior change is the blocked-double-scan beep tone"
+        },
+        {
+          "id": "p3",
+          "text": "Run the existing tests"
+        },
+        {
+          "id": "p4",
+          "text": "Leave a review comment"
+        },
+        {
+          "id": "p5",
+          "text": "Do not request additional reviewers"
+        }
+      ],
+      "restatement": "I'll review PR 512, run the existing tests, and comment. I'll also open a follow-up ticket to add snapshot tests for the printer path and request two more reviewers from the firmware channel because beep-tone changes tend to hide regressions. If the diff touches anything besides the tone I'll still approve as long as tests pass."
+    },
+    "expected": {
+      "verdict": "revise",
+      "parts": {
+        "p1": "covered",
+        "p2": "uncovered",
+        "p3": "covered",
+        "p4": "covered",
+        "p5": "uncovered"
+      },
+      "addedRequirement": true,
+      "parrot": false
+    },
+    "rationale": "Long, confident engineering restatement that keeps review/tests/comment and then violates the only-behavior-change check, the no-extra-reviewers rule, and adds a follow-up ticket."
+  },
+  {
+    "id": "task-restatement-029",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Write five Facebook posts for Redcedar IT announcing the new after-hours phone tree. Mention the 7pm cutoff and the Saturday callback window.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Write five Facebook posts for Redcedar IT"
+        },
+        {
+          "id": "p2",
+          "text": "Announce the new after-hours phone tree"
+        },
+        {
+          "id": "p3",
+          "text": "Mention the 7pm cutoff and the Saturday callback window"
+        }
+      ],
+      "restatement": "Write five Facebook posts for Redcedar IT announcing the new after-hours phone tree. Mention the 7pm cutoff and the Saturday callback window."
+    },
+    "expected": {
+      "verdict": "escalate",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered",
+        "p3": "covered"
+      },
+      "addedRequirement": false,
+      "parrot": true
+    },
+    "rationale": "Exact copy of the request. Parts happen to be covered because nothing was changed; the restatement shows no reading, so the verdict is escalate."
+  },
+  {
+    "id": "task-restatement-030",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Summarize April engagement on Pike Foundry's Instagram and flag the three posts with the highest save rate.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Summarize April engagement on Pike Foundry's Instagram"
+        },
+        {
+          "id": "p2",
+          "text": "Flag the three posts with the highest save rate"
+        }
+      ],
+      "restatement": "I will summarize April engagement on Pike Foundry's Instagram and flag the three posts with the highest save rate."
+    },
+    "expected": {
+      "verdict": "escalate",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered"
+      },
+      "addedRequirement": false,
+      "parrot": true
+    },
+    "rationale": "Only change is 'I will' prepended to the original sentence. That is a trivial reword, not evidence the bot parsed the ask."
+  },
+  {
+    "id": "task-restatement-031",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Check whether Quillwright Legal's Madison office is still listed as the registered agent for Northline Surveying on the Wisconsin DFI site.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Check the Wisconsin DFI listing for Northline Surveying"
+        },
+        {
+          "id": "p2",
+          "text": "Confirm whether Quillwright Legal's Madison office is still the registered agent"
+        }
+      ],
+      "restatement": "The user wants me to check whether Quillwright Legal's Madison office is still listed as the registered agent for Northline Surveying on the Wisconsin DFI site."
+    },
+    "expected": {
+      "verdict": "escalate",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered"
+      },
+      "addedRequirement": false,
+      "parrot": true
+    },
+    "rationale": "Prefixing 'The user wants me to' onto a verbatim request is a parrot. No constraint was interpreted."
+  },
+  {
+    "id": "task-restatement-032",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Triage new issues in route-board from the last 24 hours and assign anything with 'geofence' in the title to Priya.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Triage route-board issues from the last 24 hours"
+        },
+        {
+          "id": "p2",
+          "text": "Assign issues titled with 'geofence' to Priya"
+        }
+      ],
+      "restatement": "Understood. Triage new issues in route-board from the last 24 hours and assign anything with 'geofence' in the title to Priya."
+    },
+    "expected": {
+      "verdict": "escalate",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered"
+      },
+      "addedRequirement": false,
+      "parrot": true
+    },
+    "rationale": "'Understood.' plus the original sentence is acknowledgment, not restatement. Escalate as a parrot."
+  },
+  {
+    "id": "task-restatement-033",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Produce notes from the Ember House kitchen-walkthrough. Capture the cooler-temperature decision and the open item on volunteer shifts. File in /notes/kitchen.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Produce notes from the Ember House kitchen-walkthrough"
+        },
+        {
+          "id": "p2",
+          "text": "Capture the cooler-temperature decision"
+        },
+        {
+          "id": "p3",
+          "text": "Capture the open item on volunteer shifts"
+        },
+        {
+          "id": "p4",
+          "text": "File the notes in /notes/kitchen"
+        }
+      ],
+      "restatement": "Task: Produce notes from the Ember House kitchen-walkthrough. Capture the cooler-temperature decision and the open item on volunteer shifts. File in /notes/kitchen."
+    },
+    "expected": {
+      "verdict": "escalate",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered",
+        "p3": "covered",
+        "p4": "covered"
+      },
+      "addedRequirement": false,
+      "parrot": true
+    },
+    "rationale": "Labeling the copied request as 'Task:' does not show the scribe understood it."
+  },
+  {
+    "id": "task-restatement-034",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Find who currently serves as managing partner at Kline & Dorsey and whether the founding partner still takes clients.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Identify the current managing partner at Kline & Dorsey"
+        },
+        {
+          "id": "p2",
+          "text": "Determine whether the founding partner still takes clients"
+        }
+      ],
+      "restatement": "Find who presently serves as managing partner at Kline & Dorsey and if the founding partner still takes clients."
+    },
+    "expected": {
+      "verdict": "escalate",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered"
+      },
+      "addedRequirement": false,
+      "parrot": true
+    },
+    "rationale": "Only currently→presently and whether→if. A careless judge may call that a paraphrase; it is synonym paint and shows no reading."
+  },
+  {
+    "id": "task-restatement-035",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Nokomis Tech wants a one-page brief on three backup vendors — Reefsafe, Vaultlane, and Copperkeep — covering per-seat cost at 60 endpoints, whether they honor our existing retention policy, and a single recommendation by Thursday. Do not book a demo.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Write a one-page brief on Reefsafe, Vaultlane, and Copperkeep"
+        },
+        {
+          "id": "p2",
+          "text": "Cover per-seat cost at 60 endpoints"
+        },
+        {
+          "id": "p3",
+          "text": "Cover whether each honors the existing retention policy"
+        },
+        {
+          "id": "p4",
+          "text": "Include a single recommendation by Thursday"
+        },
+        {
+          "id": "p5",
+          "text": "Do not book a demo"
+        }
+      ],
+      "restatement": "Nokomis Tech wants a one-page brief on three backup vendors — Reefsafe, Vaultlane, and Copperkeep — covering per-seat cost at 60 endpoints, whether they honor our existing retention policy, and a single recommendation by Thursday. Do not book a demo."
+    },
+    "expected": {
+      "verdict": "escalate",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered",
+        "p3": "covered",
+        "p4": "covered",
+        "p5": "covered"
+      },
+      "addedRequirement": false,
+      "parrot": true
+    },
+    "rationale": "Long request copied in full. Length does not make it a restatement; parrot and therefore escalate."
+  },
+  {
+    "id": "task-restatement-036",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Rewrite the patio-season Facebook draft for Marshview Realty. Keep the Sunday 2-4 open houses through May. Remove the exclamation marks.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Rewrite the patio-season Facebook draft for Marshview Realty"
+        },
+        {
+          "id": "p2",
+          "text": "Keep Sunday 2-4 open houses through May"
+        },
+        {
+          "id": "p3",
+          "text": "Remove the exclamation marks"
+        }
+      ],
+      "restatement": "You asked me to rewrite the patio-season Facebook draft for Marshview Realty. Keep the Sunday 2-4 open houses through May. Remove the exclamation marks."
+    },
+    "expected": {
+      "verdict": "escalate",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered",
+        "p3": "covered"
+      },
+      "addedRequirement": false,
+      "parrot": true
+    },
+    "rationale": "'You asked me to' plus the original wording is a wrapper, not a reading of the task."
+  },
+  {
+    "id": "task-restatement-037",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Audit southpierliteracy.example's volunteer-signup flow on mobile and list every page still showing last year's spelling-bee photos. Don't change anything live.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Audit the volunteer-signup flow on mobile at southpierliteracy.example"
+        },
+        {
+          "id": "p2",
+          "text": "List pages still showing last year's spelling-bee photos"
+        },
+        {
+          "id": "p3",
+          "text": "Do not change anything live"
+        }
+      ],
+      "restatement": "I'll proceed to audit southpierliteracy.example's volunteer-signup flow on mobile and list every page still showing last year's spelling-bee photos. Don't change anything live."
+    },
+    "expected": {
+      "verdict": "escalate",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered",
+        "p3": "covered"
+      },
+      "addedRequirement": false,
+      "parrot": true
+    },
+    "rationale": "'I'll proceed to' glued onto the original sentence is a first-person parrot. No part was reinterpreted."
+  },
+  {
+    "id": "task-restatement-038",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Review PR #207 on the dispatch-board repo. Check the test names match the ticket. Don't merge it.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Review PR #207 on the dispatch-board repo"
+        },
+        {
+          "id": "p2",
+          "text": "Check that test names match the ticket"
+        },
+        {
+          "id": "p3",
+          "text": "Do not merge the PR"
+        }
+      ],
+      "restatement": "Don't merge it. Review PR #207 on the dispatch-board repo. Check the test names match the ticket."
+    },
+    "expected": {
+      "verdict": "escalate",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered",
+        "p3": "covered"
+      },
+      "addedRequirement": false,
+      "parrot": true
+    },
+    "rationale": "Same sentences in a different order. Reordering without rewording is still a parrot; a careless judge may treat order change as paraphrase."
+  },
+  {
+    "id": "task-restatement-039",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Please pull last year's attendee list for the Crowfield investor breakfast and note which table topics ran long.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Pull last year's Crowfield investor-breakfast attendee list"
+        },
+        {
+          "id": "p2",
+          "text": "Note which table topics ran long"
+        }
+      ],
+      "restatement": "I'll pull last year's attendee list for the Crowfield investor breakfast and note which table topics ran long."
+    },
+    "expected": {
+      "verdict": "escalate",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered"
+      },
+      "addedRequirement": false,
+      "parrot": true
+    },
+    "rationale": "Please→I'll is the most common lazy restatement. Identical content, no evidence of reading, so escalate."
+  },
+  {
+    "id": "task-restatement-040",
+    "decision": "task-restatement",
+    "state": {
+      "task": "Compare Reefsafe and HarborVault on ticket-handoff overlap and onboarding time for a 35-endpoint shop already on Datto. Recommend one.",
+      "taskParts": [
+        {
+          "id": "p1",
+          "text": "Compare Reefsafe and HarborVault"
+        },
+        {
+          "id": "p2",
+          "text": "Evaluate ticket-handoff overlap"
+        },
+        {
+          "id": "p3",
+          "text": "Evaluate onboarding time"
+        },
+        {
+          "id": "p4",
+          "text": "Recommend one vendor"
+        }
+      ],
+      "restatement": "Restating the task: Compare Reefsafe and HarborVault on ticket-handoff overlap and onboarding time for a 35-endpoint shop already on Datto. Recommend one."
+    },
+    "expected": {
+      "verdict": "escalate",
+      "parts": {
+        "p1": "covered",
+        "p2": "covered",
+        "p3": "covered",
+        "p4": "covered"
+      },
+      "addedRequirement": false,
+      "parrot": true
+    },
+    "rationale": "Announcing that the next sentence is a restatement does not make a copied request into one. Escalate as parrot."
+  }
+]
