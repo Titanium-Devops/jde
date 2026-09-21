@@ -40,5 +40,11 @@ blind case set written by someone who never saw the questions.
 
 ## Status
 
-Design stage. First decision: the completion check, "did the agent actually do the work",
-which has been blind-tested at 100 percent on a 30 case set.
+Working, one decision. The completion check, "did the agent actually do the work", answers
+30 blind cases at 100 percent: every part, every verdict, every echo check, at a p50 of
+171 ms and about a tenth of a cent for the run. Those cases were written by someone who
+never saw the questions, and the set is run once.
+
+Offline, 32 tests cover the bands, the aggregate, both fallbacks, the ledger shape and the
+rule that a file part is decided by code alone. Not yet exercised against the live API: the
+error paths, and `score` questions, which are typed and parsed but no decision asks one yet.
