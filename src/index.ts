@@ -44,6 +44,7 @@ export {
   validatePolicyEntry,
 } from "./policy.ts";
 export * from "./decisions/completion-check.ts";
+export * from "./decisions/task-restatement.ts";
 export * from "./parts.ts";
 
 export interface AskOptions {
