@@ -3,7 +3,7 @@
   "roles": {
     "sales": 28,
     "marketing": 23,
-    "operations": 20,
+    "operations": 14,
     "recruiting": 16
   },
   "playbooks": [
@@ -461,48 +461,6 @@
       "role": "operations",
       "bot": "Office Ops Desk",
       "description": "Use when the user wants facilities issues filed as tickets, a ledger mirrored into their wiki, or a digest posted to a channel."
-    },
-    {
-      "id": "grok-bot-organization-discovery-architecture",
-      "title": "Grok Bot Organization Discovery & Architecture",
-      "role": "operations",
-      "bot": "Alfred",
-      "description": "Use this when starting from zero, redesigning the Grok Bot organization, the company grew or shrank, strategy/product/team changed, or the current Bot hierarchy no longer fits."
-    },
-    {
-      "id": "workflow-automation-decision",
-      "title": "Workflow & Automation Decision",
-      "role": "operations",
-      "bot": "Alfred",
-      "description": "Use this for one workflow, recurring task, bottleneck, automation idea, proposed Bot responsibility, or candidate identified by organization discovery. Use before creating a new Bot, expanding an existing Bot, or creating a Routine."
-    },
-    {
-      "id": "grok-bot-system-design",
-      "title": "Grok Bot System Design",
-      "role": "operations",
-      "bot": "Alfred",
-      "description": "Use this only after the user approves an Automation Decision Brief, when an approved workflow decision requires a Bot, Skill, Routine, or small multi-Bot handoff design."
-    },
-    {
-      "id": "pilot-test-activate",
-      "title": "Pilot, Test & Activate",
-      "role": "operations",
-      "bot": "Alfred",
-      "description": "Use this after approval of a versioned Build Pack or material patch, to safely test before activation. Never use activation as the first test."
-    },
-    {
-      "id": "audit-repair-govern",
-      "title": "Audit, Repair & Govern",
-      "role": "operations",
-      "bot": "Alfred",
-      "description": "Use this for a noisy or inaccurate Bot, stale Skill, failing Routine, duplicated Bots, unclear ownership, portfolio drift, permission drift, weak value, or a company change that may have made the Bot organization outdated."
-    },
-    {
-      "id": "public-share-security-audit",
-      "title": "Public Share & Security Audit",
-      "role": "operations",
-      "bot": "Alfred",
-      "description": "Use this before creating a public link, marketplace submission, public template distribution, or redistributing a Bot package."
     },
     {
       "id": "getting-started",

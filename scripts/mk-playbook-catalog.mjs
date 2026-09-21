@@ -3,8 +3,14 @@
 // actually installs. Nothing here is invented; every id, title and description is a real row.
 import { readFileSync } from "node:fs";
 
-const SRC = process.argv[2];
+const SRC = process.argv[2];              // .../bots/bots.json
+const OVERLAY = process.argv[3];          // .../bots/overlay.json
 const rows = JSON.parse(readFileSync(SRC, "utf8"));
+
+// The pack ships 65 of these 69 rows. overlay.json's drop list is the four the product removes,
+// and a playbook on a dropped bot is one no customer can ever install. Read the list rather than
+// hard-coding it, so a later drop cannot rot this catalog silently.
+const DROPPED = new Set(JSON.parse(readFileSync(OVERLAY, "utf8")).drop.map((r) => r.id));
 
 // Four roles with enough real depth to produce the near-miss pairs the brief asks for.
 // Engineering and Product are deliberately excluded: their richest bot carries 3 and 5 playbooks,
@@ -12,7 +18,7 @@ const rows = JSON.parse(readFileSync(SRC, "utf8"));
 const ROLES = {
   sales:      ["Account Research Desk", "Customer Proof Desk", "Call Follow-Ups"],
   marketing:  ["Ad Spend Watch", "AI Search Visibility", "Event Producer"],
-  operations: ["Event Request Desk", "Office Ops Desk", "Alfred"],
+  operations: ["Event Request Desk", "Office Ops Desk"],
   recruiting: ["Talent Discovery", "Recruiting Coordinator"],
 };
 
@@ -24,6 +30,7 @@ for (const [role, botNames] of Object.entries(ROLES)) {
   for (const botName of botNames) {
     const bot = rows.find((r) => r.name === botName);
     if (!bot) throw new Error(`no bot named ${botName}`);
+    if (DROPPED.has(bot.id)) throw new Error(`${botName} is on the pack's drop list; no customer can install it`);
     for (const skill of bot.skills ?? []) {
       const title = String(skill.name ?? "").trim();
       if (!title) continue;
