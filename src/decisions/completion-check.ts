@@ -1,5 +1,6 @@
 import { ask } from "../index.ts";
 import type { AskOptions } from "../index.ts";
+import { extractTaskParts } from "../parts.ts";
 import type { Answers, DecisionContext, LedgerRow, NoulQuestion, Questions } from "../types.ts";
 
 /**
@@ -80,7 +81,13 @@ export interface CompletionState {
   readonly receipts: Receipts;
 }
 
-export interface CompletionCheckInput extends CompletionState {
+export interface CompletionCheckInput extends Omit<CompletionState, "task_parts"> {
+  /**
+   * The parts of the task. Optional: leave it out and `extractTaskParts()` reads them out of
+   * `task`. A caller that has better parts than a parser can find, because a person wrote them or
+   * because the dispatcher already knew them, passes them and nothing is parsed.
+   */
+  readonly task_parts?: readonly TaskPart[];
   /** Indices of the parts the claimed result says were done, gathered in code by the caller. */
   readonly claimed_parts?: readonly number[];
   readonly context?: DecisionContext;
@@ -216,14 +223,22 @@ export function overclaimedParts(
  * On a judge that does not answer, the verdict is null and the action is the policy's fallback.
  * That is deliberate: a task nobody could judge is not a task that failed, and treating it as one
  * would turn a judge outage into a wave of redispatches.
+ *
+ * `task_parts` may be left out, in which case the parts come from `extractTaskParts()`. Which parts
+ * were judged is always in the outcome: `parts` carries one entry per part, in order.
  */
 export async function completionCheck(
   input: CompletionCheckInput,
   options: AskOptions = {},
 ): Promise<CompletionOutcome> {
-  const parts = input.task_parts;
+  const given = input.task_parts;
+  const parts: readonly TaskPart[] = given === undefined ? extractTaskParts(input.task) : given;
   if (!Array.isArray(parts) || parts.length === 0) {
-    throw new TypeError("a completion check needs at least one task part");
+    throw new TypeError(
+      given === undefined
+        ? "a completion check needs a task with at least one part in it"
+        : "a completion check needs at least one task part",
+    );
   }
 
   const state: CompletionState = {
