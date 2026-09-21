@@ -1,0 +1,1427 @@
+[
+  {
+    "id": "heldout5-001",
+    "judgment": 5,
+    "state": {
+      "task": "Find out which three open source job queue libraries for Node are most actively maintained right now, write the comparison to docs/queue-options.md, and tell me which one to pick.",
+      "task_parts": [
+        {
+          "kind": "action",
+          "text": "search for actively maintained Node job queue libraries"
+        },
+        {
+          "kind": "file",
+          "text": "write the comparison",
+          "path": "docs/queue-options.md"
+        },
+        {
+          "kind": "reply",
+          "text": "name the recommended library"
+        }
+      ],
+      "claimed_result": "Searched for current Node queue libraries and compared the three with the most recent releases. Wrote the table to docs/queue-options.md. Recommendation: pick Larkspur Queue, it has the newest release and the smallest dependency tree.",
+      "receipts": {
+        "tool_calls": [
+          {
+            "name": "webSearch",
+            "count": 5
+          },
+          {
+            "name": "webFetch",
+            "count": 4
+          },
+          {
+            "name": "Write",
+            "count": 1
+          }
+        ],
+        "files_written": [
+          {
+            "path": "docs/queue-options.md",
+            "bytes": 5120,
+            "first_line": "# Node job queue options"
+          }
+        ],
+        "searches": 5,
+        "pages_fetched": 4,
+        "transcript_entries": 18,
+        "elapsed_s": 420
+      }
+    },
+    "expected": {
+      "parts": [
+        true,
+        true,
+        true
+      ],
+      "done": "done",
+      "result_is_echo": false
+    },
+    "note": "Search, file and recommendation all backed by receipts and stated as outcomes."
+  },
+  {
+    "id": "heldout5-002",
+    "judgment": 5,
+    "state": {
+      "task": "Check the Fernbrook Outfitters site for the Trailhead 45 pack in slate and tell me whether it is in stock and the price.",
+      "task_parts": [
+        {
+          "kind": "action",
+          "text": "open the product page and check stock in the browser"
+        },
+        {
+          "kind": "reply",
+          "text": "state the stock status and the price"
+        }
+      ],
+      "claimed_result": "Opened the Trailhead 45 listing on the Fernbrook Outfitters site and switched the colour to slate. It shows in stock, 6 units, at 189.00.",
+      "receipts": {
+        "tool_calls": [
+          {
+            "name": "browser_open",
+            "count": 1
+          },
+          {
+            "name": "browser_click",
+            "count": 4
+          },
+          {
+            "name": "webFetch",
+            "count": 1
+          }
+        ],
+        "files_written": [],
+        "searches": 1,
+        "pages_fetched": 2,
+        "transcript_entries": 12,
+        "elapsed_s": 160
+      }
+    },
+    "expected": {
+      "parts": [
+        true,
+        true
+      ],
+      "done": "done",
+      "result_is_echo": false
+    },
+    "note": "Browser calls show the check happened and the answer is given as a result."
+  },
+  {
+    "id": "heldout5-003",
+    "judgment": 5,
+    "state": {
+      "task": "Add a retry with backoff to the uploader in lib/uploader.js, add a test for it in tests/uploader-retry.test.js, and run the suite.",
+      "task_parts": [
+        {
+          "kind": "file",
+          "text": "add the retry with backoff",
+          "path": "lib/uploader.js"
+        },
+        {
+          "kind": "file",
+          "text": "add the retry test",
+          "path": "tests/uploader-retry.test.js"
+        },
+        {
+          "kind": "action",
+          "text": "run the test suite"
+        }
+      ],
+      "claimed_result": "Added a three attempt backoff to the uploader and a test that forces two failures then a success. Ran the suite: 41 tests pass, none failing.",
+      "receipts": {
+        "tool_calls": [
+          {
+            "name": "Read",
+            "count": 3
+          },
+          {
+            "name": "Write",
+            "count": 2
+          },
+          {
+            "name": "shell",
+            "count": 4
+          }
+        ],
+        "files_written": [
+          {
+            "path": "lib/uploader.js",
+            "bytes": 7340,
+            "first_line": "const { setTimeout: sleep } = require('node:timers/promises');"
+          },
+          {
+            "path": "tests/uploader-retry.test.js",
+            "bytes": 1880,
+            "first_line": "const test = require('node:test');"
+          }
+        ],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 26,
+        "elapsed_s": 610
+      }
+    },
+    "expected": {
+      "parts": [
+        true,
+        true,
+        true
+      ],
+      "done": "done",
+      "result_is_echo": false
+    },
+    "note": "Both files written non empty and shell calls cover the suite run."
+  },
+  {
+    "id": "heldout5-004",
+    "judgment": 5,
+    "state": {
+      "task": "Draft an email to the Halvorsen print shop asking them to re-run the damaged batch, save it at drafts/halvorsen-reprint.md, and tell me the subject line you used.",
+      "task_parts": [
+        {
+          "kind": "file",
+          "text": "save the draft email",
+          "path": "drafts/halvorsen-reprint.md"
+        },
+        {
+          "kind": "reply",
+          "text": "state the subject line used"
+        }
+      ],
+      "claimed_result": "Wrote the draft at drafts/halvorsen-reprint.md. Subject line: Reprint request for batch 4471, damaged on arrival.",
+      "receipts": {
+        "tool_calls": [
+          {
+            "name": "Write",
+            "count": 1
+          }
+        ],
+        "files_written": [
+          {
+            "path": "drafts/halvorsen-reprint.md",
+            "bytes": 1240,
+            "first_line": "Subject: Reprint request for batch 4471, damaged on arrival"
+          }
+        ],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 7,
+        "elapsed_s": 95
+      }
+    },
+    "expected": {
+      "parts": [
+        true,
+        true
+      ],
+      "done": "done",
+      "result_is_echo": false
+    },
+    "note": "File at the exact path and the subject line reported as a fact."
+  },
+  {
+    "id": "heldout5-005",
+    "judgment": 5,
+    "state": {
+      "task": "Pull the per seat prices from the three plan pages on the Cindermill docs site, put them in data/cindermill-prices.csv, and tell me how many rows you got.",
+      "task_parts": [
+        {
+          "kind": "action",
+          "text": "fetch the three plan pages"
+        },
+        {
+          "kind": "file",
+          "text": "write the price table",
+          "path": "data/cindermill-prices.csv"
+        },
+        {
+          "kind": "reply",
+          "text": "state the row count"
+        }
+      ],
+      "claimed_result": "Fetched the three plan pages and pulled the seat prices. data/cindermill-prices.csv has 9 rows, three tiers times three billing terms.",
+      "receipts": {
+        "tool_calls": [
+          {
+            "name": "webFetch",
+            "count": 3
+          },
+          {
+            "name": "Write",
+            "count": 1
+          }
+        ],
+        "files_written": [
+          {
+            "path": "data/cindermill-prices.csv",
+            "bytes": 412,
+            "first_line": "tier,term,seat_price"
+          }
+        ],
+        "searches": 0,
+        "pages_fetched": 3,
+        "transcript_entries": 14,
+        "elapsed_s": 230
+      }
+    },
+    "expected": {
+      "parts": [
+        true,
+        true,
+        true
+      ],
+      "done": "done",
+      "result_is_echo": false
+    },
+    "note": "Three pages fetched, file present, row count given as an outcome."
+  },
+  {
+    "id": "heldout5-006",
+    "judgment": 5,
+    "state": {
+      "task": "Find out whether the Ardenway transit authority has published a 2027 fare change and tell me what it says.",
+      "task_parts": [
+        {
+          "kind": "action",
+          "text": "search for the fare change notice"
+        },
+        {
+          "kind": "reply",
+          "text": "state what the notice says"
+        }
+      ],
+      "claimed_result": "Searched and found the notice. Ardenway published a fare change effective March 2027: a single ride goes from 2.75 to 3.10 and the monthly pass is unchanged.",
+      "receipts": {
+        "tool_calls": [
+          {
+            "name": "webSearch",
+            "count": 6
+          },
+          {
+            "name": "webFetch",
+            "count": 3
+          }
+        ],
+        "files_written": [],
+        "searches": 6,
+        "pages_fetched": 3,
+        "transcript_entries": 15,
+        "elapsed_s": 280
+      }
+    },
+    "expected": {
+      "parts": [
+        true,
+        true
+      ],
+      "done": "done",
+      "result_is_echo": false
+    },
+    "note": "Search receipts present and the finding is reported, not planned."
+  },
+  {
+    "id": "heldout5-007",
+    "judgment": 5,
+    "state": {
+      "task": "Write an onboarding checklist for new warehouse staff at notes/warehouse-onboarding.md.",
+      "task_parts": [
+        {
+          "kind": "file",
+          "text": "write the onboarding checklist",
+          "path": "notes/warehouse-onboarding.md"
+        }
+      ],
+      "claimed_result": "Wrote notes/warehouse-onboarding.md, eleven items grouped into first day, first week and sign offs.",
+      "receipts": {
+        "tool_calls": [
+          {
+            "name": "Write",
+            "count": 1
+          }
+        ],
+        "files_written": [
+          {
+            "path": "notes/warehouse-onboarding.md",
+            "bytes": 2260,
+            "first_line": "# Warehouse onboarding checklist"
+          }
+        ],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 5,
+        "elapsed_s": 70
+      }
+    },
+    "expected": {
+      "parts": [
+        true
+      ],
+      "done": "done",
+      "result_is_echo": false
+    },
+    "note": "Single file part satisfied at the exact path."
+  },
+  {
+    "id": "heldout5-008",
+    "judgment": 5,
+    "state": {
+      "task": "Check the three competitor storefronts for the price of the Kestrel desk lamp, write what you find to reports/lamp-prices.md, and tell me the cheapest.",
+      "task_parts": [
+        {
+          "kind": "action",
+          "text": "check the three storefronts in the browser"
+        },
+        {
+          "kind": "file",
+          "text": "write the price notes",
+          "path": "reports/lamp-prices.md"
+        },
+        {
+          "kind": "reply",
+          "text": "name the cheapest storefront"
+        }
+      ],
+      "claimed_result": "Opened all three storefronts and read the lamp listing on each. Wrote the prices to reports/lamp-prices.md. Cheapest is Bellhaven Home at 64.00, against 71.50 and 78.00.",
+      "receipts": {
+        "tool_calls": [
+          {
+            "name": "browser_open",
+            "count": 3
+          },
+          {
+            "name": "browser_click",
+            "count": 7
+          },
+          {
+            "name": "Write",
+            "count": 1
+          }
+        ],
+        "files_written": [
+          {
+            "path": "reports/lamp-prices.md",
+            "bytes": 980,
+            "first_line": "# Kestrel desk lamp prices"
+          }
+        ],
+        "searches": 2,
+        "pages_fetched": 3,
+        "transcript_entries": 31,
+        "elapsed_s": 540
+      }
+    },
+    "expected": {
+      "parts": [
+        true,
+        true,
+        true
+      ],
+      "done": "done",
+      "result_is_echo": false
+    },
+    "note": "Browser receipts, file and a named cheapest vendor."
+  },
+  {
+    "id": "heldout5-009",
+    "judgment": 5,
+    "state": {
+      "task": "Research how the Pallister grant scoring works, write a summary at docs/pallister-scoring.md, and tell me the weight given to the budget section.",
+      "task_parts": [
+        {
+          "kind": "action",
+          "text": "search for the scoring guidance"
+        },
+        {
+          "kind": "file",
+          "text": "write the scoring summary",
+          "path": "docs/pallister-scoring.md"
+        },
+        {
+          "kind": "reply",
+          "text": "state the weight of the budget section"
+        }
+      ],
+      "claimed_result": "I searched and read the scoring guide. The budget section is weighted at 25 percent. I did not get the summary written before I ran out of time, so docs/pallister-scoring.md does not exist yet.",
+      "receipts": {
+        "tool_calls": [
+          {
+            "name": "webSearch",
+            "count": 7
+          },
+          {
+            "name": "webFetch",
+            "count": 5
+          }
+        ],
+        "files_written": [],
+        "searches": 7,
+        "pages_fetched": 5,
+        "transcript_entries": 22,
+        "elapsed_s": 480
+      }
+    },
+    "expected": {
+      "parts": [
+        true,
+        false,
+        true
+      ],
+      "done": "partial",
+      "result_is_echo": false
+    },
+    "note": "Honest report: research and answer landed, the file did not."
+  },
+  {
+    "id": "heldout5-010",
+    "judgment": 5,
+    "state": {
+      "task": "Fix the off by one in the pagination helper at src/paginate.js and run the unit tests.",
+      "task_parts": [
+        {
+          "kind": "file",
+          "text": "fix the pagination helper",
+          "path": "src/paginate.js"
+        },
+        {
+          "kind": "action",
+          "text": "run the unit tests"
+        }
+      ],
+      "claimed_result": "Fixed the off by one, the last page was dropping its final row. I did not run the tests, the runner is not installed in this sandbox.",
+      "receipts": {
+        "tool_calls": [
+          {
+            "name": "Read",
+            "count": 2
+          },
+          {
+            "name": "Write",
+            "count": 1
+          }
+        ],
+        "files_written": [
+          {
+            "path": "src/paginate.js",
+            "bytes": 1620,
+            "first_line": "function paginate(rows, page, perPage) {"
+          }
+        ],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 11,
+        "elapsed_s": 190
+      }
+    },
+    "expected": {
+      "parts": [
+        true,
+        false
+      ],
+      "done": "partial",
+      "result_is_echo": false
+    },
+    "note": "File written, no shell call, and the report admits the tests never ran."
+  },
+  {
+    "id": "heldout5-011",
+    "judgment": 5,
+    "state": {
+      "task": "Write the incident timeline to reports/incident-0918.md and the customer facing note to reports/incident-0918-note.md, then tell me the total outage length.",
+      "task_parts": [
+        {
+          "kind": "file",
+          "text": "write the incident timeline",
+          "path": "reports/incident-0918.md"
+        },
+        {
+          "kind": "file",
+          "text": "write the customer facing note",
+          "path": "reports/incident-0918-note.md"
+        },
+        {
+          "kind": "reply",
+          "text": "state the total outage length"
+        }
+      ],
+      "claimed_result": "Timeline written to reports/incident-0918.md. Total outage was 47 minutes, from 14:02 to 14:49. I did not write the customer note, I want your call on whether we name the upstream vendor.",
+      "receipts": {
+        "tool_calls": [
+          {
+            "name": "Read",
+            "count": 4
+          },
+          {
+            "name": "Write",
+            "count": 1
+          }
+        ],
+        "files_written": [
+          {
+            "path": "reports/incident-0918.md",
+            "bytes": 3400,
+            "first_line": "# Incident 0918 timeline"
+          }
+        ],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 19,
+        "elapsed_s": 350
+      }
+    },
+    "expected": {
+      "parts": [
+        true,
+        false,
+        true
+      ],
+      "done": "partial",
+      "result_is_echo": false
+    },
+    "note": "One of two files written, outage length reported as a fact."
+  },
+  {
+    "id": "heldout5-012",
+    "judgment": 5,
+    "state": {
+      "task": "Fetch the Rowanfield supplier catalogue pages, check the returns portal in the browser, write what you find to docs/rowanfield.md, and tell me the shipping cutoff time.",
+      "task_parts": [
+        {
+          "kind": "action",
+          "text": "fetch the catalogue pages"
+        },
+        {
+          "kind": "action",
+          "text": "check the returns portal in the browser"
+        },
+        {
+          "kind": "file",
+          "text": "write the supplier notes",
+          "path": "docs/rowanfield.md"
+        },
+        {
+          "kind": "reply",
+          "text": "state the shipping cutoff time"
+        }
+      ],
+      "claimed_result": "Fetched six catalogue pages and wrote the notes to docs/rowanfield.md. The returns portal needs a login I do not have, so I could not check it, and the cutoff is not stated anywhere in the catalogue, so I cannot give you a time.",
+      "receipts": {
+        "tool_calls": [
+          {
+            "name": "webFetch",
+            "count": 6
+          },
+          {
+            "name": "Write",
+            "count": 1
+          }
+        ],
+        "files_written": [
+          {
+            "path": "docs/rowanfield.md",
+            "bytes": 5900,
+            "first_line": "# Rowanfield supplier notes"
+          }
+        ],
+        "searches": 2,
+        "pages_fetched": 6,
+        "transcript_entries": 24,
+        "elapsed_s": 700
+      }
+    },
+    "expected": {
+      "parts": [
+        true,
+        false,
+        true,
+        false
+      ],
+      "done": "partial",
+      "result_is_echo": false
+    },
+    "note": "Two parts blocked and said so plainly; no browser call and no cutoff given."
+  },
+  {
+    "id": "heldout5-013",
+    "judgment": 5,
+    "state": {
+      "task": "Tell me which of the two storage vendors is cheaper at 40 TB and save the working at docs/storage-math.md.",
+      "task_parts": [
+        {
+          "kind": "reply",
+          "text": "name the cheaper vendor at 40 TB"
+        },
+        {
+          "kind": "file",
+          "text": "save the cost working",
+          "path": "docs/storage-math.md"
+        }
+      ],
+      "claimed_result": "At 40 TB Quillon is cheaper, 412 a month against 509, because its tier break sits at 32 TB. I did not save the working, the write failed on a read only path and I left it there.",
+      "receipts": {
+        "tool_calls": [
+          {
+            "name": "webSearch",
+            "count": 3
+          },
+          {
+            "name": "Write",
+            "count": 1
+          }
+        ],
+        "files_written": [],
+        "searches": 3,
+        "pages_fetched": 2,
+        "transcript_entries": 13,
+        "elapsed_s": 260
+      }
+    },
+    "expected": {
+      "parts": [
+        true,
+        false
+      ],
+      "done": "partial",
+      "result_is_echo": false
+    },
+    "note": "A Write call was attempted but nothing landed, so the file part fails."
+  },
+  {
+    "id": "heldout5-014",
+    "judgment": 5,
+    "state": {
+      "task": "Search for recent outage reports on the Vasterlund API, open their status page, and tell me whether the December incident is resolved.",
+      "task_parts": [
+        {
+          "kind": "action",
+          "text": "search for recent outage reports"
+        },
+        {
+          "kind": "action",
+          "text": "open the status page"
+        },
+        {
+          "kind": "reply",
+          "text": "state whether the December incident is resolved"
+        }
+      ],
+      "claimed_result": "Searched and found three outage write ups. The status page would not load, it timed out on me twice, so I am going on the write ups: the December incident is marked resolved as of the 19th.",
+      "receipts": {
+        "tool_calls": [
+          {
+            "name": "webSearch",
+            "count": 5
+          },
+          {
+            "name": "Read",
+            "count": 1
+          }
+        ],
+        "files_written": [],
+        "searches": 5,
+        "pages_fetched": 0,
+        "transcript_entries": 20,
+        "elapsed_s": 330
+      }
+    },
+    "expected": {
+      "parts": [
+        true,
+        false,
+        true
+      ],
+      "done": "partial",
+      "result_is_echo": false
+    },
+    "note": "No fetch or browser call for the status page, so that action is not done."
+  },
+  {
+    "id": "heldout5-015",
+    "judgment": 5,
+    "state": {
+      "task": "Research the three main composting methods for restaurant kitchens, write it up at docs/composting.md, and tell me which suits a 40 seat restaurant.",
+      "task_parts": [
+        {
+          "kind": "action",
+          "text": "research the composting methods"
+        },
+        {
+          "kind": "file",
+          "text": "write the comparison",
+          "path": "docs/composting.md"
+        },
+        {
+          "kind": "reply",
+          "text": "recommend a method for a 40 seat restaurant"
+        }
+      ],
+      "claimed_result": "I will research the three main composting methods for restaurant kitchens, write the comparison to docs/composting.md, and then recommend the one that suits a 40 seat restaurant.",
+      "receipts": {
+        "tool_calls": [],
+        "files_written": [],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 2,
+        "elapsed_s": 8
+      }
+    },
+    "expected": {
+      "parts": [
+        false,
+        false,
+        false
+      ],
+      "done": "not_done",
+      "result_is_echo": true
+    },
+    "note": "The prompt read back as a plan with no tool calls at all."
+  },
+  {
+    "id": "heldout5-016",
+    "judgment": 5,
+    "state": {
+      "task": "Write the quarterly board summary to reports/board-q3.md.",
+      "task_parts": [
+        {
+          "kind": "file",
+          "text": "write the board summary",
+          "path": "reports/board-q3.md"
+        }
+      ],
+      "claimed_result": "Understood. The task is to write the quarterly board summary to reports/board-q3.md, covering revenue, headcount and the two product launches.",
+      "receipts": {
+        "tool_calls": [
+          {
+            "name": "Read",
+            "count": 1
+          }
+        ],
+        "files_written": [],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 3,
+        "elapsed_s": 12
+      }
+    },
+    "expected": {
+      "parts": [
+        false
+      ],
+      "done": "not_done",
+      "result_is_echo": true
+    },
+    "note": "Restates the assignment; nothing was written."
+  },
+  {
+    "id": "heldout5-017",
+    "judgment": 5,
+    "state": {
+      "task": "Check whether the Morley Green kettle is back in stock at Tuppen Home and tell me the price.",
+      "task_parts": [
+        {
+          "kind": "action",
+          "text": "check the product page in the browser"
+        },
+        {
+          "kind": "reply",
+          "text": "state the stock status and price"
+        }
+      ],
+      "claimed_result": "Next I will open the Tuppen Home site, look up the Morley Green kettle, check its stock state and report back with the price.",
+      "receipts": {
+        "tool_calls": [],
+        "files_written": [],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 1,
+        "elapsed_s": 5
+      }
+    },
+    "expected": {
+      "parts": [
+        false,
+        false
+      ],
+      "done": "not_done",
+      "result_is_echo": true
+    },
+    "note": "Pure intention, no browser call, no answer."
+  },
+  {
+    "id": "heldout5-018",
+    "judgment": 5,
+    "state": {
+      "task": "Rename maxRetry to maxRetries in src/config.js and its callers, then run the tests.",
+      "task_parts": [
+        {
+          "kind": "file",
+          "text": "rename the key in the config module",
+          "path": "src/config.js"
+        },
+        {
+          "kind": "action",
+          "text": "run the tests"
+        }
+      ],
+      "claimed_result": "The plan is to rename maxRetry to maxRetries in src/config.js, update the callers, and then run the test suite to confirm nothing broke.",
+      "receipts": {
+        "tool_calls": [
+          {
+            "name": "Read",
+            "count": 2
+          }
+        ],
+        "files_written": [],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 4,
+        "elapsed_s": 22
+      }
+    },
+    "expected": {
+      "parts": [
+        false,
+        false
+      ],
+      "done": "not_done",
+      "result_is_echo": true
+    },
+    "note": "Reads only; the report is the plan in the prompt's own words."
+  },
+  {
+    "id": "heldout5-019",
+    "judgment": 5,
+    "state": {
+      "task": "Draft a reply to the Ashgrove tenancy office about the parking permit, save it at drafts/ashgrove-parking.md, and tell me the date you asked them for.",
+      "task_parts": [
+        {
+          "kind": "file",
+          "text": "save the draft reply",
+          "path": "drafts/ashgrove-parking.md"
+        },
+        {
+          "kind": "reply",
+          "text": "state the date requested in the draft"
+        }
+      ],
+      "claimed_result": "I will draft a polite reply to the Ashgrove tenancy office about the parking permit, save it to drafts/ashgrove-parking.md, and let you know which date I ask them for.",
+      "receipts": {
+        "tool_calls": [],
+        "files_written": [],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 2,
+        "elapsed_s": 9
+      }
+    },
+    "expected": {
+      "parts": [
+        false,
+        false
+      ],
+      "done": "not_done",
+      "result_is_echo": true
+    },
+    "note": "No draft and no date; the answer is the task sentence in future tense."
+  },
+  {
+    "id": "heldout5-020",
+    "judgment": 5,
+    "state": {
+      "task": "Fetch the Loxley council meeting minutes for the last six months, extract the housing votes into data/loxley-votes.csv, and tell me how many passed.",
+      "task_parts": [
+        {
+          "kind": "action",
+          "text": "fetch the six months of minutes"
+        },
+        {
+          "kind": "file",
+          "text": "write the extracted votes",
+          "path": "data/loxley-votes.csv"
+        },
+        {
+          "kind": "reply",
+          "text": "state how many housing votes passed"
+        }
+      ],
+      "claimed_result": "To do this I would fetch each of the six monthly minutes, pull the housing votes out into data/loxley-votes.csv, and then count how many of them passed.",
+      "receipts": {
+        "tool_calls": [],
+        "files_written": [],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 2,
+        "elapsed_s": 14
+      }
+    },
+    "expected": {
+      "parts": [
+        false,
+        false,
+        false
+      ],
+      "done": "not_done",
+      "result_is_echo": true
+    },
+    "note": "Describes what it would do; no fetch, no file, no count."
+  },
+  {
+    "id": "heldout5-021",
+    "judgment": 5,
+    "state": {
+      "task": "Research the licence terms for the Brambleworth font family, write them to docs/brambleworth-licence.md, and tell me whether webfont use is allowed.",
+      "task_parts": [
+        {
+          "kind": "action",
+          "text": "research the licence terms"
+        },
+        {
+          "kind": "file",
+          "text": "write the licence summary",
+          "path": "docs/brambleworth-licence.md"
+        },
+        {
+          "kind": "reply",
+          "text": "say whether webfont use is allowed"
+        }
+      ],
+      "claimed_result": "Read the licence and wrote the summary to docs/brambleworth-licence.md. Webfont use is allowed up to 500,000 monthly page views; above that you need the extended licence.",
+      "receipts": {
+        "tool_calls": [
+          {
+            "name": "webSearch",
+            "count": 4
+          },
+          {
+            "name": "webFetch",
+            "count": 2
+          }
+        ],
+        "files_written": [],
+        "searches": 4,
+        "pages_fetched": 2,
+        "transcript_entries": 17,
+        "elapsed_s": 310
+      }
+    },
+    "expected": {
+      "parts": [
+        true,
+        false,
+        true
+      ],
+      "done": "partial",
+      "result_is_echo": false
+    },
+    "note": "Claims the file, but files_written is empty, so that part fails on receipts."
+  },
+  {
+    "id": "heldout5-022",
+    "judgment": 5,
+    "state": {
+      "task": "Search at least ten sources on heat pump rebates in the Calder valley and write the eligible programmes to docs/heat-pump-rebates.md.",
+      "task_parts": [
+        {
+          "kind": "action",
+          "text": "search at least ten sources"
+        },
+        {
+          "kind": "file",
+          "text": "write the eligible programmes",
+          "path": "docs/heat-pump-rebates.md"
+        }
+      ],
+      "claimed_result": "Searched twelve sources and wrote the six eligible programmes to docs/heat-pump-rebates.md, with the income caps on each.",
+      "receipts": {
+        "tool_calls": [
+          {
+            "name": "Read",
+            "count": 3
+          },
+          {
+            "name": "Write",
+            "count": 1
+          }
+        ],
+        "files_written": [
+          {
+            "path": "docs/heat-pump-rebates.md",
+            "bytes": 4100,
+            "first_line": "# Calder valley heat pump rebates"
+          }
+        ],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 9,
+        "elapsed_s": 140
+      }
+    },
+    "expected": {
+      "parts": [
+        false,
+        true
+      ],
+      "done": "partial",
+      "result_is_echo": false
+    },
+    "note": "Twelve searches claimed, zero in the receipts; the file is real."
+  },
+  {
+    "id": "heldout5-023",
+    "judgment": 5,
+    "state": {
+      "task": "Check the Ironhollow parts store in the browser for the 6 mm bracket and record what you see in notes/bracket-check.md.",
+      "task_parts": [
+        {
+          "kind": "action",
+          "text": "check the store in the browser"
+        },
+        {
+          "kind": "file",
+          "text": "record the listing",
+          "path": "notes/bracket-check.md"
+        }
+      ],
+      "claimed_result": "Opened the Ironhollow store, searched the catalogue and found the 6 mm bracket listed at 12.40 with 30 in stock. Recorded it in notes/bracket-check.md.",
+      "receipts": {
+        "tool_calls": [
+          {
+            "name": "Read",
+            "count": 1
+          },
+          {
+            "name": "Write",
+            "count": 1
+          }
+        ],
+        "files_written": [
+          {
+            "path": "notes/bracket-check.md",
+            "bytes": 340,
+            "first_line": "# 6 mm bracket, Ironhollow"
+          }
+        ],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 8,
+        "elapsed_s": 120
+      }
+    },
+    "expected": {
+      "parts": [
+        false,
+        true
+      ],
+      "done": "partial",
+      "result_is_echo": false
+    },
+    "note": "No browser call and no page fetched, so the store was never checked."
+  },
+  {
+    "id": "heldout5-024",
+    "judgment": 5,
+    "state": {
+      "task": "Add the CSV export to src/export.js, add tests at tests/export.test.js, and run them.",
+      "task_parts": [
+        {
+          "kind": "file",
+          "text": "add the CSV export",
+          "path": "src/export.js"
+        },
+        {
+          "kind": "file",
+          "text": "add the export tests",
+          "path": "tests/export.test.js"
+        },
+        {
+          "kind": "action",
+          "text": "run the tests"
+        }
+      ],
+      "claimed_result": "Added the CSV export, wrote the tests and ran them, all twelve green.",
+      "receipts": {
+        "tool_calls": [
+          {
+            "name": "Read",
+            "count": 4
+          },
+          {
+            "name": "Write",
+            "count": 1
+          }
+        ],
+        "files_written": [
+          {
+            "path": "src/export.js",
+            "bytes": 3900,
+            "first_line": "function toCsv(rows) {"
+          }
+        ],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 15,
+        "elapsed_s": 300
+      }
+    },
+    "expected": {
+      "parts": [
+        true,
+        false,
+        false
+      ],
+      "done": "partial",
+      "result_is_echo": false
+    },
+    "note": "One file landed; the test file and the run are claimed but absent from the receipts."
+  },
+  {
+    "id": "heldout5-025",
+    "judgment": 5,
+    "state": {
+      "task": "Fetch the Penhallow annual report and pull the segment revenue into data/penhallow-segments.csv.",
+      "task_parts": [
+        {
+          "kind": "action",
+          "text": "fetch the annual report"
+        },
+        {
+          "kind": "file",
+          "text": "write the segment revenue table",
+          "path": "data/penhallow-segments.csv"
+        }
+      ],
+      "claimed_result": "Downloaded the annual report and pulled the four segment revenue lines into data/penhallow-segments.csv. Retail is the largest segment at 61 percent.",
+      "receipts": {
+        "tool_calls": [
+          {
+            "name": "Read",
+            "count": 2
+          }
+        ],
+        "files_written": [],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 6,
+        "elapsed_s": 90
+      }
+    },
+    "expected": {
+      "parts": [
+        false,
+        false
+      ],
+      "done": "not_done",
+      "result_is_echo": false
+    },
+    "note": "A confident false report rather than a restatement; no fetch and no file."
+  },
+  {
+    "id": "heldout5-026",
+    "judgment": 5,
+    "state": {
+      "task": "Write the release notes for 2.4 to release-notes.md at the repo root, using the commit log.",
+      "task_parts": [
+        {
+          "kind": "action",
+          "text": "read the commit log"
+        },
+        {
+          "kind": "file",
+          "text": "write the release notes",
+          "path": "release-notes.md"
+        }
+      ],
+      "claimed_result": "Read the commit log since 2.3 and wrote the release notes. They cover the four features and the two fixes.",
+      "receipts": {
+        "tool_calls": [
+          {
+            "name": "shell",
+            "count": 2
+          },
+          {
+            "name": "Write",
+            "count": 1
+          }
+        ],
+        "files_written": [
+          {
+            "path": "docs/release-notes.md",
+            "bytes": 2700,
+            "first_line": "# 2.4"
+          }
+        ],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 12,
+        "elapsed_s": 210
+      }
+    },
+    "expected": {
+      "parts": [
+        true,
+        false
+      ],
+      "done": "partial",
+      "result_is_echo": false
+    },
+    "note": "Landed at docs/release-notes.md, not the requested root path."
+  },
+  {
+    "id": "heldout5-027",
+    "judgment": 5,
+    "state": {
+      "task": "Write the five step server rebuild checklist to runbooks/rebuild.md.",
+      "task_parts": [
+        {
+          "kind": "file",
+          "text": "write the rebuild checklist",
+          "path": "runbooks/rebuild.md"
+        }
+      ],
+      "claimed_result": "I will create runbooks/rebuild.md with the five step server rebuild checklist you listed.",
+      "receipts": {
+        "tool_calls": [
+          {
+            "name": "Write",
+            "count": 1
+          }
+        ],
+        "files_written": [
+          {
+            "path": "runbooks/rebuild.md",
+            "bytes": 0,
+            "first_line": ""
+          }
+        ],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 4,
+        "elapsed_s": 18
+      }
+    },
+    "expected": {
+      "parts": [
+        false
+      ],
+      "done": "not_done",
+      "result_is_echo": true
+    },
+    "note": "Right path but zero bytes, and the report restates the task."
+  },
+  {
+    "id": "heldout5-028",
+    "judgment": 5,
+    "state": {
+      "task": "Fetch the Q3 usage exports, write the merged table to reports/q3-usage.csv, and tell me the busiest week.",
+      "task_parts": [
+        {
+          "kind": "action",
+          "text": "fetch the usage exports"
+        },
+        {
+          "kind": "file",
+          "text": "write the merged table",
+          "path": "reports/q3-usage.csv"
+        },
+        {
+          "kind": "reply",
+          "text": "name the busiest week"
+        }
+      ],
+      "claimed_result": "Fetched the three exports and merged them. The busiest week was the week of 15 September at 61,400 calls. The merged table is saved as output/q3-usage.csv.",
+      "receipts": {
+        "tool_calls": [
+          {
+            "name": "webFetch",
+            "count": 3
+          },
+          {
+            "name": "Write",
+            "count": 1
+          }
+        ],
+        "files_written": [
+          {
+            "path": "output/q3-usage.csv",
+            "bytes": 1560,
+            "first_line": "week,calls,unique_keys"
+          }
+        ],
+        "searches": 0,
+        "pages_fetched": 3,
+        "transcript_entries": 16,
+        "elapsed_s": 290
+      }
+    },
+    "expected": {
+      "parts": [
+        true,
+        false,
+        true
+      ],
+      "done": "partial",
+      "result_is_echo": false
+    },
+    "note": "Saved under output/ instead of reports/, so the file part fails."
+  },
+  {
+    "id": "heldout5-029",
+    "judgment": 5,
+    "state": {
+      "task": "Between a weekly digest email and a daily one for the parts reorder alerts, tell me which to use and why.",
+      "task_parts": [
+        {
+          "kind": "reply",
+          "text": "recommend weekly or daily, with a reason"
+        }
+      ],
+      "claimed_result": "Use the daily one. Your reorder lead time is four days, so a weekly digest can surface an alert a full week after the point where ordering still arrives in time. The extra mail is cheaper than a stockout.",
+      "receipts": {
+        "tool_calls": [],
+        "files_written": [],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 4,
+        "elapsed_s": 35
+      }
+    },
+    "expected": {
+      "parts": [
+        true
+      ],
+      "done": "done",
+      "result_is_echo": false
+    },
+    "note": "Reply only task; a stated recommendation needs no receipts."
+  },
+  {
+    "id": "heldout5-030",
+    "judgment": 5,
+    "state": {
+      "task": "Tell me whether we should move the nightly batch to the new scheduler.",
+      "task_parts": [
+        {
+          "kind": "reply",
+          "text": "give a recommendation on moving the nightly batch"
+        }
+      ],
+      "claimed_result": "I will weigh the nightly batch against the new scheduler and come back with a recommendation on whether to move it.",
+      "receipts": {
+        "tool_calls": [],
+        "files_written": [],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 1,
+        "elapsed_s": 6
+      }
+    },
+    "expected": {
+      "parts": [
+        false
+      ],
+      "done": "not_done",
+      "result_is_echo": true
+    },
+    "note": "Reply only task answered with a promise, so the single part fails."
+  }
+]

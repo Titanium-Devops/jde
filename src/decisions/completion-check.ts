@@ -111,6 +111,7 @@ export interface CompletionOutcome {
   readonly band: string | null;
   readonly judge: string;
   readonly latencyMs: number;
+  readonly usage?: { readonly inputTokens: number; readonly outputTokens: number };
   readonly error?: { readonly reason: string; readonly detail: string };
 }
 
@@ -250,6 +251,7 @@ export async function completionCheck(
     band: outcome.band,
     judge: outcome.judge,
     latencyMs: outcome.latencyMs,
+    ...(outcome.usage === undefined ? {} : { usage: outcome.usage }),
   };
 
   if (outcome.error !== undefined) {

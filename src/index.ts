@@ -198,6 +198,9 @@ export async function ask<State = unknown>(input: AskInput<State>, options: AskO
     decisions: rows,
     judge: judgeId,
     latencyMs,
+    ...(reply?.inputTokens === undefined
+      ? {}
+      : { usage: { inputTokens: reply.inputTokens, outputTokens: reply.outputTokens ?? 0 } }),
   };
 }
 

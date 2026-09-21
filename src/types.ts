@@ -178,6 +178,8 @@ export interface Outcome {
   readonly decisions: readonly LedgerRow[];
   readonly judge: string;
   readonly latencyMs: number;
+  /** What the judge spent, when it says. Never written to the ledger. */
+  readonly usage?: { readonly inputTokens: number; readonly outputTokens: number };
   /** Set when the decision fell back. */
   readonly error?: Failure;
 }
