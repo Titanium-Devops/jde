@@ -341,3 +341,10 @@ Every one of the four wrong verdicts is a judge answer that landed between 0.56 
 policy's bottom band escalates. Three were labelled accept and one revise. That rule is the spec's
 and it stays; the eval prints how often it fired alone so a second blind set has a number to argue
 with rather than a feeling.
+
+The set is frozen and the numbers above are final. Two of its cases went back to their author for a
+wrong label, and the coverage question and the added-requirement question each turned out to have a
+reading the wording does not settle. Both conventions are now written into the decision's own
+definition, so the next case author is told them before writing a set rather than after.
+[docs/task-restatement-review.md](docs/task-restatement-review.md) has all of it, including the one
+change to the escalate band that is proposed and deliberately not applied.

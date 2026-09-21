@@ -36,6 +36,27 @@ import type { Answers, DecisionContext, LedgerRow, NoulQuestion, Questions } fro
  * The wording of the three questions is the artefact. It was written once, measured once against a
  * blind set written by an author who had not seen it, and is copied here rather than improved.
  * Rewording a clause invalidates that measurement, so a tidy-up here is a new measurement.
+ *
+ * ## Two things the questions do not say, and the definition does
+ *
+ * The blind run found one place where an honest judge and an honest case author read the same
+ * restatement two different ways, and the criteria as written point one way without insisting. This
+ * is the decision's definition rather than its wording, so it is settled here and a case author is
+ * told it before writing a set. Neither of these is a licence to reword a question.
+ *
+ * 1. **A constraint inside a part's own text belongs to that part.** When the restatement
+ *    contradicts a constraint the part's text carries, that part is uncovered, even when a sibling
+ *    part carries the same constraint and is uncovered too. "Write a week of X posts for the
+ *    consumer line", answered with posts for the enterprise audience, is uncovered.
+ *
+ * 2. **`addedRequirement` is work on top of the request, never work in place of it.** A restatement
+ *    that volunteers a second deliverable nobody asked for has added a requirement. A restatement
+ *    that proposes doing what the request forbade to the same artifact, publishing replies that
+ *    were to be left unposted, closing duplicates that were to be tagged, has not added anything:
+ *    it has failed to cover the part that asked for the other thing.
+ *
+ * `docs/task-restatement-review.md` has the cases behind both, and the one change to this file that
+ * is proposed and deliberately not made.
  */
 
 export const RESTATEMENT_DECISION = "task-restatement";
