@@ -1,0 +1,620 @@
+{
+  "note": "Playbook catalog for JDE decision E (playbook-route). Taken verbatim from the Titanium Bot community pack, source/shared/marketplace/bots/bots.json. There is no step list, and that is not an omission. Every one of the 277 playbooks in the pack ships as a title plus the one-line 'use when' summary below and nothing else. The product generates three placeholder steps at import and says in the document itself that they are the shape of a job and not the job. Handing those steps to a case author would measure our filler. The description line IS the routing signal in production, so it is the whole catalog entry.",
+  "roles": {
+    "sales": 28,
+    "marketing": 23,
+    "operations": 20,
+    "recruiting": 16
+  },
+  "playbooks": [
+    {
+      "id": "getting-started",
+      "title": "Getting started",
+      "role": "sales",
+      "bot": "Account Research Desk",
+      "description": "Use on the first conversation after setup, or whenever memory has no user prefs: learn what the user wants from this bot and get them to a first result."
+    },
+    {
+      "id": "build-the-account-list",
+      "title": "Build the account list",
+      "role": "sales",
+      "bot": "Account Research Desk",
+      "description": "Use when the user first names the accounts they cover, adds or drops one, or asks which accounts you are tracking."
+    },
+    {
+      "id": "account-brief-before-a-call",
+      "title": "Account brief before a call",
+      "role": "sales",
+      "bot": "Account Research Desk",
+      "description": "Use when the user has a call or meeting with a company coming up, names an account they want to understand, or asks for a brief."
+    },
+    {
+      "id": "week-ahead-call-prep",
+      "title": "Week ahead call prep",
+      "role": "sales",
+      "bot": "Account Research Desk",
+      "description": "Use when the user asks what is coming up, wants to get ready for the week, or pastes a calendar, a schedule, or a set of invites."
+    },
+    {
+      "id": "stakeholder-map",
+      "title": "Stakeholder map",
+      "role": "sales",
+      "bot": "Account Research Desk",
+      "description": "Use when the user asks who to talk to at an account, wants the org picture behind a deal, or shares an attendee list or thread with new names in it."
+    },
+    {
+      "id": "incumbent-and-competitor-check",
+      "title": "Incumbent and competitor check",
+      "role": "sales",
+      "bot": "Account Research Desk",
+      "description": "Use when the user asks what an account already uses, who else is in the deal, or how to position against whoever is in there today."
+    },
+    {
+      "id": "account-signals-refresh",
+      "title": "Account signals refresh",
+      "role": "sales",
+      "bot": "Account Research Desk",
+      "description": "Use when the user asks what is new at an account, before briefing an account you have researched before, or when the weekly signals routine runs."
+    },
+    {
+      "id": "open-threads-and-next-steps",
+      "title": "Open threads and next steps",
+      "role": "sales",
+      "bot": "Account Research Desk",
+      "description": "Use when the user pastes notes from a call or an email thread, or asks what is still open on an account."
+    },
+    {
+      "id": "account-usage-and-health",
+      "title": "Account usage and health",
+      "role": "sales",
+      "bot": "Account Research Desk",
+      "description": "Use when the user is prepping a renewal, a QBR, or an expansion, or asks how an account is actually using what they bought."
+    },
+    {
+      "id": "outreach-and-follow-up-drafts",
+      "title": "Outreach and follow-up drafts",
+      "role": "sales",
+      "bot": "Account Research Desk",
+      "description": "Use when the user wants a first outreach note, a follow-up after a call, or a nudge on a thread that has gone quiet."
+    },
+    {
+      "id": "account-plan",
+      "title": "Account plan",
+      "role": "sales",
+      "bot": "Account Research Desk",
+      "description": "Use when the user wants a plan for winning or growing an account, a quarterly plan, or something to walk their manager or deal team through."
+    },
+    {
+      "id": "add-sources-to-the-proof-bank",
+      "title": "Add sources to the proof bank",
+      "role": "sales",
+      "bot": "Customer Proof Desk",
+      "description": "Use when the user pastes or uploads a call transcript, call notes, a survey reply, a support thread, a customer email, or a review, and the usable quotes and numbers need pulling out and filing."
+    },
+    {
+      "id": "mine-a-batch-of-calls",
+      "title": "Mine a batch of calls",
+      "role": "sales",
+      "bot": "Customer Proof Desk",
+      "description": "Use when the user hands over several transcripts, a folder of notes, a call recorder export, or months of support threads at once, and wants the best stories found across all of them."
+    },
+    {
+      "id": "write-a-case-study",
+      "title": "Write a case study",
+      "role": "sales",
+      "bot": "Customer Proof Desk",
+      "description": "Use when the user wants a full customer case study or success story written from notes, a transcript, or what is already in the proof bank."
+    },
+    {
+      "id": "pull-proof-for-a-claim",
+      "title": "Pull proof for a claim",
+      "role": "sales",
+      "bot": "Customer Proof Desk",
+      "description": "Use when the user needs the right quote, number, or customer example for a specific claim, slide, page, or objection they are handling."
+    },
+    {
+      "id": "testimonials-and-pull-quotes",
+      "title": "Testimonials and pull quotes",
+      "role": "sales",
+      "bot": "Customer Proof Desk",
+      "description": "Use when the user needs a short testimonial, a pull quote, a review snippet, or a social proof line from something a customer already said."
+    },
+    {
+      "id": "build-a-deal-proof-one-pager",
+      "title": "Build a deal proof one-pager",
+      "role": "sales",
+      "bot": "Customer Proof Desk",
+      "description": "Use when the user needs the proof for one prospect, segment, or set of objections assembled onto a single page they can send, present, or leave behind."
+    },
+    {
+      "id": "get-the-customer-s-approval",
+      "title": "Get the customer's approval",
+      "role": "sales",
+      "bot": "Customer Proof Desk",
+      "description": "Use when a quote, name, logo, or number needs the customer's sign-off before it goes public, or when an approval has been sitting unanswered."
+    },
+    {
+      "id": "check-a-draft-against-the-bank",
+      "title": "Check a draft against the bank",
+      "role": "sales",
+      "bot": "Customer Proof Desk",
+      "description": "Use when the user pastes a case study, deck, page, or post and wants every quote, number, and customer claim verified before it goes out."
+    },
+    {
+      "id": "lay-out-the-case-study",
+      "title": "Lay out the case study",
+      "role": "sales",
+      "bot": "Customer Proof Desk",
+      "description": "Use when a finished case study needs a page layout, a Figma design, or a block by block spec ready to hand to a designer or drop into the site."
+    },
+    {
+      "id": "run-the-case-study-pipeline",
+      "title": "Run the case study pipeline",
+      "role": "sales",
+      "bot": "Customer Proof Desk",
+      "description": "Use when the user wants the customers ready to write, the drafts in flight, and the approvals waiting tracked somewhere their team can see, not just in chat."
+    },
+    {
+      "id": "call-retro-from-a-transcript",
+      "title": "Call retro from a transcript",
+      "role": "sales",
+      "bot": "Call Follow-Ups",
+      "description": "Use when the user pastes or uploads a call transcript, a recording summary, or raw notes and needs the recap, the promises made, and the follow-ups."
+    },
+    {
+      "id": "recorder-export-intake",
+      "title": "Recorder export intake",
+      "role": "sales",
+      "bot": "Call Follow-Ups",
+      "description": "Use when the input came out of a call recorder or notetaker such as Granola, Gong, Fireflies, Otter, Zoom, or Read.ai, and needs cleaning before the retro."
+    },
+    {
+      "id": "follow-up-list",
+      "title": "Follow-up list",
+      "role": "sales",
+      "bot": "Call Follow-Ups",
+      "description": "Use when the user asks what is open, what is overdue, who owes what, or wants to add, close, or reschedule a follow-up."
+    },
+    {
+      "id": "recap-email-draft",
+      "title": "Recap email draft",
+      "role": "sales",
+      "bot": "Call Follow-Ups",
+      "description": "Use when the user wants to send a recap or a follow-up after a call, either to the customer or to their own team."
+    },
+    {
+      "id": "pre-call-refresher",
+      "title": "Pre-call refresher",
+      "role": "sales",
+      "bot": "Call Follow-Ups",
+      "description": "Use when the user has another call coming up with an account they have spoken to before, or asks what they need to know before a meeting."
+    },
+    {
+      "id": "patterns-across-calls",
+      "title": "Patterns across calls",
+      "role": "sales",
+      "bot": "Call Follow-Ups",
+      "description": "Use when the user asks what keeps coming up across their calls, where deals stall, or when the weekly patterns recap runs."
+    },
+    {
+      "id": "backfill-past-calls",
+      "title": "Backfill past calls",
+      "role": "sales",
+      "bot": "Call Follow-Ups",
+      "description": "Use when the user wants several past calls loaded at once so the follow-up list is current and the patterns view has something to work from."
+    },
+    {
+      "id": "getting-started",
+      "title": "Getting started",
+      "role": "marketing",
+      "bot": "Ad Spend Watch",
+      "description": "Use on the first conversation after setup, or whenever memory has no user prefs: introduce yourself, learn which ad accounts the user runs and what counts as too far, then get them to a first check."
+    },
+    {
+      "id": "set-accounts-and-thresholds",
+      "title": "Set accounts and thresholds",
+      "role": "marketing",
+      "bot": "Ad Spend Watch",
+      "description": "Use when the user first names the accounts they run, changes a budget, wants different limits, or asks what you are watching for."
+    },
+    {
+      "id": "read-an-ad-platform-export",
+      "title": "Read an ad platform export",
+      "role": "marketing",
+      "bot": "Ad Spend Watch",
+      "description": "Use when the user pastes numbers, uploads a CSV, shares a sheet, or forwards the report an ad platform emailed them."
+    },
+    {
+      "id": "pull-numbers-from-a-connected-source",
+      "title": "Pull numbers from a connected source",
+      "role": "marketing",
+      "bot": "Ad Spend Watch",
+      "description": "Use when a sheet, a warehouse, or report email is connected and you need fresher numbers than the last paste, including before every routine run."
+    },
+    {
+      "id": "run-the-spend-and-performance-check",
+      "title": "Run the spend and performance check",
+      "role": "marketing",
+      "bot": "Ad Spend Watch",
+      "description": "Use when the user asks whether anything is off, right after new numbers land, or when the daily check routine runs."
+    },
+    {
+      "id": "diagnose-what-broke",
+      "title": "Diagnose what broke",
+      "role": "marketing",
+      "bot": "Ad Spend Watch",
+      "description": "Use when a threshold fired and the cause is not obvious, or when the user asks why cost per acquisition, return on ad spend, or conversions moved."
+    },
+    {
+      "id": "check-budget-pace",
+      "title": "Check budget pace",
+      "role": "marketing",
+      "bot": "Ad Spend Watch",
+      "description": "Use when the user asks whether they are on pace, how much budget is left, where the month lands, or where the remaining money should go, and when the Monday pace routine runs."
+    },
+    {
+      "id": "write-the-fix-list",
+      "title": "Write the fix list",
+      "role": "marketing",
+      "bot": "Ad Spend Watch",
+      "description": "Use when the user says yes to a change you recommended, or asks exactly what to do about a breach."
+    },
+    {
+      "id": "answer-a-spend-question",
+      "title": "Answer a spend question",
+      "role": "marketing",
+      "bot": "Ad Spend Watch",
+      "description": "Use when the user asks a direct question about their numbers, like what a campaign cost last week or which one has the best return."
+    },
+    {
+      "id": "build-the-prompt-list",
+      "title": "Build the prompt list",
+      "role": "marketing",
+      "bot": "AI Search Visibility",
+      "description": "Use when the user first describes what they sell, adds or drops a prompt, or asks which questions you are testing."
+    },
+    {
+      "id": "run-a-visibility-check",
+      "title": "Run a visibility check",
+      "role": "marketing",
+      "bot": "AI Search Visibility",
+      "description": "Use when you need to see who AI assistants and search results recommend right now, on demand or from a routine."
+    },
+    {
+      "id": "capture-a-pasted-answer",
+      "title": "Capture a pasted answer",
+      "role": "marketing",
+      "bot": "AI Search Visibility",
+      "description": "Use when the user pastes what an assistant told them, or when a prompt needs an assistant they are signed into and you are not."
+    },
+    {
+      "id": "weekly-visibility-brief",
+      "title": "Weekly visibility brief",
+      "role": "marketing",
+      "bot": "AI Search Visibility",
+      "description": "Use when the user asks how their visibility changed, or when the weekly brief routine runs."
+    },
+    {
+      "id": "citation-source-audit",
+      "title": "Citation source audit",
+      "role": "marketing",
+      "bot": "AI Search Visibility",
+      "description": "Use when the user asks why they are not showing up, or which sites and pages the answers are pulling from."
+    },
+    {
+      "id": "share-of-answer-comparison",
+      "title": "Share of answer comparison",
+      "role": "marketing",
+      "bot": "AI Search Visibility",
+      "description": "Use when the user asks how often they come up compared to rivals, or wants a scoreboard they can show someone."
+    },
+    {
+      "id": "draft-the-fix",
+      "title": "Draft the fix",
+      "role": "marketing",
+      "bot": "AI Search Visibility",
+      "description": "Use when the user picks something off the fix list and wants the page, the listing, or the answer written."
+    },
+    {
+      "id": "build-the-event-brief",
+      "title": "Build the event brief",
+      "role": "marketing",
+      "bot": "Event Producer",
+      "description": "Use when the user starts a new event, or hands over notes, a doc, a spreadsheet, or a calendar invite for one."
+    },
+    {
+      "id": "run-of-show",
+      "title": "Run of show",
+      "role": "marketing",
+      "bot": "Event Producer",
+      "description": "Use when the user needs the minute-by-minute schedule for the event day, or when a time or a speaker changes and the schedule has to move."
+    },
+    {
+      "id": "vendor-and-venue-tracker",
+      "title": "Vendor and venue tracker",
+      "role": "marketing",
+      "bot": "Event Producer",
+      "description": "Use when tracking venue, catering, bar, AV, rentals, print, photography, security, or staffing: quotes, contracts, deposits, arrival times, and chasing what is unconfirmed."
+    },
+    {
+      "id": "guest-list-and-invites",
+      "title": "Guest list and invites",
+      "role": "marketing",
+      "bot": "Event Producer",
+      "description": "Use when building the invite list, drafting invites and reminders, collecting dietary and access needs, keeping per-guest notes, or tracking who registered, who opted out, and who showed."
+    },
+    {
+      "id": "guest-travel-and-hotels",
+      "title": "Guest travel and hotels",
+      "role": "marketing",
+      "bot": "Event Producer",
+      "description": "Use when guests are travelling in: hotel options and room blocks, room lists, flights and arrival times, ground transport, and per-guest itineraries."
+    },
+    {
+      "id": "day-of-checklist",
+      "title": "Day-of checklist",
+      "role": "marketing",
+      "bot": "Event Producer",
+      "description": "Use in the last week before the event, on the morning of, or while the event is running: load-in, setup, check-in desk, staffing, cues, contacts, and tear-down."
+    },
+    {
+      "id": "post-event-recap",
+      "title": "Post-event recap",
+      "role": "marketing",
+      "bot": "Event Producer",
+      "description": "Use in the days after the event, or when the recap routine runs: attendance against target, spend against budget, what worked, and the follow-ups."
+    },
+    {
+      "id": "getting-started",
+      "title": "Getting started",
+      "role": "operations",
+      "bot": "Event Request Desk",
+      "description": "Use on the first conversation after setup, or whenever memory has no user prefs: learn what the user wants from this bot and get them to a first result."
+    },
+    {
+      "id": "log-a-new-event-request",
+      "title": "Log a new event request",
+      "role": "operations",
+      "bot": "Event Request Desk",
+      "description": "Use when an event invitation, sponsorship, speaking, booth, partnership, or swag ask arrives, or when the user pastes, forwards, or points you at a batch of asks that need to land in the queue."
+    },
+    {
+      "id": "score-an-event-request",
+      "title": "Score an event request",
+      "role": "operations",
+      "bot": "Event Request Desk",
+      "description": "Use when an event, sponsorship, speaking, or partnership ask needs a call: score it against the rubric and recommend yes, no, not now, or needs info."
+    },
+    {
+      "id": "tune-the-decision-rubric",
+      "title": "Tune the decision rubric",
+      "role": "operations",
+      "bot": "Event Request Desk",
+      "description": "Use when the user wants to set, change, or argue with the rules you score event asks against, or when a call they made disagrees with your score."
+    },
+    {
+      "id": "draft-the-reply",
+      "title": "Draft the reply",
+      "role": "operations",
+      "bot": "Event Request Desk",
+      "description": "Use when the user has made a call on an event ask and needs the reply written, or when an organizer has to be asked for missing information."
+    },
+    {
+      "id": "track-what-you-owe-after-a-yes",
+      "title": "Track what you owe after a yes",
+      "role": "operations",
+      "bot": "Event Request Desk",
+      "description": "Use when the user says yes to an event and the team now owes the organizer something, or when they ask what is due, who has it, and what is late."
+    },
+    {
+      "id": "event-spend-and-yes-rate",
+      "title": "Event spend and yes rate",
+      "role": "operations",
+      "bot": "Event Request Desk",
+      "description": "Use when the user asks what they have spent on events, what they said yes to, how the period is tracking against the cap or budget, or wants a recap before a budget conversation."
+    },
+    {
+      "id": "queue-review",
+      "title": "Queue review",
+      "role": "operations",
+      "bot": "Event Request Desk",
+      "description": "Use when the user asks what is in the event queue, what needs a decision, or what has gone stale, or when the weekly queue review routine runs."
+    },
+    {
+      "id": "build-the-office-ops-ledger",
+      "title": "Build the office ops ledger",
+      "role": "operations",
+      "bot": "Office Ops Desk",
+      "description": "Use when the user first hands over shipments, facilities issues, or team celebrations, or when their source list changed and the ledger needs rebuilding."
+    },
+    {
+      "id": "weekly-facilities-digest",
+      "title": "Weekly facilities digest",
+      "role": "operations",
+      "bot": "Office Ops Desk",
+      "description": "Use when the user asks for a facilities update or the weekly facilities digest routine runs."
+    },
+    {
+      "id": "late-shipment-follow-up",
+      "title": "Late shipment follow-up",
+      "role": "operations",
+      "bot": "Office Ops Desk",
+      "description": "Use when a shipment is past its ETA, a tracking number has gone quiet for days, or a vendor has not replied about an order."
+    },
+    {
+      "id": "team-celebrations-list",
+      "title": "Team celebrations list",
+      "role": "operations",
+      "bot": "Office Ops Desk",
+      "description": "Use when the user asks who has a birthday or work anniversary coming up, or the team celebrations routine runs."
+    },
+    {
+      "id": "new-hire-setup",
+      "title": "New hire setup",
+      "role": "operations",
+      "bot": "Office Ops Desk",
+      "description": "Use when someone new is starting, when the user asks what to order before a start date, or when a desk, badge, or laptop needs to be ready by a day."
+    },
+    {
+      "id": "sync-to-notion-linear-and-slack",
+      "title": "Sync to Notion, Linear, and Slack",
+      "role": "operations",
+      "bot": "Office Ops Desk",
+      "description": "Use when the user wants facilities issues filed as tickets, a ledger mirrored into their wiki, or a digest posted to a channel."
+    },
+    {
+      "id": "grok-bot-organization-discovery-architecture",
+      "title": "Grok Bot Organization Discovery & Architecture",
+      "role": "operations",
+      "bot": "Alfred",
+      "description": "Use this when starting from zero, redesigning the Grok Bot organization, the company grew or shrank, strategy/product/team changed, or the current Bot hierarchy no longer fits."
+    },
+    {
+      "id": "workflow-automation-decision",
+      "title": "Workflow & Automation Decision",
+      "role": "operations",
+      "bot": "Alfred",
+      "description": "Use this for one workflow, recurring task, bottleneck, automation idea, proposed Bot responsibility, or candidate identified by organization discovery. Use before creating a new Bot, expanding an existing Bot, or creating a Routine."
+    },
+    {
+      "id": "grok-bot-system-design",
+      "title": "Grok Bot System Design",
+      "role": "operations",
+      "bot": "Alfred",
+      "description": "Use this only after the user approves an Automation Decision Brief, when an approved workflow decision requires a Bot, Skill, Routine, or small multi-Bot handoff design."
+    },
+    {
+      "id": "pilot-test-activate",
+      "title": "Pilot, Test & Activate",
+      "role": "operations",
+      "bot": "Alfred",
+      "description": "Use this after approval of a versioned Build Pack or material patch, to safely test before activation. Never use activation as the first test."
+    },
+    {
+      "id": "audit-repair-govern",
+      "title": "Audit, Repair & Govern",
+      "role": "operations",
+      "bot": "Alfred",
+      "description": "Use this for a noisy or inaccurate Bot, stale Skill, failing Routine, duplicated Bots, unclear ownership, portfolio drift, permission drift, weak value, or a company change that may have made the Bot organization outdated."
+    },
+    {
+      "id": "public-share-security-audit",
+      "title": "Public Share & Security Audit",
+      "role": "operations",
+      "bot": "Alfred",
+      "description": "Use this before creating a public link, marketplace submission, public template distribution, or redistributing a Bot package."
+    },
+    {
+      "id": "getting-started",
+      "title": "Getting started",
+      "role": "recruiting",
+      "bot": "Talent Discovery",
+      "description": "Use on the first conversation after setup, or whenever memory has no user prefs: learn what role the user is hiring for and get them to a first batch of candidates."
+    },
+    {
+      "id": "read-the-role",
+      "title": "Read the role",
+      "role": "recruiting",
+      "bot": "Talent Discovery",
+      "description": "Use when the user pastes or links a job description, names a role they are filling, or wants the bar for the search tightened."
+    },
+    {
+      "id": "source-a-batch",
+      "title": "Source a batch",
+      "role": "recruiting",
+      "bot": "Talent Discovery",
+      "description": "Use when the user asks for candidates, wants more names for the open role, or the daily batch routine runs."
+    },
+    {
+      "id": "lookalike-search",
+      "title": "Lookalike search",
+      "role": "recruiting",
+      "bot": "Talent Discovery",
+      "description": "Use when the user names someone whose work is the benchmark, links a profile, or asks for more people like a candidate they already rate."
+    },
+    {
+      "id": "dedupe-against-your-pipeline",
+      "title": "Dedupe against your pipeline",
+      "role": "recruiting",
+      "bot": "Talent Discovery",
+      "description": "Use when the user already has candidates in play, pastes an ATS export or a list, or asks whether you are about to surface someone they know."
+    },
+    {
+      "id": "draft-outreach",
+      "title": "Draft outreach",
+      "role": "recruiting",
+      "bot": "Talent Discovery",
+      "description": "Use when the user picks a candidate to contact, asks for a first message or a follow-up, or wants outreach written for a whole batch."
+    },
+    {
+      "id": "shortlist-review",
+      "title": "Shortlist review",
+      "role": "recruiting",
+      "bot": "Talent Discovery",
+      "description": "Use when the user wants to go through the shortlist, keep or pass on candidates, or see how the search is actually going."
+    },
+    {
+      "id": "role-market-read",
+      "title": "Role market read",
+      "role": "recruiting",
+      "bot": "Talent Discovery",
+      "description": "Use when the user asks how hard this search will be, where these people are, what the role pays, or whether the bar is realistic."
+    },
+    {
+      "id": "share-the-shortlist",
+      "title": "Share the shortlist",
+      "role": "recruiting",
+      "bot": "Talent Discovery",
+      "description": "Use when the user wants to send the shortlist or the bar to their team, post candidates in a channel, or keep the search somewhere the team can see it."
+    },
+    {
+      "id": "build-the-hiring-tracker",
+      "title": "Build the hiring tracker",
+      "role": "recruiting",
+      "bot": "Recruiting Coordinator",
+      "description": "Use when the user first hands over roles, candidates, or scheduled loops, or when their source list changed and the tracker needs rebuilding."
+    },
+    {
+      "id": "schedule-an-interview-loop",
+      "title": "Schedule an interview loop",
+      "role": "recruiting",
+      "bot": "Recruiting Coordinator",
+      "description": "Use when the user needs to book, rebuild, or reschedule an interview loop and has candidate availability, a panel, or a calendar to work from."
+    },
+    {
+      "id": "interviewer-prep-packet",
+      "title": "Interviewer prep packet",
+      "role": "recruiting",
+      "bot": "Recruiting Coordinator",
+      "description": "Use when interviews are coming up and the panel needs a packet, or when the evening prep routine runs."
+    },
+    {
+      "id": "stalled-loop-follow-ups",
+      "title": "Stalled loop follow-ups",
+      "role": "recruiting",
+      "bot": "Recruiting Coordinator",
+      "description": "Use when the user asks what is stuck, who owes them something, or wants nudges drafted for candidates, interviewers, or a hiring manager."
+    },
+    {
+      "id": "candidate-message-drafts",
+      "title": "Candidate message drafts",
+      "role": "recruiting",
+      "bot": "Recruiting Coordinator",
+      "description": "Use when the user needs a message written to a candidate or an interviewer: scheduling, a nudge, a rejection, an offer follow-up, or keeping someone warm."
+    },
+    {
+      "id": "run-the-debrief",
+      "title": "Run the debrief",
+      "role": "recruiting",
+      "bot": "Recruiting Coordinator",
+      "description": "Use after a loop finishes and the user needs the scorecards collated, the debrief structured, or a written summary of where the panel landed."
+    },
+    {
+      "id": "interviewer-coaching",
+      "title": "Interviewer coaching",
+      "role": "recruiting",
+      "bot": "Recruiting Coordinator",
+      "description": "Use when the user wants to sharpen their own interviewing: question banks, scorecards, pacing, or how to run a debrief. Not for drilling a candidate."
+    }
+  ]
+}
