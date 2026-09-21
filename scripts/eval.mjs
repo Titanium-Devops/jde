@@ -203,8 +203,14 @@ function asBool(value) {
   return undefined;
 }
 
+/** A case set writes its state under `state`; a bare case is read as its own state. */
+function restatementState(testCase) {
+  return testCase.state ?? testCase;
+}
+
 function restatementParts(testCase) {
-  const given = testCase.state.taskParts ?? testCase.state.task_parts;
+  const state = restatementState(testCase);
+  const given = state.taskParts ?? state.task_parts;
   return given === undefined || given === null ? undefined : normaliseParts(given);
 }
 
@@ -235,10 +241,11 @@ function restatementLabels(testCase) {
 
 function restatementInput(testCase) {
   const parts = restatementParts(testCase);
+  const state = restatementState(testCase);
   return {
-    task: testCase.state.task,
+    task: state.task,
     ...(parts === undefined ? {} : { taskParts: parts }),
-    restatement: testCase.state.restatement,
+    restatement: state.restatement,
   };
 }
 

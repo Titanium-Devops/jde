@@ -147,7 +147,9 @@ confidence bucket, and it writes the raw records to `out/`, which is not committ
 does not clear its bar stays behind its flag, or stays in code.
 
 The completion check's bar, cleared on 2026-09-20: every part, every verdict and every echo correct
-on the 30 case blind set.
+on the 30 case blind set. The task restatement check's bar, measured once on 2026-09-21: 36 of 40
+verdicts and 221 of 229 questions on its own 40 case blind set, written by an author who never saw
+the questions. The numbers and what is behind them are at the end of this file.
 
 ## The completion check
 
@@ -259,3 +261,83 @@ path" pair into one file part while the other set's author kept both.
 
 None of these is a case for a judge. A wrong split shows up in the ledger as a part nobody could
 satisfy; a model call on every task costs money on every turn and answers the same string two ways.
+
+## The task restatement check
+
+```ts
+import { taskRestatement } from "@titanium/jde";
+
+const outcome = await taskRestatement({
+  task,
+  taskParts: [              // optional, exactly as with the completion check
+    { id: "p1", kind: "action", text: "research the three managed Postgres providers" },
+    { id: "p2", kind: "file", text: "write the comparison", path: "notes/pg-pricing.md" },
+    { id: "p3", kind: "reply", text: "state which to pick" },
+  ],
+  restatement,              // what the bot wrote back before it started
+  loop: 0,                  // how many revise loops have already run
+  context: { agentId, turnId },
+});
+
+if (outcome.verdict === "revise") redispatch(outcome.uncovered);
+```
+
+This runs before the work, where the completion check runs after. The bot writes the task back in
+its own words and this says whether the restatement shows it read the request: all of it, only it,
+and not by copying.
+
+`outcome.verdict` is `accept`, `revise`, `escalate`, or null when the judge did not answer.
+`uncovered` names the parts to hand back on a revise. `parrot` says whether the restatement was a
+copy and which of code or the judge decided that. `similarity` is the ratio, for the ledger.
+
+Three questions, and only three, however long the task is:
+
+- one yes-or-no per part, on whether the restatement carries that part with the same meaning
+- one yes-or-no on whether it requires something the request did not ask for
+- one yes-or-no on whether it is a copy, asked only when the ratio did not already settle it
+
+Code owns the part count, the ratio, and the verdict. `similarityRatio()` is the share of the
+restatement's four word runs that appear exactly in the task; at `PARROT_RATIO_FLOOR` or above,
+code calls it a copy and the question is never asked, the same way a file part never reaches a
+model in the completion check.
+
+`taskParts` is read in whatever shape it arrives: parts with ids, parts without, bare strings, or
+an object keyed by part id. Leave it out and `extractTaskParts()` reads the parts out of the task,
+renumbered from the extractor's `part_0` to the `p1` the case sets and the console use.
+
+### What it scored
+
+Measured once, on 2026-09-21, against 40 cases written by an author who never saw the questions.
+No tuning after the run.
+
+| | blind, 40 cases |
+|---|---|
+| Verdict: accept, revise or escalate | **36 of 40** |
+| Coverage, one question per task part | **146 of 149** |
+| Added a requirement the request did not contain | 35 of 40 |
+| Is a copy, code and judge together | **40 of 40** |
+| of which the ratio settled with no model at all | 11 of 11 |
+| Median latency | 141 ms |
+| Cost for the whole run | $0.0018 |
+
+The copying slice is the one to read first, because it is the one code took. Every parrot in the
+set scored 0.79 or above on the ratio except one, which scored 0.53 and was the paraphrase parrot
+the question exists for; the judge called it at 0.83. The highest ratio any honest restatement
+reached was 0.19. A floor of 0.6 sits in the middle of a gap that wide, and it was picked before
+the set was opened.
+
+Both slices that missed, missed the same way, and neither cost a verdict:
+
+- **Coverage (3 of 149).** All three are a broad first part, such as "write a week of X posts",
+  where the restatement writes them for the wrong audience. The case author calls that part covered
+  and puts the error in the sibling part that carries the audience; the question, as written, calls
+  a changed target uncovered. The sibling was marked uncovered by both, so the verdict held.
+- **Added requirement (5 of 40).** All five are a restatement that proposes doing what the request
+  forbade: posting replies that were to be left unposted, closing duplicates that were to be tagged.
+  The author reads that as a part not covered, not as an addition. The question's own criteria say
+  the same thing, and the judge answered otherwise on all five anyway.
+
+Every one of the four wrong verdicts is a judge answer that landed between 0.56 and 0.69, which the
+policy's bottom band escalates. Three were labelled accept and one revise. That rule is the spec's
+and it stays; the eval prints how often it fired alone so a second blind set has a number to argue
+with rather than a feeling.
