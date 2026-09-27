@@ -10,4 +10,4 @@ Pages and specs that travel with the engine.
 
 Both HTML pages are single files with no external requests, so they open from disk.
 
-`../DESIGN.md` is the contract, `../USAGE.md` is how to call it, and `../cases/` holds the case sets. Every blind set in that folder was written by an author who never saw the questions it grades.
+`../DESIGN.md` is the contract, `../USAGE.md` is how to call it, and `../cases/` holds the case sets. Blind sets are written by an author who never saw the questions they grade, and they are kept out of this public repo (`cases/*-blind.json` is gitignored): a set a model can train on stops measuring anything.
