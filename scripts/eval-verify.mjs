@@ -31,7 +31,7 @@ const files = only
 
 let live;
 try {
-  live = await provenance({ endpoint, runtimeUrl: flag("--runtime-url", undefined), setPaths: [] });
+  live = await provenance({ endpoint, runtimeUrl: flag("--runtime-url", process.env.JDE_RUNTIME_URL), setPaths: [] });
 } catch (error) {
   console.error(error.message);
   process.exit(1);
@@ -61,7 +61,7 @@ const fail = (message) => {
 
 for (const { file, result } of committed) {
   console.log(`verifying ${relative(process.cwd(), file)}`);
-  const now = await provenance({ endpoint, runtimeUrl: flag("--runtime-url", undefined), setPaths: result.sets.map((s) => s.path) });
+  const now = await provenance({ endpoint, runtimeUrl: flag("--runtime-url", process.env.JDE_RUNTIME_URL), setPaths: result.sets.map((s) => s.path) });
 
   if (now.judge.runtime_version !== result.judge.runtime_version) {
     console.log(`  note: ${result.runtime} is ${now.judge.runtime_version} here, ${result.judge.runtime_version} when committed`);

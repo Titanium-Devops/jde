@@ -11,6 +11,7 @@
 //                              [--out <path>] [--date YYYY-MM-DD]
 //
 //   JDE_JEB_ENDPOINT   the /v1/systemone endpoint, default http://localhost:8100/v1/systemone
+//   JDE_RUNTIME_URL    where the runtime behind jeb serve answers, when it is not on its usual port
 //
 // The readout is a logprob readout at temperature 0 with one request in flight, so a rerun on the
 // same GGUF and runtime gives the same numbers to the last digit. `npm run eval:verify` holds a
@@ -280,7 +281,7 @@ async function main() {
 
   let prov;
   try {
-    prov = await provenance({ endpoint, runtimeUrl: flag("--runtime-url", undefined), setPaths });
+    prov = await provenance({ endpoint, runtimeUrl: flag("--runtime-url", process.env.JDE_RUNTIME_URL), setPaths });
   } catch (error) {
     console.error(error.message);
     process.exit(1);
