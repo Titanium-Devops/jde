@@ -73,7 +73,7 @@ wait_for() {
 if [ "$runtime" = llama-server ]; then
   gguf="${JDE_GGUF:-}"
   if [ -z "$gguf" ]; then
-    gguf="$(curl -s "$ollama_url/api/show" -d "{\"model\":\"$tag\"}" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{const m=/FROM (\S+)/.exec(JSON.parse(s).modelfile||"");process.stdout.write(m?m[1]:"")})')"
+    gguf="$(curl -s "$ollama_url/api/show" -d "{\"model\":\"$tag\"}" | node -e 'let s="";process.stdin.on("data",d=>s+=d).on("end",()=>{const m=/^FROM (\S+)$/m.exec(JSON.parse(s).modelfile||"");process.stdout.write(m?m[1]:"")})')"
     [ -n "$gguf" ] || { echo "no GGUF: set JDE_GGUF, or ollama pull $tag first" >&2; exit 1; }
   fi
   # jeb checks that the loaded file is named as a Jebadiah GGUF, and Ollama names blobs by digest.
