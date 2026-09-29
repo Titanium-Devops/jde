@@ -1,5 +1,5 @@
 import { fileLedger } from "./ledger.ts";
-import { judgeNamed } from "./judge/index.ts";
+import { DEFAULT_JUDGE, judgeNamed } from "./judge/index.ts";
 import {
   aggregateFloor,
   answerText,
@@ -28,8 +28,24 @@ import type {
 } from "./types.ts";
 
 export * from "./types.ts";
-export { codeJudge, jevJudge, judgeNamed, JEV_ENDPOINT, JEV_MODEL, TYPESAFE_API_KEY_ENV } from "./judge/index.ts";
-export type { CodeAnswer, CodeJudgeOptions, JevJudgeOptions } from "./judge/index.ts";
+export {
+  codeJudge,
+  DEFAULT_JUDGE,
+  jebJudge,
+  JEB_API_KEY_ENV,
+  JEB_ENDPOINT,
+  JEB_ENDPOINT_ENV,
+  JEB_MODEL,
+  JEB_MODEL_ENV,
+  JEB_START_HINT,
+  jevJudge,
+  judgeNamed,
+  JEV_ENDPOINT,
+  JEV_MODEL,
+  systemOneJudge,
+  TYPESAFE_API_KEY_ENV,
+} from "./judge/index.ts";
+export type { CodeAnswer, CodeJudgeOptions, JebJudgeOptions, JevJudgeOptions, SystemOneJudgeOptions } from "./judge/index.ts";
 export { fileLedger, memoryLedger, nullLedger, markWrong, readLedger, defaultLedgerPath } from "./ledger.ts";
 export type { MemoryLedger } from "./ledger.ts";
 export {
@@ -87,7 +103,7 @@ export async function ask<State = unknown>(input: AskInput<State>, options: AskO
   if (aggregate === undefined) {
     throw new Error(`policy entry "${decision}" names an aggregate rule this build does not have: ${entry.aggregate}`);
   }
-  const judge = options.judge ?? judgeNamed(entry.judge ?? "jev");
+  const judge = options.judge ?? judgeNamed(entry.judge ?? DEFAULT_JUDGE);
   const ledger = options.ledger ?? fileLedger();
   const now = options.now ?? (() => new Date());
   const newId = options.newId ?? (() => globalThis.crypto.randomUUID());

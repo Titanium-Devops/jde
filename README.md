@@ -62,7 +62,7 @@ Four things, each of which you would otherwise build yourself:
 | **Typed questions** | Ask for a choice, a yes-or-no, or a score. Get a calibrated probability back, not a paragraph to parse. |
 | **Policy as data** | How confident is confident enough, and what happens otherwise, lives in a JSON file. Not scattered through your code. |
 | **One ledger** | Every judgment, its confidence, and what your software did about it. Auditable, and the training set for owning the judge later. |
-| **Swappable judge** | A hosted decision model today. Your own fine-tuned model tomorrow. Your code where the answer turned out to be a fact. |
+| **Swappable judge** | An open decision model on your own machine by default. A hosted one if you prefer. Your code where the answer turned out to be a fact. |
 
 ## The proof
 
@@ -85,6 +85,13 @@ never saw a result. No tuning afterwards. That is the whole point of a blind set
 </div>
 
 Under a fifth of a cent to check thirty agent completions, in under two seconds.
+
+Those numbers were measured with TypeSafe's hosted Jev, the only judge that existed when JDE
+was written. The default judge is now [Jeb](#the-judge), the open Jebadiah decision model,
+running on your own machine. On 290 real decisions from Titanium Computing's production
+engine, Jebadiah 9B v2 got 277 right against Jev's 282, with no flips across 5,800 repeat calls
+([model card](https://huggingface.co/frontier-infra/jebadiah-9b-v2-GGUF)); one at a time on a
+Mac Studio it answers a completion check in about half a second, at no cost per call.
 
 ## Why it works: ask small questions
 
@@ -121,18 +128,49 @@ wording we had quietly tuned ourselves into.
 
 ```bash
 npm install
-npm test          # 32 tests, no network, no API key
+npm test          # no network, no API key
 ```
 
 Everything offline runs against the `code` judge, which is a judge you hand the answers to.
 You can test your policy, your thresholds and your fallbacks without a model, a key, or a
 network connection.
 
-For real judgments, set a [TypeSafe](https://typesafe.ai) key in `TYPESAFE_API_KEY`:
+## The judge
+
+For real judgments, JDE asks **Jeb**, the open [Jebadiah](https://github.com/getainode/jebadiah)
+decision model, running on your machine. Start one:
+
+```bash
+pip install jebadiah-decide
+jeb serve          # Ollama by default; also LM Studio, llama.cpp, vLLM, MLX. See jeb --help
+```
+
+That serves the judge at `http://localhost:8100/v1/systemone`, which is where JDE looks by
+default. No key, no account, nothing leaves the machine. Then:
+
+```bash
+node scripts/eval.mjs --cases cases/completion-check-tuned.json
+```
+
+If nothing answers there, every decision takes its policy's `on_error` action, and the recorded
+failure says how to start a local Jeb. JDE never falls back to a hosted service on its own.
+
+| Setting | Default | |
+|---|---|---|
+| `JDE_JEB_ENDPOINT` | `http://localhost:8100/v1/systemone` | any `/v1/systemone` server: `jeb serve`, AINode, your own |
+| `JDE_JEB_MODEL` | `jebadiah-9b-v2` | the model name sent and recorded on every ledger row |
+| `JDE_JEB_API_KEY` | unset | sent as a bearer token only when set |
+
+**Judge Jeb is coming, and isn't released yet.** It's a Jeb tuned on JDE's own judging
+questions. When it ships, moving to it is the one `JDE_JEB_MODEL` setting (and loading that
+model in `jeb serve` or AINode). Until then the default judge is Jeb, the general model.
+
+**The hosted judge is opt in.** Name `"judge": "jev"` in a policy entry, or pass `jevJudge()`,
+and set a [TypeSafe](https://typesafe.ai) key in `TYPESAFE_API_KEY`:
 
 ```bash
 export TYPESAFE_API_KEY="..."
-node scripts/eval.mjs --cases cases/completion-check-blind.json
+node scripts/eval.mjs --judge jev --cases cases/completion-check-tuned.json
 ```
 
 The key is read from there and nowhere else, and never reaches the ledger.
@@ -141,7 +179,8 @@ See [USAGE.md](USAGE.md) to call `ask()`, add a decision, or write a policy entr
 ## What JDE does not do
 
 It does not generate text. It does not decide what code can compute. It does not retry a
-judgment: one call, a timeout, a fallback. It does not hold your credentials.
+judgment: one call, a timeout, a fallback. It does not hold your credentials. It does not call a
+paid service unless you name one.
 
 ## Where it came from
 

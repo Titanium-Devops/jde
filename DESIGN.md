@@ -38,7 +38,7 @@ written, not the question as meant.
     ],
     "aggregate": "all_parts_at_least_0.7",
     "on_error": "fall_back",
-    "timeout_ms": 750
+    "timeout_ms": 2000
   }
 }
 ```
@@ -60,8 +60,10 @@ interface Judge {
 }
 ```
 
-Shipped: `jev` (hosted). Planned: `local` (a fine-tuned small model), `code` (a deterministic
-judge for tests and for questions that turned out to be facts).
+Shipped: `jeb` (the default: the open Jebadiah model on your own machine, behind `jeb serve` or
+AINode), `jev` (TypeSafe's hosted service, opt in), `code` (a deterministic judge for tests and for
+questions that turned out to be facts). Planned: Judge Jeb, a Jeb tuned on JDE's own questions,
+reached through the same `jeb` judge by its model name.
 
 ## The ledger
 

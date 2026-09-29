@@ -58,7 +58,7 @@ fallback, and a retry inside a turn spends the deadline twice.
     ],
     "aggregate": "all_parts_at_least_0.7",
     "on_error": "fall_back",
-    "timeout_ms": 750
+    "timeout_ms": 2000
   }
 }
 ```
@@ -72,8 +72,11 @@ Four rules, each refused at load rather than trusted:
 - **`aggregate` names a rule this build has.** Shipped: `min_confidence` (the weakest answer is the
   decision's confidence), `mean_confidence`, and `all_parts_at_least_<x>`, which is `min_confidence`
   with the floor written down where a reader can see it.
-- **`judge` is optional** and only `jev` can be named. A judge that needs arguments, like `code`, is
-  passed in by the caller.
+- **`judge` is optional.** Left out, it's `jeb`: the open Jeb model behind `jeb serve` on
+  `http://localhost:8100/v1/systemone` (`JDE_JEB_ENDPOINT`, `JDE_JEB_MODEL` and `JDE_JEB_API_KEY`
+  change where, which and how). `jev` names TypeSafe's hosted Jev, opt in, with `TYPESAFE_API_KEY`.
+  A judge that needs arguments, like `code`, is passed in by the caller. Set `timeout_ms` to your
+  judge's p95: the shipped 2000 fits a local 9B, and 750 was the hosted budget.
 
 Actions are your strings. JDE hands one back; it does not know what `accept` means.
 
@@ -137,8 +140,11 @@ Two sets, reported separately:
 - a **blind** set, which runs once.
 
 ```
-export TYPESAFE_API_KEY="$(...)"    # never echoed, never committed
+jeb serve                            # a local Jeb, the default judge (pip install jebadiah-decide)
 node scripts/eval.mjs --cases cases/completion-check-blind.json --out out/blind-run.json
+# or against the hosted judge:
+export TYPESAFE_API_KEY="$(...)"    # never echoed, never committed
+node scripts/eval.mjs --judge jev --cases cases/completion-check-blind.json --out out/blind-run-jev.json
 ```
 
 The eval reads both label shapes and converts them in code, so a blind set is never edited by hand

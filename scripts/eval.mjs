@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 // Runs a decision against a case set through the real judge, and reports what it got right.
 //
-// The key is read from TYPESAFE_API_KEY, by the judge, and from nowhere else. It is never printed,
-// never logged and never written to the output file. Every case in cases/ is synthetic.
+// The judge is a local Jeb by default (jeb serve on localhost:8100, or JDE_JEB_ENDPOINT); --judge jev
+// uses TypeSafe's hosted Jev instead, with its key read from TYPESAFE_API_KEY by the judge and from
+// nowhere else. No key is ever printed, logged or written to the output file. Every case in cases/
+// is synthetic.
 //
 // Usage: node scripts/eval.mjs
 //          [--cases <path>]        default cases/completion-check-blind.json
@@ -12,6 +14,7 @@
 //          [--concurrency <n>]     default 4
 //          [--attempts <n>]        whole-decision retries on a refusal, default 5
 //          [--only <substring>]    run the cases whose id contains this
+//          [--judge jeb|jev]       default jeb (a local Jeb); jev is the hosted service
 //
 // A case file is a bare array or {cases: [...]}. Two label shapes are read, and converted here in
 // code rather than by hand: the blind shape, {expected: {parts: [...], done, result_is_echo}}, and
@@ -24,6 +27,7 @@ import { fileURLToPath } from "node:url";
 import {
   completionCheck,
   COMPLETION_DECISION,
+  jebJudge,
   jevJudge,
   nullLedger,
   partQuestionId,
@@ -35,11 +39,6 @@ const CODE_OWNED = "computed_by_code";
 const USD_PER_MILLION_INPUT_TOKENS = 0.042;
 const RETRYABLE = new Set(["http_error", "network", "timeout"]);
 const BASE_BACKOFF_MS = 600;
-
-if (!process.env.TYPESAFE_API_KEY) {
-  console.error("TYPESAFE_API_KEY is not set. Export it in the shell that runs this script and try again.");
-  process.exit(1);
-}
 
 const args = process.argv.slice(2);
 const flag = (name, fallback) => {
@@ -54,6 +53,15 @@ const timeoutMs = Number(flag("--timeout-ms", 30000));
 const concurrency = Number(flag("--concurrency", 4));
 const maxAttempts = Number(flag("--attempts", 5));
 const only = flag("--only", undefined);
+const judgeName = flag("--judge", "jeb");
+if (judgeName !== "jeb" && judgeName !== "jev") {
+  console.error(`--judge must be jeb or jev, not ${judgeName}`);
+  process.exit(1);
+}
+if (judgeName === "jev" && !process.env.TYPESAFE_API_KEY) {
+  console.error("TYPESAFE_API_KEY is not set. The hosted Jev judge needs it; export it in the shell that runs this script and try again.");
+  process.exit(1);
+}
 
 // The eval's own policy. The bands and the aggregate are the shipped ones; only the deadline moves,
 // because 750 ms is the budget a live turn can spend waiting and not the budget a measurement has.
@@ -93,7 +101,7 @@ function labelsOf(testCase) {
   };
 }
 
-const judge = jevJudge();
+const judge = judgeName === "jev" ? jevJudge() : jebJudge();
 
 async function runCase(testCase) {
   const labels = labelsOf(testCase);
@@ -175,6 +183,10 @@ async function inPool(items, size, worker) {
 
 const startedAt = Date.now();
 const records = await inPool(allCases, concurrency, runCase);
+if (records.length > 0 && records.every((r) => r.outcome.error?.reason === "network")) {
+  console.error(`No judge answered: ${records[0].outcome.error.detail}`);
+  process.exit(1);
+}
 const wallMs = Date.now() - startedAt;
 
 // ---------------------------------------------------------------------------
@@ -254,7 +266,9 @@ if (failed.length > 0) {
 }
 lines.push("");
 lines.push(`latency p50 ${percentile(0.5)}ms, p95 ${percentile(0.95)}ms, wall ${(wallMs / 1000).toFixed(1)}s at concurrency ${concurrency}`);
-lines.push(`input tokens ${inputTokens}, about $${((inputTokens / 1_000_000) * USD_PER_MILLION_INPUT_TOKENS).toFixed(4)} at $${USD_PER_MILLION_INPUT_TOKENS} per million`);
+lines.push(judgeName === "jev"
+  ? `input tokens ${inputTokens}, about $${((inputTokens / 1_000_000) * USD_PER_MILLION_INPUT_TOKENS).toFixed(4)} at $${USD_PER_MILLION_INPUT_TOKENS} per million`
+  : `input tokens ${inputTokens}, on your own machine`);
 
 const report = lines.join("\n");
 console.log(report);

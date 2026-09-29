@@ -115,7 +115,7 @@ export interface PolicyEntry {
   readonly aggregate: string;
   readonly on_error: string;
   readonly timeout_ms: number;
-  /** Which judge answers this decision. Only `jev` can be named; a test passes its judge in. */
+  /** Which judge answers this decision: `jeb` (the default, a local Jeb) or `jev` (hosted, opt in). A test passes its judge in. */
   readonly judge?: string;
 }
 
