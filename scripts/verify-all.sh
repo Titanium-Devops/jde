@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Reruns every committed local-judge result, one model at a time, and fails if any does not
-# reproduce. This is what CI runs; it needs Ollama running, llama.cpp 0.5.0 or later, jeb and node.
+# reproduce. It is run before every merge; it needs Ollama running, llama.cpp 0.5.0 or later, jeb and node.
 #
 #   scripts/verify-all.sh [evals/results/<file>.json ...]
 set -euo pipefail
