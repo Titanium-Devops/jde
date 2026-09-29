@@ -3,7 +3,7 @@
 ## Calling ask()
 
 ```ts
-import { ask } from "@titanium/jde";
+import { ask } from "jde";
 
 const outcome = await ask({
   decision: "completion-check",          // names the policy entry and every ledger row
@@ -158,7 +158,7 @@ on the 30 case blind set.
 ## The completion check
 
 ```ts
-import { completionCheck } from "@titanium/jde";
+import { completionCheck } from "jde";
 
 const outcome = await completionCheck({
   task,

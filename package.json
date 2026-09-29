@@ -1,9 +1,25 @@
 {
-  "name": "@titanium/jde",
+  "name": "jde",
   "version": "0.1.0",
-  "private": true,
   "description": "JDE, the Jev Decision Engine: one place where an agent's judgments are asked, answered, thresholded and recorded.",
-  "license": "UNLICENSED",
+  "license": "MIT",
+  "author": "Titanium Computing (https://titanium.bot)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Titanium-Devops/jde.git"
+  },
+  "homepage": "https://github.com/Titanium-Devops/jde#readme",
+  "bugs": {
+    "url": "https://github.com/Titanium-Devops/jde/issues"
+  },
+  "keywords": [
+    "ai-agent",
+    "llm-judge",
+    "completion-check",
+    "mcp",
+    "jev",
+    "decision"
+  ],
   "type": "module",
   "engines": {
     "node": ">=22"
@@ -16,18 +32,26 @@
       "default": "./dist/index.js"
     }
   },
+  "bin": {
+    "jde-mcp": "dist/mcp/server.js"
+  },
   "files": [
     "dist",
+    "!dist/**/*.map",
     "policy.json",
     "README.md",
+    "LICENSE",
     "DESIGN.md",
     "USAGE.md"
   ],
   "scripts": {
+    "clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
     "build": "tsc -p tsconfig.json",
     "typecheck:tests": "tsc -p tsconfig.test.json",
     "test": "npm run build && npm run typecheck:tests && node --test \"tests/*.test.ts\"",
-    "eval": "node scripts/eval.mjs"
+    "eval": "node scripts/eval.mjs",
+    "prepack": "npm run clean && npm run build",
+    "prepublishOnly": "npm test"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.31.0",
