@@ -12,8 +12,8 @@ judgment it made.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-0EA5E9.svg)](LICENSE)
 [![Node](https://img.shields.io/badge/node-22%2B-0EA5E9.svg)](package.json)
-[![Blind set](https://img.shields.io/badge/blind%20set-100%25-00C8F0.svg)](#the-proof)
-[![Latency](https://img.shields.io/badge/p50-171ms-00C8F0.svg)](#the-proof)
+[![Public blind set](https://img.shields.io/badge/public%20blind%20set-31%2F36%20local-00C8F0.svg)](#the-proof)
+[![Reproducible](https://img.shields.io/badge/eval-reproducible-00C8F0.svg)](evals/README.md)
 
 Built at [Titanium Computing](https://titanium.bot)
 
@@ -68,38 +68,55 @@ Four things, each of which you would otherwise build yourself:
 
 The first decision shipped is the one above: *did the agent actually do the work?*
 
-It was measured once against 30 cases written by someone who never saw the questions and
-never saw a result. No tuning afterwards. That is the whole point of a blind set.
+It is measured on a **public blind set**: 36 cases written by an independent author who never saw
+JDE's questions or any result, frozen by sha256 and pushed before any judge saw a case
+([how](cases/completion-check-public.AUTHOR.md)). The judge is **Jeb**, the open Jebadiah decision
+model, on your own machine. Every number below is in a file under
+[`evals/results`](evals/results), with the GGUF's sha256, the runtime and its version, and the
+commit that ran it, and `npm run eval:verify` reruns it and fails on any difference.
 
 <div align="center">
 
-| | Result |
-|---|---|
-| **Correct verdict** (done / partial / not done) | **30 of 30** |
-| Prompt restated instead of answered, caught | **30 of 30** |
-| Task parts judged against real receipts | **42 of 42** |
-| Task parts settled by code, no model | **27 of 27** |
-| Median latency | **171 ms** |
-| Cost for the entire run | **$0.001** |
+| Judge, on your machine | Verdict right | Parts judged right | Echo caught | Median latency |
+|---|---|---|---|---|
+| **Jeb 4B v2**, Q8_0 | **31 of 36** | 66 of 74 | 33 of 36 | 421 ms |
+| **Jeb 9B v2**, Q8_0 | **31 of 36** | 65 of 74 | 32 of 36 | 707 ms |
+| **Jeb 27B**, Q8_0 | **31 of 36** | 67 of 74 | 35 of 36 | 2.3 s |
+| *For comparison: TypeSafe's hosted Jev 1.13.0* | *34 of 36* | *68 of 74* | *35 of 36* | *143 ms* |
 
 </div>
 
-Under a fifth of a cent to check thirty agent completions, in under two seconds.
+Each size gives the same answers, to the last digit, on Ollama 0.34.4 and on llama.cpp 0.5.0, and
+the same answers again on a rerun. Latency is one completion check at a time on a Mac Studio
+(M3 Ultra). No cost per call, and nothing leaves the machine. Verdicts are aggregated in code from
+the per-part answers; file parts are settled in code and are right by construction (19 of 19).
 
-Those numbers were measured with TypeSafe's hosted Jev, the only judge that existed when JDE
-was written. The default judge is now [Jeb](#the-judge), the open Jebadiah decision model,
-running on your own machine. On 290 real decisions from Titanium Computing's production
-engine, Jebadiah 9B v2 got 277 right against Jev's 282, with no flips across 5,800 repeat calls
-([model card](https://huggingface.co/frontier-infra/jebadiah-9b-v2-GGUF)); one at a time on a
-Mac Studio it answers a completion check in about half a second, at no cost per call.
+**Where the judges disagree.** Each local size misses five verdicts. Two misses are shared by all
+three, and they are one mistake: a receipt that looks like the work is taken for the work. Search
+results counted as pages read (`pub-search-without-reading`), and tests run against the wrong
+service (`pub-wrong-service-tests`). 9B and 27B also accept a recommendation without the reason
+that was asked for (`pub-hosting-missing-reason`), and judge two polished restatements of the task
+partial rather than not done, which hosted Jev also did on the same two. 4B gets those three right
+and instead calls two finished tasks partial and one restatement partial. The
+hosted judge is better here, by three verdicts. It is also a service: its weights can change
+behind the same name, it needs a key, and nobody outside TypeSafe can rerun it at a fixed
+version, which is why it is a comparison row and not the headline.
+[`evals/README.md`](evals/README.md) has the method and the case-by-case table
+(`node scripts/results-table.mjs` prints it from the files).
+
+JDE's first measurement, 30 of 30 verdicts with hosted Jev, was on a private blind set that stays
+private: once a model can train on a blind set it stops measuring anything. The public set exists
+so that nobody has to take that number on trust.
 
 ## Why it works: ask small questions
 
 This is the lesson that produced those numbers, and it is worth more than the code.
 
-Asking a model one question about a whole task scored **in the seventies**. Splitting the
-same judgment into one question per part of the task, settling the parts that are facts in
-code, and adding them up in code, scored **100 percent**.
+On JDE's first, private blind set, with the hosted judge, asking one question about a whole
+task scored **in the seventies**. Splitting the same judgment into one question per part of the
+task, settling the parts that are facts in code, and adding them up in code, scored
+**100 percent**. The public set above is the same shape, and it is what the local judges are
+measured on.
 
 > Give the model the semantic step in the middle. Keep the arithmetic.
 
@@ -176,10 +193,11 @@ jeb serve          # Ollama by default; also LM Studio, llama.cpp, vLLM, MLX. Se
 ```
 
 That serves the judge at `http://localhost:8100/v1/systemone`, which is where JDE looks by
-default. No key, no account, nothing leaves the machine. Then:
+default. No key, no account, nothing leaves the machine. Then measure it yourself:
 
 ```bash
-node scripts/eval.mjs --cases cases/completion-check-tuned.json
+npm run eval:local      # every public set, with full provenance, into evals/results/
+npm run eval:verify     # rerun a committed result and fail on any difference
 ```
 
 If nothing answers there, every decision takes its policy's `on_error` action, and the recorded

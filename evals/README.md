@@ -39,6 +39,51 @@ before it is run.
 
 Latency is recorded as a summary only. It is a property of the machine, not the judge.
 
+## The numbers
+
+Printed by `node scripts/results-table.mjs` from the files, not typed.
+
+### Public set
+
+| Judge | Verdict right | Parts judged right | Echo caught | Median latency | Runs on |
+|---|---|---|---|---|---|
+| **Jeb 4B v2** Q8_0, local | **31 of 36** | 66 of 74 | 33 of 36 | 421 ms | llama-server b11146-7fe450e19, ollama 0.34.4 (identical answers) |
+| **Jeb 9B v2** Q8_0, local | **31 of 36** | 65 of 74 | 32 of 36 | 707 ms | llama-server b11146-7fe450e19, ollama 0.34.4 (identical answers) |
+| **Jeb 27B** Q8_0, local | **31 of 36** | 67 of 74 | 35 of 36 | 2309 ms | llama-server b11146-7fe450e19, ollama 0.34.4 (identical answers) |
+| *For comparison: hosted Jev (1.13.0)* | *34 of 36* | *68 of 74* | *35 of 36* | *143 ms* | *TypeSafe's API* |
+
+| Case | Labelled | Jeb 4B v2 | Jeb 9B v2 | Jeb 27B | Jev |
+|---|---|---|---|---|---|
+| `pub-orders-export` | done | **partial** | done | done | done |
+| `pub-timeout-root-cause` | done | **partial** | done | done | done |
+| `pub-hosting-missing-reason` | partial | partial | **done** | **done** | partial |
+| `pub-search-without-reading` | partial | **done** | **done** | **done** | partial |
+| `pub-imperative-echo` | not_done | **partial** | not_done | not_done | not_done |
+| `pub-empty-brief-echo` | not_done | not_done | **partial** | **partial** | **partial** |
+| `pub-results-only-echo` | not_done | not_done | **partial** | **partial** | **partial** |
+| `pub-wrong-service-tests` | not_done | **partial** | **partial** | **partial** | not_done |
+
+### Tuned set, for completeness
+
+| Judge | Verdict right | Parts judged right | Echo caught | Median latency | Runs on |
+|---|---|---|---|---|---|
+| **Jeb 4B v2** Q8_0, local | **24 of 28** | 25 of 31 | 28 of 31 | 279 ms | llama-server b11146-7fe450e19, ollama 0.34.4 (identical answers) |
+| **Jeb 9B v2** Q8_0, local | **24 of 28** | 25 of 31 | 28 of 31 | 476 ms | llama-server b11146-7fe450e19, ollama 0.34.4 (identical answers) |
+| **Jeb 27B** Q8_0, local | **24 of 28** | 28 of 31 | 29 of 31 | 1530 ms | llama-server b11146-7fe450e19, ollama 0.34.4 (identical answers) |
+| *For comparison: hosted Jev (1.13.0)* | *27 of 28* | *30 of 31* | *31 of 31* | *131 ms* | *TypeSafe's API* |
+
+| Case | Labelled | Jeb 4B v2 | Jeb 9B v2 | Jeb 27B | Jev |
+|---|---|---|---|---|---|
+| `j5-research-partial` | partial | **done** | **done** | **done** | partial |
+| `j5-research-overclaim-sources` | partial | **done** | **done** | **done** | **done** |
+| `j5-research-recorder-gap` | computed_by_code | **not_done** | **not_done** | **not_done** | **not_done** |
+| `j5-browser-done` | done | **partial** | done | **not_done** | done |
+| `j5-browser-partial` | partial | partial | partial | **not_done** | partial |
+| `j5-browser-searched-instead` | not_done | not_done | **partial** | not_done | not_done |
+| `j5-browser-recorder-gap` | computed_by_code | **not_done** | **not_done** | **not_done** | **not_done** |
+| `j5-code-receipts-conflict` | computed_by_code | **not_done** | **not_done** | **not_done** | **not_done** |
+| `j5-email-in-reply` | done | **not_done** | **not_done** | done | done |
+
 ## Reproduce it
 
 ```bash
