@@ -1,0 +1,48 @@
+name: eval-verify
+
+# Reruns every committed local-judge result on our own Mac Studio and fails on any difference.
+# Never a GitHub-hosted runner: the job needs the models, and our CI runs on our hardware.
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: eval-verify-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    # A pull request from a fork never runs here. It would execute that PR's code on the machine,
+    # and this repo is public.
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: [self-hosted, macOS, ARM64, jde-eval]
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Tools on PATH
+        run: |
+          echo "/opt/homebrew/bin" >> "$GITHUB_PATH"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Install
+        run: npm ci
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Reproduce every committed result, one model at a time
+        env:
+          JDE_MIN_FREE_GB: "60"
+        run: |
+          export JDE_MODEL_LOCK="$HOME/Jebadiah/workers-$(date +%F)/mac-model.lock"
+          node --version; jeb --version; ollama --version; llama-server --version 2>&1 | grep version
+          scripts/verify-all.sh
