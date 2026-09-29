@@ -116,8 +116,10 @@ measured with. It is there so the disagreements can be read case by case, not as
 service can change behind the same name, and nobody outside TypeSafe can rerun it at a fixed
 version. It needs a key (`TYPESAFE_API_KEY`) and `node scripts/eval.mjs --judge jev`.
 
-## CI
+## Before a merge
 
-`.github/workflows/eval-verify.yml` runs `scripts/verify-all.sh` on our own Mac Studio for every
-pull request from this repository and every push to master, one model at a time. A pull request
-from a fork does not run there, because it would run that code on the machine.
+This repository is public, and our CI does not run on GitHub's machines, so no hosted job reruns
+these files. Instead, every pull request that touches `src`, `scripts`, `cases` or `evals` is
+merged only after `scripts/verify-all.sh` has reproduced every committed result on the maintainer's
+machine, and the pull request says so. Anyone can run the same check: it needs Ollama,
+llama.cpp 0.5.0 or later, `jeb` and the three Q8_0 GGUFs (about 44 GB).
