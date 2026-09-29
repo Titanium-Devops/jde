@@ -7,7 +7,7 @@
     ],
     "aggregate": "all_parts_at_least_0.7",
     "on_error": "fall_back",
-    "timeout_ms": 750,
-    "judge": "jev"
+    "timeout_ms": 2000,
+    "judge": "jeb"
   }
 }
