@@ -27,7 +27,9 @@
     "build": "tsc -p tsconfig.json",
     "typecheck:tests": "tsc -p tsconfig.test.json",
     "test": "npm run build && npm run typecheck:tests && node --test \"tests/*.test.ts\"",
-    "eval": "node scripts/eval.mjs"
+    "eval": "node scripts/eval.mjs",
+    "eval:local": "npm run build && node scripts/eval-local.mjs",
+    "eval:verify": "npm run build && node scripts/eval-verify.mjs"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
