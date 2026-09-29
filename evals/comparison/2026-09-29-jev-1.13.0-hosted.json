@@ -1,0 +1,2337 @@
+{
+  "schema": "jde-eval-hosted/1",
+  "ran_on": "2026-09-29",
+  "model": "jev-1.13.0",
+  "runtime": "hosted",
+  "note": "For comparison only. A hosted service is not reproducible from this repo: its weights and version can change under the same name. Rerun with TYPESAFE_API_KEY set and node scripts/eval.mjs --judge jev.",
+  "jde": {
+    "commit": "2fb225abc7d8b68dc65685194ee7ba37ce18fb35"
+  },
+  "judge": {
+    "server": "TypeSafe hosted Jev",
+    "endpoint": "https://api.typesafe.ai/v1/systemone",
+    "reported_model": "jev-1.13.0"
+  },
+  "prompt": {
+    "questions_sha256": "04fe66bbf7da1764b33df97fab3ec790b5bb356f632e98496ec4a0337de0c657"
+  },
+  "sets": [
+    {
+      "path": "cases/completion-check-public.json",
+      "sha256": "ae6075d0de7d2126e400ae27c953e55542d8cbbe4b911a340695e3b8fb508aad",
+      "cases": 36,
+      "summary": {
+        "cases": 36,
+        "verdict": {
+          "correct": 34,
+          "of": 36
+        },
+        "judged_parts": {
+          "correct": 68,
+          "of": 74
+        },
+        "code_parts": {
+          "correct": 19,
+          "of": 19
+        },
+        "echo": {
+          "correct": 35,
+          "of": 36
+        },
+        "unanswered": 0
+      },
+      "latency_ms": {
+        "p50": 143,
+        "p95": 215
+      },
+      "report": "JDE eval, completion-check, completion-check-public.json\n36 cases, 129 graded questions, answered by jev-1.13.0\n\naccuracy by question\n  file parts, decided in code     100.0%  (19 of 19)\n  action parts, noul vs receipts   93.2%  (41 of 44)\n  reply parts, noul vs claim       90.0%  (27 of 30)\n  every part the judge answered    91.9%  (68 of 74)\n  every part, code and judge       93.5%  (87 of 93)\n  result_is_echo                   97.2%  (35 of 36)\n\naccuracy by verdict, aggregated in code\n  done, partial or not_done        94.4%  (34 of 36)\n    labelled done                   100.0%  (12 of 12)\n    labelled partial                100.0%  (12 of 12)\n    labelled not_done                83.3%  (10 of 12)\n    pub-empty-brief-echo labelled not_done   computed partial    action:0.04 file:fail reply:0.85\n    pub-results-only-echo labelled not_done   computed partial    action:0.58 reply:0.90 file:fail\n\naccuracy by confidence, over every question the judge answered\n  below 0.50                         n/a  (0 of 0)\n  0.50 to 0.70                     16.7%  (1 of 6)\n  0.70 to 0.90                     92.9%  (13 of 14)\n  0.90 to 1.00                     98.9%  (89 of 90)\n\n  wrong: pub-hosting-missing-reason part_1_done    expected false  got true   noul 0.60\n  wrong: pub-search-without-reading part_0_done    expected false  got true   noul 0.62\n  wrong: pub-plan-only-answer result_is_echo expected false  got true   noul 0.69\n  wrong: pub-imperative-echo  part_0_done    expected false  got true   noul 0.55\n  wrong: pub-empty-brief-echo part_2_done    expected false  got true   noul 0.85\n  wrong: pub-results-only-echo part_0_done    expected false  got true   noul 0.58\n  wrong: pub-results-only-echo part_1_done    expected false  got true   noul 0.90\n\nlatency p50 143ms, p95 215ms, wall 2.8s at concurrency 2\ninput tokens 27610, about $0.0012 at $0.042 per million",
+      "records": [
+        {
+          "id": "pub-provider-comparison",
+          "labels": {
+            "parts": [
+              true,
+              true,
+              true
+            ],
+            "done": "done",
+            "echo": false
+          },
+          "verdict": "done",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.04,
+            "part_0_done": 0.96,
+            "part_1_done": 0.98
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.96
+            },
+            {
+              "kind": "reply",
+              "passes": true,
+              "noul": 0.98
+            },
+            {
+              "kind": "file",
+              "passes": true
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "pub-parser-fix-tests",
+          "labels": {
+            "parts": [
+              true,
+              true
+            ],
+            "done": "done",
+            "echo": false
+          },
+          "verdict": "done",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.04,
+            "part_1_done": 0.97
+          },
+          "parts": [
+            {
+              "kind": "file",
+              "passes": true
+            },
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.97
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "pub-orders-export",
+          "labels": {
+            "parts": [
+              true,
+              true,
+              true
+            ],
+            "done": "done",
+            "echo": false
+          },
+          "verdict": "done",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.04,
+            "part_0_done": 0.95,
+            "part_2_done": 0.98
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.95
+            },
+            {
+              "kind": "file",
+              "passes": true
+            },
+            {
+              "kind": "reply",
+              "passes": true,
+              "noul": 0.98
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "pub-staging-deploy",
+          "labels": {
+            "parts": [
+              true,
+              true,
+              true
+            ],
+            "done": "done",
+            "echo": false
+          },
+          "verdict": "done",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.04,
+            "part_0_done": 0.96,
+            "part_1_done": 0.92,
+            "part_2_done": 0.97
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.96
+            },
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.92
+            },
+            {
+              "kind": "reply",
+              "passes": true,
+              "noul": 0.97
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "pub-release-email",
+          "labels": {
+            "parts": [
+              true,
+              true
+            ],
+            "done": "done",
+            "echo": false
+          },
+          "verdict": "done",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.1,
+            "part_0_done": 0.93,
+            "part_1_done": 0.93
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.93
+            },
+            {
+              "kind": "reply",
+              "passes": true,
+              "noul": 0.93
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "pub-design-calendar",
+          "labels": {
+            "parts": [
+              true,
+              true
+            ],
+            "done": "done",
+            "echo": false
+          },
+          "verdict": "done",
+          "action": "accept_with_note",
+          "answers": {
+            "result_is_echo": 0.25,
+            "part_0_done": 0.97,
+            "part_1_done": 0.97
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.97
+            },
+            {
+              "kind": "reply",
+              "passes": true,
+              "noul": 0.97
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "pub-timeout-root-cause",
+          "labels": {
+            "parts": [
+              true,
+              true
+            ],
+            "done": "done",
+            "echo": false
+          },
+          "verdict": "done",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.03,
+            "part_0_done": 0.9,
+            "part_1_done": 0.97
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.9
+            },
+            {
+              "kind": "reply",
+              "passes": true,
+              "noul": 0.97
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "pub-onboarding-guide",
+          "labels": {
+            "parts": [
+              true,
+              true
+            ],
+            "done": "done",
+            "echo": false
+          },
+          "verdict": "done",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.06,
+            "part_1_done": 0.96
+          },
+          "parts": [
+            {
+              "kind": "file",
+              "passes": true
+            },
+            {
+              "kind": "reply",
+              "passes": true,
+              "noul": 0.96
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "pub-desk-lamp-price",
+          "labels": {
+            "parts": [
+              true,
+              true
+            ],
+            "done": "done",
+            "echo": false
+          },
+          "verdict": "done",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.03,
+            "part_0_done": 0.97,
+            "part_1_done": 0.97
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.97
+            },
+            {
+              "kind": "reply",
+              "passes": true,
+              "noul": 0.97
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "pub-cache-pr",
+          "labels": {
+            "parts": [
+              true,
+              true,
+              true,
+              true
+            ],
+            "done": "done",
+            "echo": false
+          },
+          "verdict": "done",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.04,
+            "part_0_done": 0.91,
+            "part_1_done": 0.97,
+            "part_2_done": 0.97,
+            "part_3_done": 0.98
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.91
+            },
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.97
+            },
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.97
+            },
+            {
+              "kind": "reply",
+              "passes": true,
+              "noul": 0.98
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "pub-worker-restart",
+          "labels": {
+            "parts": [
+              true,
+              true,
+              true
+            ],
+            "done": "done",
+            "echo": false
+          },
+          "verdict": "done",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.04,
+            "part_0_done": 0.97,
+            "part_1_done": 0.97,
+            "part_2_done": 0.98
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.97
+            },
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.97
+            },
+            {
+              "kind": "reply",
+              "passes": true,
+              "noul": 0.98
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "pub-accessibility-brief",
+          "labels": {
+            "parts": [
+              true,
+              true,
+              true
+            ],
+            "done": "done",
+            "echo": false
+          },
+          "verdict": "done",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.05,
+            "part_0_done": 0.97,
+            "part_2_done": 0.98
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.97
+            },
+            {
+              "kind": "file",
+              "passes": true
+            },
+            {
+              "kind": "reply",
+              "passes": true,
+              "noul": 0.98
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "pub-hosting-missing-reason",
+          "labels": {
+            "parts": [
+              true,
+              false,
+              true
+            ],
+            "done": "partial",
+            "echo": false
+          },
+          "verdict": "partial",
+          "action": "fall_back",
+          "answers": {
+            "result_is_echo": 0.06,
+            "part_0_done": 0.98,
+            "part_1_done": 0.6
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.98
+            },
+            {
+              "kind": "reply",
+              "passes": false,
+              "noul": 0.6
+            },
+            {
+              "kind": "file",
+              "passes": true
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": [
+            "part_1_done"
+          ]
+        },
+        {
+          "id": "pub-wrong-migration-path",
+          "labels": {
+            "parts": [
+              false,
+              true,
+              true
+            ],
+            "done": "partial",
+            "echo": false
+          },
+          "verdict": "partial",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.04,
+            "part_1_done": 0.97,
+            "part_2_done": 0.96
+          },
+          "parts": [
+            {
+              "kind": "file",
+              "passes": false
+            },
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.97
+            },
+            {
+              "kind": "reply",
+              "passes": true,
+              "noul": 0.96
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "pub-empty-audit-export",
+          "labels": {
+            "parts": [
+              true,
+              false,
+              true
+            ],
+            "done": "partial",
+            "echo": false
+          },
+          "verdict": "partial",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.06,
+            "part_0_done": 0.92,
+            "part_2_done": 0.97
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.92
+            },
+            {
+              "kind": "file",
+              "passes": false
+            },
+            {
+              "kind": "reply",
+              "passes": true,
+              "noul": 0.97
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "pub-search-without-reading",
+          "labels": {
+            "parts": [
+              false,
+              true,
+              true
+            ],
+            "done": "partial",
+            "echo": false
+          },
+          "verdict": "partial",
+          "action": "fall_back",
+          "answers": {
+            "result_is_echo": 0.04,
+            "part_0_done": 0.62,
+            "part_1_done": 0.97
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.62
+            },
+            {
+              "kind": "reply",
+              "passes": true,
+              "noul": 0.97
+            },
+            {
+              "kind": "file",
+              "passes": true
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": [
+            "part_0_done"
+          ]
+        },
+        {
+          "id": "pub-wrong-test-purpose",
+          "labels": {
+            "parts": [
+              true,
+              false,
+              true
+            ],
+            "done": "partial",
+            "echo": false
+          },
+          "verdict": "partial",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.07,
+            "part_1_done": 0.07,
+            "part_2_done": 0.97
+          },
+          "parts": [
+            {
+              "kind": "file",
+              "passes": true
+            },
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.07
+            },
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.97
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "pub-plan-only-answer",
+          "labels": {
+            "parts": [
+              true,
+              false
+            ],
+            "done": "partial",
+            "echo": false
+          },
+          "verdict": "partial",
+          "action": "fall_back",
+          "answers": {
+            "result_is_echo": 0.69,
+            "part_0_done": 0.93,
+            "part_1_done": 0.02
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.93
+            },
+            {
+              "kind": "reply",
+              "passes": false,
+              "noul": 0.02
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": [
+            "result_is_echo"
+          ]
+        },
+        {
+          "id": "pub-lint-not-tests",
+          "labels": {
+            "parts": [
+              true,
+              false,
+              true
+            ],
+            "done": "partial",
+            "echo": false
+          },
+          "verdict": "partial",
+          "action": "accept_with_note",
+          "answers": {
+            "result_is_echo": 0.06,
+            "part_1_done": 0.09,
+            "part_2_done": 0.81
+          },
+          "parts": [
+            {
+              "kind": "file",
+              "passes": true
+            },
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.09
+            },
+            {
+              "kind": "reply",
+              "passes": true,
+              "noul": 0.81
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "pub-sales-path-typo",
+          "labels": {
+            "parts": [
+              true,
+              false,
+              true
+            ],
+            "done": "partial",
+            "echo": false
+          },
+          "verdict": "partial",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.05,
+            "part_0_done": 0.96,
+            "part_2_done": 0.98
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.96
+            },
+            {
+              "kind": "file",
+              "passes": false
+            },
+            {
+              "kind": "reply",
+              "passes": true,
+              "noul": 0.98
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "pub-deploy-no-logs",
+          "labels": {
+            "parts": [
+              true,
+              false,
+              true
+            ],
+            "done": "partial",
+            "echo": false
+          },
+          "verdict": "partial",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.08,
+            "part_0_done": 0.97,
+            "part_1_done": 0.06,
+            "part_2_done": 0.97
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.97
+            },
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.06
+            },
+            {
+              "kind": "reply",
+              "passes": true,
+              "noul": 0.97
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "pub-email-no-calendar",
+          "labels": {
+            "parts": [
+              true,
+              false,
+              true
+            ],
+            "done": "partial",
+            "echo": false
+          },
+          "verdict": "partial",
+          "action": "accept_with_note",
+          "answers": {
+            "result_is_echo": 0.2,
+            "part_0_done": 0.97,
+            "part_1_done": 0.03,
+            "part_2_done": 0.92
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.97
+            },
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.03
+            },
+            {
+              "kind": "reply",
+              "passes": true,
+              "noul": 0.92
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "pub-draft-not-published",
+          "labels": {
+            "parts": [
+              true,
+              false,
+              true
+            ],
+            "done": "partial",
+            "echo": false
+          },
+          "verdict": "partial",
+          "action": "accept_with_note",
+          "answers": {
+            "result_is_echo": 0.11,
+            "part_1_done": 0.09,
+            "part_2_done": 0.95
+          },
+          "parts": [
+            {
+              "kind": "file",
+              "passes": true
+            },
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.09
+            },
+            {
+              "kind": "reply",
+              "passes": true,
+              "noul": 0.95
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "pub-empty-vendor-notes",
+          "labels": {
+            "parts": [
+              true,
+              true,
+              false
+            ],
+            "done": "partial",
+            "echo": false
+          },
+          "verdict": "partial",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.04,
+            "part_0_done": 0.96,
+            "part_1_done": 0.98
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.96
+            },
+            {
+              "kind": "reply",
+              "passes": true,
+              "noul": 0.98
+            },
+            {
+              "kind": "file",
+              "passes": false
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "pub-confident-no-receipts",
+          "labels": {
+            "parts": [
+              false,
+              false
+            ],
+            "done": "not_done",
+            "echo": false
+          },
+          "verdict": "not_done",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.06,
+            "part_0_done": 0.03,
+            "part_1_done": 0.03
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.03
+            },
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.03
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "pub-imperative-echo",
+          "labels": {
+            "parts": [
+              false,
+              false
+            ],
+            "done": "not_done",
+            "echo": true
+          },
+          "verdict": "not_done",
+          "action": "fall_back",
+          "answers": {
+            "result_is_echo": 0.97,
+            "part_0_done": 0.55
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.55
+            },
+            {
+              "kind": "file",
+              "passes": false
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": [
+            "part_0_done"
+          ]
+        },
+        {
+          "id": "pub-empty-brief-echo",
+          "labels": {
+            "parts": [
+              false,
+              false,
+              false
+            ],
+            "done": "not_done",
+            "echo": true
+          },
+          "verdict": "partial",
+          "action": "accept_with_note",
+          "answers": {
+            "result_is_echo": 0.75,
+            "part_0_done": 0.04,
+            "part_2_done": 0.85
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.04
+            },
+            {
+              "kind": "file",
+              "passes": false
+            },
+            {
+              "kind": "reply",
+              "passes": true,
+              "noul": 0.85
+            }
+          ],
+          "error": null,
+          "correct": false,
+          "wrong": [
+            "part_2_done"
+          ]
+        },
+        {
+          "id": "pub-long-idle-echo",
+          "labels": {
+            "parts": [
+              false,
+              false
+            ],
+            "done": "not_done",
+            "echo": true
+          },
+          "verdict": "not_done",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.97,
+            "part_0_done": 0.02,
+            "part_1_done": 0.09
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.02
+            },
+            {
+              "kind": "reply",
+              "passes": false,
+              "noul": 0.09
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "pub-unrelated-weather",
+          "labels": {
+            "parts": [
+              false,
+              false
+            ],
+            "done": "not_done",
+            "echo": true
+          },
+          "verdict": "not_done",
+          "action": "accept_with_note",
+          "answers": {
+            "result_is_echo": 0.84,
+            "part_0_done": 0.03,
+            "part_1_done": 0.09
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.03
+            },
+            {
+              "kind": "reply",
+              "passes": false,
+              "noul": 0.09
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "pub-results-only-echo",
+          "labels": {
+            "parts": [
+              false,
+              false,
+              false
+            ],
+            "done": "not_done",
+            "echo": true
+          },
+          "verdict": "partial",
+          "action": "fall_back",
+          "answers": {
+            "result_is_echo": 0.74,
+            "part_0_done": 0.58,
+            "part_1_done": 0.9
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.58
+            },
+            {
+              "kind": "reply",
+              "passes": true,
+              "noul": 0.9
+            },
+            {
+              "kind": "file",
+              "passes": false
+            }
+          ],
+          "error": null,
+          "correct": false,
+          "wrong": [
+            "part_0_done",
+            "part_1_done"
+          ]
+        },
+        {
+          "id": "pub-wrong-service-tests",
+          "labels": {
+            "parts": [
+              false,
+              false
+            ],
+            "done": "not_done",
+            "echo": false
+          },
+          "verdict": "not_done",
+          "action": "accept_with_note",
+          "answers": {
+            "result_is_echo": 0.07,
+            "part_0_done": 0.1,
+            "part_1_done": 0.17
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.1
+            },
+            {
+              "kind": "reply",
+              "passes": false,
+              "noul": 0.17
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "pub-promised-schedule",
+          "labels": {
+            "parts": [
+              false,
+              false
+            ],
+            "done": "not_done",
+            "echo": true
+          },
+          "verdict": "not_done",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.95,
+            "part_0_done": 0.02,
+            "part_1_done": 0.06
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.02
+            },
+            {
+              "kind": "reply",
+              "passes": false,
+              "noul": 0.06
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "pub-brief-wrong-directory",
+          "labels": {
+            "parts": [
+              false,
+              false,
+              false
+            ],
+            "done": "not_done",
+            "echo": true
+          },
+          "verdict": "not_done",
+          "action": "fall_back",
+          "answers": {
+            "result_is_echo": 0.93,
+            "part_0_done": 0.31,
+            "part_2_done": 0.12
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.31
+            },
+            {
+              "kind": "file",
+              "passes": false
+            },
+            {
+              "kind": "reply",
+              "passes": false,
+              "noul": 0.12
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "pub-email-claim-only",
+          "labels": {
+            "parts": [
+              false
+            ],
+            "done": "not_done",
+            "echo": false
+          },
+          "verdict": "not_done",
+          "action": "accept_with_note",
+          "answers": {
+            "result_is_echo": 0.11,
+            "part_0_done": 0.02
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.02
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "pub-format-not-tests",
+          "labels": {
+            "parts": [
+              false,
+              false
+            ],
+            "done": "not_done",
+            "echo": true
+          },
+          "verdict": "not_done",
+          "action": "accept_with_note",
+          "answers": {
+            "result_is_echo": 0.96,
+            "part_0_done": 0.18,
+            "part_1_done": 0.05
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.18
+            },
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.05
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "pub-empty-churn-export",
+          "labels": {
+            "parts": [
+              false,
+              false,
+              false
+            ],
+            "done": "not_done",
+            "echo": false
+          },
+          "verdict": "not_done",
+          "action": "accept_with_note",
+          "answers": {
+            "result_is_echo": 0.21,
+            "part_0_done": 0.19,
+            "part_2_done": 0.03
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.19
+            },
+            {
+              "kind": "file",
+              "passes": false
+            },
+            {
+              "kind": "reply",
+              "passes": false,
+              "noul": 0.03
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        }
+      ]
+    },
+    {
+      "path": "cases/completion-check-tuned.json",
+      "sha256": "ee4c0f244f6b67fda1d1e73bef73f5222ef84cea7efeb923b878f19133555554",
+      "cases": 31,
+      "summary": {
+        "cases": 31,
+        "verdict": {
+          "correct": 27,
+          "of": 28
+        },
+        "judged_parts": {
+          "correct": 30,
+          "of": 31
+        },
+        "code_parts": {
+          "correct": 27,
+          "of": 27
+        },
+        "echo": {
+          "correct": 31,
+          "of": 31
+        },
+        "unanswered": 0
+      },
+      "latency_ms": {
+        "p50": 131,
+        "p95": 218
+      },
+      "report": "JDE eval, completion-check, completion-check-tuned.json\n31 cases, 89 graded questions, answered by jev-1.13.0\n\naccuracy by question\n  file parts, decided in code     100.0%  (27 of 27)\n  action parts, noul vs receipts   96.2%  (25 of 26)\n  reply parts, noul vs claim      100.0%  (5 of 5)\n  every part the judge answered    96.8%  (30 of 31)\n  every part, code and judge       98.3%  (57 of 58)\n  result_is_echo                  100.0%  (31 of 31)\n\naccuracy by verdict, aggregated in code\n  done, partial or not_done        96.4%  (27 of 28)\n    labelled done                   100.0%  (10 of 10)\n    labelled partial                 83.3%  (5 of 6)\n    labelled not_done               100.0%  (12 of 12)\n    j5-research-overclaim-sources labelled partial    computed done       action:0.97 reply:0.97\n\naccuracy by confidence, over every question the judge answered\n  below 0.50                         n/a  (0 of 0)\n  0.50 to 0.70                     83.3%  (5 of 6)\n  0.70 to 0.90                    100.0%  (19 of 19)\n  0.90 to 1.00                    100.0%  (37 of 37)\n\n  wrong: j5-browser-claims-three-stores part_0_done    expected true   got false  noul 0.47\n\nlatency p50 131ms, p95 218ms, wall 2.3s at concurrency 2\ninput tokens 20788, about $0.0009 at $0.042 per million",
+      "records": [
+        {
+          "id": "j5-research-done",
+          "labels": {
+            "parts": [
+              true,
+              true
+            ],
+            "done": "done",
+            "echo": false
+          },
+          "verdict": "done",
+          "action": "accept_with_note",
+          "answers": {
+            "result_is_echo": 0.11,
+            "part_0_done": 0.95
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.95
+            },
+            {
+              "kind": "file",
+              "passes": true
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "j5-research-echo-zero",
+          "labels": {
+            "parts": [
+              false,
+              false
+            ],
+            "done": "not_done",
+            "echo": true
+          },
+          "verdict": "not_done",
+          "action": "accept_with_note",
+          "answers": {
+            "result_is_echo": 0.84,
+            "part_0_done": 0.02
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.02
+            },
+            {
+              "kind": "file",
+              "passes": false
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "j5-research-claims-file",
+          "labels": {
+            "parts": [
+              false,
+              false
+            ],
+            "done": "not_done",
+            "echo": false
+          },
+          "verdict": "not_done",
+          "action": "accept_with_note",
+          "answers": {
+            "result_is_echo": 0.13,
+            "part_0_done": 0.02
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.02
+            },
+            {
+              "kind": "file",
+              "passes": false
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "j5-research-partial",
+          "labels": {
+            "parts": [
+              false,
+              true
+            ],
+            "done": "partial",
+            "echo": false
+          },
+          "verdict": "partial",
+          "action": "fall_back",
+          "answers": {
+            "result_is_echo": 0.04,
+            "part_0_done": 0.42
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.42
+            },
+            {
+              "kind": "file",
+              "passes": true
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "j5-research-overclaim-sources",
+          "labels": {
+            "parts": [
+              true,
+              true
+            ],
+            "done": "partial",
+            "echo": false
+          },
+          "verdict": "done",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.06,
+            "part_0_done": 0.97,
+            "part_1_done": 0.97
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.97
+            },
+            {
+              "kind": "reply",
+              "passes": true,
+              "noul": 0.97
+            }
+          ],
+          "error": null,
+          "correct": false,
+          "wrong": []
+        },
+        {
+          "id": "j5-research-recorder-gap",
+          "labels": {
+            "parts": [
+              false,
+              false
+            ],
+            "done": "computed_by_code",
+            "echo": false
+          },
+          "verdict": "not_done",
+          "action": "fall_back",
+          "answers": {
+            "result_is_echo": 0.39,
+            "part_0_done": 0.02
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.02
+            },
+            {
+              "kind": "file",
+              "passes": false
+            }
+          ],
+          "error": null,
+          "correct": null,
+          "wrong": []
+        },
+        {
+          "id": "j5-research-from-knowledge",
+          "labels": {
+            "parts": [
+              true
+            ],
+            "done": "done",
+            "echo": false
+          },
+          "verdict": "done",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.1,
+            "part_0_done": 0.98
+          },
+          "parts": [
+            {
+              "kind": "reply",
+              "passes": true,
+              "noul": 0.98
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "j5-file-done",
+          "labels": {
+            "parts": [
+              true
+            ],
+            "done": "done",
+            "echo": false
+          },
+          "verdict": "done",
+          "action": "accept_with_note",
+          "answers": {
+            "result_is_echo": 0.17
+          },
+          "parts": [
+            {
+              "kind": "file",
+              "passes": true
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "j5-file-wrong-path",
+          "labels": {
+            "parts": [
+              false
+            ],
+            "done": "not_done",
+            "echo": false
+          },
+          "verdict": "not_done",
+          "action": "accept_with_note",
+          "answers": {
+            "result_is_echo": 0.18
+          },
+          "parts": [
+            {
+              "kind": "file",
+              "passes": false
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "j5-file-zero-receipts",
+          "labels": {
+            "parts": [
+              false
+            ],
+            "done": "not_done",
+            "echo": false
+          },
+          "verdict": "not_done",
+          "action": "accept_with_note",
+          "answers": {
+            "result_is_echo": 0.13
+          },
+          "parts": [
+            {
+              "kind": "file",
+              "passes": false
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "j5-file-echo",
+          "labels": {
+            "parts": [
+              false
+            ],
+            "done": "not_done",
+            "echo": true
+          },
+          "verdict": "not_done",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.98
+          },
+          "parts": [
+            {
+              "kind": "file",
+              "passes": false
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "j5-file-empty",
+          "labels": {
+            "parts": [
+              false
+            ],
+            "done": "not_done",
+            "echo": false
+          },
+          "verdict": "not_done",
+          "action": "accept_with_note",
+          "answers": {
+            "result_is_echo": 0.19
+          },
+          "parts": [
+            {
+              "kind": "file",
+              "passes": false
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "j5-file-done-wrong-claim",
+          "labels": {
+            "parts": [
+              true
+            ],
+            "done": "done",
+            "echo": false
+          },
+          "verdict": "done",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.06
+          },
+          "parts": [
+            {
+              "kind": "file",
+              "passes": true
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "j5-browser-done",
+          "labels": {
+            "parts": [
+              true,
+              true
+            ],
+            "done": "done",
+            "echo": false
+          },
+          "verdict": "done",
+          "action": "accept_with_note",
+          "answers": {
+            "result_is_echo": 0.03,
+            "part_0_done": 0.92,
+            "part_1_done": 0.86
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.92
+            },
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.86
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "j5-browser-echo",
+          "labels": {
+            "parts": [
+              false,
+              false
+            ],
+            "done": "not_done",
+            "echo": true
+          },
+          "verdict": "not_done",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.99,
+            "part_0_done": 0.02,
+            "part_1_done": 0.02
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.02
+            },
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.02
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "j5-browser-claims-three-stores",
+          "labels": {
+            "parts": [
+              true,
+              false,
+              false,
+              true
+            ],
+            "done": "partial",
+            "echo": false
+          },
+          "verdict": "partial",
+          "action": "fall_back",
+          "answers": {
+            "result_is_echo": 0.04,
+            "part_0_done": 0.47,
+            "part_1_done": 0.22,
+            "part_2_done": 0.19,
+            "part_3_done": 0.93
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.47
+            },
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.22
+            },
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.19
+            },
+            {
+              "kind": "reply",
+              "passes": true,
+              "noul": 0.93
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": [
+            "part_0_done"
+          ]
+        },
+        {
+          "id": "j5-browser-partial",
+          "labels": {
+            "parts": [
+              true,
+              true,
+              false
+            ],
+            "done": "partial",
+            "echo": false
+          },
+          "verdict": "partial",
+          "action": "accept_with_note",
+          "answers": {
+            "result_is_echo": 0.03,
+            "part_0_done": 0.87,
+            "part_1_done": 0.78,
+            "part_2_done": 0.18
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.87
+            },
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.78
+            },
+            {
+              "kind": "reply",
+              "passes": false,
+              "noul": 0.18
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "j5-browser-searched-instead",
+          "labels": {
+            "parts": [
+              false,
+              false
+            ],
+            "done": "not_done",
+            "echo": false
+          },
+          "verdict": "not_done",
+          "action": "fall_back",
+          "answers": {
+            "result_is_echo": 0.03,
+            "part_0_done": 0.34,
+            "part_1_done": 0.21
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.34
+            },
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.21
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "j5-browser-recorder-gap",
+          "labels": {
+            "parts": [
+              false,
+              false
+            ],
+            "done": "computed_by_code",
+            "echo": false
+          },
+          "verdict": "not_done",
+          "action": "fall_back",
+          "answers": {
+            "result_is_echo": 0.46,
+            "part_0_done": 0.03,
+            "part_1_done": 0.02
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.03
+            },
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.02
+            }
+          ],
+          "error": null,
+          "correct": null,
+          "wrong": []
+        },
+        {
+          "id": "j5-code-done",
+          "labels": {
+            "parts": [
+              true,
+              true
+            ],
+            "done": "done",
+            "echo": false
+          },
+          "verdict": "done",
+          "action": "accept_with_note",
+          "answers": {
+            "result_is_echo": 0.18
+          },
+          "parts": [
+            {
+              "kind": "file",
+              "passes": true
+            },
+            {
+              "kind": "file",
+              "passes": true
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "j5-code-echo",
+          "labels": {
+            "parts": [
+              false,
+              false
+            ],
+            "done": "not_done",
+            "echo": true
+          },
+          "verdict": "not_done",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.97
+          },
+          "parts": [
+            {
+              "kind": "file",
+              "passes": false
+            },
+            {
+              "kind": "file",
+              "passes": false
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "j5-code-claims-tests",
+          "labels": {
+            "parts": [
+              true,
+              true
+            ],
+            "done": "done",
+            "echo": false
+          },
+          "verdict": "done",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.07
+          },
+          "parts": [
+            {
+              "kind": "file",
+              "passes": true
+            },
+            {
+              "kind": "file",
+              "passes": true
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "j5-code-partial",
+          "labels": {
+            "parts": [
+              true,
+              false
+            ],
+            "done": "partial",
+            "echo": false
+          },
+          "verdict": "partial",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.06
+          },
+          "parts": [
+            {
+              "kind": "file",
+              "passes": true
+            },
+            {
+              "kind": "file",
+              "passes": false
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "j5-code-read-only",
+          "labels": {
+            "parts": [
+              false,
+              false
+            ],
+            "done": "not_done",
+            "echo": false
+          },
+          "verdict": "not_done",
+          "action": "accept_with_note",
+          "answers": {
+            "result_is_echo": 0.26
+          },
+          "parts": [
+            {
+              "kind": "file",
+              "passes": false
+            },
+            {
+              "kind": "file",
+              "passes": false
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "j5-code-receipts-conflict",
+          "labels": {
+            "parts": [
+              false,
+              false
+            ],
+            "done": "computed_by_code",
+            "echo": false
+          },
+          "verdict": "not_done",
+          "action": "accept_with_note",
+          "answers": {
+            "result_is_echo": 0.27
+          },
+          "parts": [
+            {
+              "kind": "file",
+              "passes": false
+            },
+            {
+              "kind": "file",
+              "passes": false
+            }
+          ],
+          "error": null,
+          "correct": null,
+          "wrong": []
+        },
+        {
+          "id": "j5-email-done",
+          "labels": {
+            "parts": [
+              true,
+              true
+            ],
+            "done": "done",
+            "echo": false
+          },
+          "verdict": "done",
+          "action": "accept_with_note",
+          "answers": {
+            "result_is_echo": 0.16,
+            "part_0_done": 0.93
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.93
+            },
+            {
+              "kind": "file",
+              "passes": true
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "j5-email-echo",
+          "labels": {
+            "parts": [
+              false,
+              false
+            ],
+            "done": "not_done",
+            "echo": true
+          },
+          "verdict": "not_done",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.98,
+            "part_0_done": 0.03
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.03
+            },
+            {
+              "kind": "file",
+              "passes": false
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "j5-email-claims-sent",
+          "labels": {
+            "parts": [
+              true,
+              true
+            ],
+            "done": "done",
+            "echo": false
+          },
+          "verdict": "done",
+          "action": "accept_with_note",
+          "answers": {
+            "result_is_echo": 0.11,
+            "part_0_done": 0.96
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.96
+            },
+            {
+              "kind": "file",
+              "passes": true
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "j5-email-partial",
+          "labels": {
+            "parts": [
+              true,
+              false,
+              false
+            ],
+            "done": "partial",
+            "echo": false
+          },
+          "verdict": "partial",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.04,
+            "part_0_done": 0.98,
+            "part_1_done": 0.03,
+            "part_2_done": 0.07
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": true,
+              "noul": 0.98
+            },
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.03
+            },
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.07
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "j5-email-echo-with-artifact",
+          "labels": {
+            "parts": [
+              false,
+              false
+            ],
+            "done": "not_done",
+            "echo": true
+          },
+          "verdict": "not_done",
+          "action": "fall_back",
+          "answers": {
+            "result_is_echo": 0.53,
+            "part_0_done": 0.03
+          },
+          "parts": [
+            {
+              "kind": "action",
+              "passes": false,
+              "noul": 0.03
+            },
+            {
+              "kind": "file",
+              "passes": false
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        },
+        {
+          "id": "j5-email-in-reply",
+          "labels": {
+            "parts": [
+              true
+            ],
+            "done": "done",
+            "echo": false
+          },
+          "verdict": "done",
+          "action": "accept",
+          "answers": {
+            "result_is_echo": 0.09,
+            "part_0_done": 0.97
+          },
+          "parts": [
+            {
+              "kind": "reply",
+              "passes": true,
+              "noul": 0.97
+            }
+          ],
+          "error": null,
+          "correct": true,
+          "wrong": []
+        }
+      ]
+    }
+  ]
+}

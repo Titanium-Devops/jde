@@ -1,0 +1,815 @@
+[
+  {
+    "id": "pub-provider-comparison",
+    "judgment": 5,
+    "note": "The searches, fetched pages, exact nonempty file, recommendation, and reason are all evidenced in the proper source.",
+    "state": {
+      "task": "Compare pricing for three fictional managed Postgres providers and recommend one with a reason. Save the comparison to notes/db-options.md.",
+      "task_parts": [
+        {"text": "Search for and read pricing pages for three managed Postgres providers", "kind": "action"},
+        {"text": "Recommend one provider and give a reason", "kind": "reply"},
+        {"text": "Save the comparison", "kind": "file", "path": "notes/db-options.md"}
+      ],
+      "claimed_result": "I compared Northstar DB, CedarSQL, and Lantern Postgres. I recommend CedarSQL because its fixed backup allowance makes the expected monthly cost lowest, and the full comparison is in notes/db-options.md.",
+      "receipts": {
+        "tool_calls": [{"name": "web_search", "count": 3}, {"name": "web_fetch", "count": 3}],
+        "files_written": [{"path": "notes/db-options.md", "bytes": 1842, "first_line": "# Managed Postgres comparison"}],
+        "searches": 3,
+        "pages_fetched": 3,
+        "transcript_entries": 11,
+        "elapsed_s": 148
+      }
+    },
+    "expected": {"parts": [true, true, true], "done": "done", "result_is_echo": false}
+  },
+  {
+    "id": "pub-parser-fix-tests",
+    "judgment": 5,
+    "note": "The exact source file was written and the required test run is recorded.",
+    "state": {
+      "task": "Fix the quoted-field parser and run the unit tests. Put the fix in src/quoted_parser.py.",
+      "task_parts": [
+        {"text": "Write the parser fix", "kind": "file", "path": "src/quoted_parser.py"},
+        {"text": "Run the unit tests", "kind": "action"}
+      ],
+      "claimed_result": "The quoted-field parser now preserves doubled quotes, and all 42 unit tests pass.",
+      "receipts": {
+        "tool_calls": [{"name": "run_tests", "count": 1}],
+        "files_written": [{"path": "src/quoted_parser.py", "bytes": 3276, "first_line": "from dataclasses import dataclass"}],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 8,
+        "elapsed_s": 96
+      }
+    },
+    "expected": {"parts": [true, true], "done": "done", "result_is_echo": false}
+  },
+  {
+    "id": "pub-orders-export",
+    "judgment": 5,
+    "note": "The SQL call, exact CSV export, and reported row count satisfy all three parts.",
+    "state": {
+      "task": "Query yesterday's failed orders, export them to exports/failed-orders.csv, and tell me how many there were.",
+      "task_parts": [
+        {"text": "Query yesterday's failed orders", "kind": "action"},
+        {"text": "Export the results", "kind": "file", "path": "exports/failed-orders.csv"},
+        {"text": "Report the number of failed orders", "kind": "reply"}
+      ],
+      "claimed_result": "Yesterday had 17 failed orders. I exported all 17 rows to exports/failed-orders.csv.",
+      "receipts": {
+        "tool_calls": [{"name": "sql_query", "count": 1}, {"name": "csv_export", "count": 1}],
+        "files_written": [{"path": "exports/failed-orders.csv", "bytes": 2911, "first_line": "order_id,failed_at,reason"}],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 6,
+        "elapsed_s": 34
+      }
+    },
+    "expected": {"parts": [true, true, true], "done": "done", "result_is_echo": false}
+  },
+  {
+    "id": "pub-staging-deploy",
+    "judgment": 5,
+    "note": "Deployment and health-check calls are recorded, and the reply gives the observed status.",
+    "state": {
+      "task": "Deploy build 84 to staging, check its health endpoint, and report the status.",
+      "task_parts": [
+        {"text": "Deploy build 84 to staging", "kind": "action"},
+        {"text": "Check the staging health endpoint", "kind": "action"},
+        {"text": "Report the health status", "kind": "reply"}
+      ],
+      "claimed_result": "Build 84 is deployed to staging. The health endpoint returned 200 with status healthy.",
+      "receipts": {
+        "tool_calls": [{"name": "deploy_staging", "count": 1}, {"name": "http_request", "count": 1}],
+        "files_written": [],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 9,
+        "elapsed_s": 121
+      }
+    },
+    "expected": {"parts": [true, true, true], "done": "done", "result_is_echo": false}
+  },
+  {
+    "id": "pub-release-email",
+    "judgment": 5,
+    "note": "The send call proves the action and the claimed result clearly confirms the outcome.",
+    "state": {
+      "task": "Send the release notice to the fictional Acorn support team and confirm that it was sent.",
+      "task_parts": [
+        {"text": "Send the release notice to the Acorn support team", "kind": "action"},
+        {"text": "Confirm that the notice was sent", "kind": "reply"}
+      ],
+      "claimed_result": "The release notice was sent successfully to the Acorn support team.",
+      "receipts": {
+        "tool_calls": [{"name": "send_email", "count": 1}],
+        "files_written": [],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 4,
+        "elapsed_s": 19
+      }
+    },
+    "expected": {"parts": [true, true], "done": "done", "result_is_echo": false}
+  },
+  {
+    "id": "pub-design-calendar",
+    "judgment": 5,
+    "note": "The calendar creation is in the receipts and the final reply states the scheduled time.",
+    "state": {
+      "task": "Schedule a 30-minute design review for Thursday at 2 PM and tell me when it is booked.",
+      "task_parts": [
+        {"text": "Create the design review calendar event", "kind": "action"},
+        {"text": "Tell the user when the review is booked", "kind": "reply"}
+      ],
+      "claimed_result": "The 30-minute design review is booked for Thursday at 2:00 PM.",
+      "receipts": {
+        "tool_calls": [{"name": "calendar_create", "count": 1}],
+        "files_written": [],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 5,
+        "elapsed_s": 22
+      }
+    },
+    "expected": {"parts": [true, true], "done": "done", "result_is_echo": false}
+  },
+  {
+    "id": "pub-timeout-root-cause",
+    "judgment": 5,
+    "note": "Log inspection is recorded and the claimed result states a concrete root cause.",
+    "state": {
+      "task": "Inspect the checkout service logs for the timeout spike and explain the root cause.",
+      "task_parts": [
+        {"text": "Inspect the checkout service logs", "kind": "action"},
+        {"text": "Explain the root cause of the timeout spike", "kind": "reply"}
+      ],
+      "claimed_result": "The spike came from a saturated connection pool after the inventory service slowed to 4 seconds per request.",
+      "receipts": {
+        "tool_calls": [{"name": "logs_query", "count": 3}],
+        "files_written": [],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 10,
+        "elapsed_s": 73
+      }
+    },
+    "expected": {"parts": [true, true], "done": "done", "result_is_echo": false}
+  },
+  {
+    "id": "pub-onboarding-guide",
+    "judgment": 5,
+    "note": "The exact guide exists with content and the reply includes the requested summary.",
+    "state": {
+      "task": "Write an onboarding guide to docs/onboarding.md and summarize its main advice.",
+      "task_parts": [
+        {"text": "Write the onboarding guide", "kind": "file", "path": "docs/onboarding.md"},
+        {"text": "Summarize the guide's main advice", "kind": "reply"}
+      ],
+      "claimed_result": "The guide is in docs/onboarding.md. Its main advice is to verify local access first, run the smoke test before editing, and ask for review on the first small change.",
+      "receipts": {
+        "tool_calls": [{"name": "shell", "count": 2}],
+        "files_written": [{"path": "docs/onboarding.md", "bytes": 2450, "first_line": "# Engineering onboarding"}],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 7,
+        "elapsed_s": 62
+      }
+    },
+    "expected": {"parts": [true, true], "done": "done", "result_is_echo": false}
+  },
+  {
+    "id": "pub-desk-lamp-price",
+    "judgment": 5,
+    "note": "Three listings were searched and fetched, and the response names the cheapest option with its price.",
+    "state": {
+      "task": "Look up three fictional rechargeable desk lamps and tell me which is cheapest and why.",
+      "task_parts": [
+        {"text": "Search for and read three rechargeable desk lamp listings", "kind": "action"},
+        {"text": "Identify the cheapest lamp and explain why", "kind": "reply"}
+      ],
+      "claimed_result": "The Pinebeam Mini is cheapest at $28 because the other two listed prices are $35 and $41, with shipping included for all three.",
+      "receipts": {
+        "tool_calls": [{"name": "web_search", "count": 3}, {"name": "web_fetch", "count": 3}],
+        "files_written": [],
+        "searches": 3,
+        "pages_fetched": 3,
+        "transcript_entries": 12,
+        "elapsed_s": 87
+      }
+    },
+    "expected": {"parts": [true, true], "done": "done", "result_is_echo": false}
+  },
+  {
+    "id": "pub-cache-pr",
+    "judgment": 5,
+    "note": "Tests, push, and PR creation are all recorded, and the reply provides the PR address.",
+    "state": {
+      "task": "Run the cache tests, push the branch, open a pull request, and give me its URL.",
+      "task_parts": [
+        {"text": "Run the cache tests", "kind": "action"},
+        {"text": "Push the branch", "kind": "action"},
+        {"text": "Open a pull request", "kind": "action"},
+        {"text": "Provide the pull request URL", "kind": "reply"}
+      ],
+      "claimed_result": "The cache tests passed, the branch was pushed, and the pull request is https://code.example/bluejay/cache/pull/47.",
+      "receipts": {
+        "tool_calls": [{"name": "run_tests", "count": 1}, {"name": "git_push", "count": 1}, {"name": "gh_pr_create", "count": 1}],
+        "files_written": [],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 13,
+        "elapsed_s": 109
+      }
+    },
+    "expected": {"parts": [true, true, true, true], "done": "done", "result_is_echo": false}
+  },
+  {
+    "id": "pub-worker-restart",
+    "judgment": 5,
+    "note": "Both operational actions are evidenced and the response states the resulting condition.",
+    "state": {
+      "task": "Restart the thumbnail worker, check its recent logs, and report whether it recovered.",
+      "task_parts": [
+        {"text": "Restart the thumbnail worker", "kind": "action"},
+        {"text": "Check the worker's recent logs", "kind": "action"},
+        {"text": "Report whether the worker recovered", "kind": "reply"}
+      ],
+      "claimed_result": "The thumbnail worker restarted and recovered; its last 50 log lines show normal queue processing with no new errors.",
+      "receipts": {
+        "tool_calls": [{"name": "service_restart", "count": 1}, {"name": "logs_query", "count": 1}],
+        "files_written": [],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 7,
+        "elapsed_s": 46
+      }
+    },
+    "expected": {"parts": [true, true, true], "done": "done", "result_is_echo": false}
+  },
+  {
+    "id": "pub-accessibility-brief",
+    "judgment": 5,
+    "note": "The source pages were read, the exact brief was written, and the reply states two findings.",
+    "state": {
+      "task": "Research keyboard accessibility guidance, write a brief to research/keyboard.md, and tell me two key findings.",
+      "task_parts": [
+        {"text": "Search for and read keyboard accessibility guidance", "kind": "action"},
+        {"text": "Write the research brief", "kind": "file", "path": "research/keyboard.md"},
+        {"text": "State two key findings", "kind": "reply"}
+      ],
+      "claimed_result": "The brief is saved at research/keyboard.md. Two key findings are that focus order must follow reading order and every interactive control needs a visible focus indicator.",
+      "receipts": {
+        "tool_calls": [{"name": "web_search", "count": 2}, {"name": "web_fetch", "count": 4}],
+        "files_written": [{"path": "research/keyboard.md", "bytes": 3098, "first_line": "# Keyboard accessibility brief"}],
+        "searches": 2,
+        "pages_fetched": 4,
+        "transcript_entries": 15,
+        "elapsed_s": 172
+      }
+    },
+    "expected": {"parts": [true, true, true], "done": "done", "result_is_echo": false}
+  },
+  {
+    "id": "pub-hosting-missing-reason",
+    "judgment": 5,
+    "note": "Research and the exact file are evidenced, but the recommendation gives no requested reason.",
+    "state": {
+      "task": "Compare three fictional static hosts, recommend one with a reason, and save notes to notes/hosts.md.",
+      "task_parts": [
+        {"text": "Search for and read information about three static hosts", "kind": "action"},
+        {"text": "Recommend one host and give a reason", "kind": "reply"},
+        {"text": "Save the comparison notes", "kind": "file", "path": "notes/hosts.md"}
+      ],
+      "claimed_result": "I recommend MossyHost. The comparison is saved in notes/hosts.md.",
+      "receipts": {
+        "tool_calls": [{"name": "web_search", "count": 3}, {"name": "web_fetch", "count": 3}],
+        "files_written": [{"path": "notes/hosts.md", "bytes": 1350, "first_line": "# Static host comparison"}],
+        "searches": 3,
+        "pages_fetched": 3,
+        "transcript_entries": 10,
+        "elapsed_s": 115
+      }
+    },
+    "expected": {"parts": [true, false, true], "done": "partial", "result_is_echo": false}
+  },
+  {
+    "id": "pub-wrong-migration-path",
+    "judgment": 5,
+    "note": "The migration test ran and the outcome was reported, but the file path differs from the exact requested path.",
+    "state": {
+      "task": "Add the migration at db/migrations/014_add_flag.sql, run migration tests, and report the result.",
+      "task_parts": [
+        {"text": "Add the migration file", "kind": "file", "path": "db/migrations/014_add_flag.sql"},
+        {"text": "Run migration tests", "kind": "action"},
+        {"text": "Report the migration test result", "kind": "reply"}
+      ],
+      "claimed_result": "The migration tests passed, and the flag column is covered by the rollback case.",
+      "receipts": {
+        "tool_calls": [{"name": "run_migration_tests", "count": 1}],
+        "files_written": [{"path": "db/migration/014_add_flag.sql", "bytes": 418, "first_line": "ALTER TABLE accounts"}],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 8,
+        "elapsed_s": 69
+      }
+    },
+    "expected": {"parts": [false, true, true], "done": "partial", "result_is_echo": false}
+  },
+  {
+    "id": "pub-empty-audit-export",
+    "judgment": 5,
+    "note": "The database query and stated count are present, while the exact export is zero bytes and therefore false.",
+    "state": {
+      "task": "Query today's audit events, export them to exports/audit.csv, and report the count.",
+      "task_parts": [
+        {"text": "Query today's audit events", "kind": "action"},
+        {"text": "Export the audit events", "kind": "file", "path": "exports/audit.csv"},
+        {"text": "Report the audit event count", "kind": "reply"}
+      ],
+      "claimed_result": "There were 63 audit events today. The export step completed.",
+      "receipts": {
+        "tool_calls": [{"name": "sql_query", "count": 1}, {"name": "csv_export", "count": 1}],
+        "files_written": [{"path": "exports/audit.csv", "bytes": 0, "first_line": ""}],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 6,
+        "elapsed_s": 31
+      }
+    },
+    "expected": {"parts": [true, false, true], "done": "partial", "result_is_echo": false}
+  },
+  {
+    "id": "pub-search-without-reading",
+    "judgment": 5,
+    "note": "Search results alone do not prove the required page reading, though the exact file and explicit comparison are present.",
+    "state": {
+      "task": "Read the pricing pages for two fictional courier services, compare their base rates, and save notes to buying/couriers.md.",
+      "task_parts": [
+        {"text": "Search for and read both courier pricing pages", "kind": "action"},
+        {"text": "Compare the two base rates", "kind": "reply"},
+        {"text": "Save the notes", "kind": "file", "path": "buying/couriers.md"}
+      ],
+      "claimed_result": "Spruce Courier lists a $7 base rate and Harbor Parcel lists $9, so Spruce is $2 cheaper. I saved the notes to buying/couriers.md.",
+      "receipts": {
+        "tool_calls": [{"name": "web_search", "count": 2}],
+        "files_written": [{"path": "buying/couriers.md", "bytes": 722, "first_line": "# Courier rates"}],
+        "searches": 2,
+        "pages_fetched": 0,
+        "transcript_entries": 6,
+        "elapsed_s": 44
+      }
+    },
+    "expected": {"parts": [false, true, true], "done": "partial", "result_is_echo": false}
+  },
+  {
+    "id": "pub-wrong-test-purpose",
+    "judgment": 5,
+    "note": "Only login tests are recorded, so checkout testing is false, while lint and the exact source change are evidenced.",
+    "state": {
+      "task": "Update src/checkout.ts, run checkout tests, and run lint.",
+      "task_parts": [
+        {"text": "Update the checkout source file", "kind": "file", "path": "src/checkout.ts"},
+        {"text": "Run checkout tests", "kind": "action"},
+        {"text": "Run lint", "kind": "action"}
+      ],
+      "claimed_result": "The checkout update is complete and validation passed.",
+      "receipts": {
+        "tool_calls": [{"name": "run_login_tests", "count": 1}, {"name": "run_lint", "count": 1}],
+        "files_written": [{"path": "src/checkout.ts", "bytes": 4890, "first_line": "import { Cart } from './cart';"}],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 9,
+        "elapsed_s": 78
+      }
+    },
+    "expected": {"parts": [true, false, true], "done": "partial", "result_is_echo": false}
+  },
+  {
+    "id": "pub-plan-only-answer",
+    "judgment": 5,
+    "note": "The metrics query happened, but a promise to summarize later is not the requested reply content.",
+    "state": {
+      "task": "Query weekly signup metrics and summarize the trend.",
+      "task_parts": [
+        {"text": "Query weekly signup metrics", "kind": "action"},
+        {"text": "Summarize the signup trend", "kind": "reply"}
+      ],
+      "claimed_result": "I queried the weekly signup metrics. I will summarize the trend after I review the numbers.",
+      "receipts": {
+        "tool_calls": [{"name": "metrics_query", "count": 1}],
+        "files_written": [],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 4,
+        "elapsed_s": 27
+      }
+    },
+    "expected": {"parts": [true, false], "done": "partial", "result_is_echo": false}
+  },
+  {
+    "id": "pub-lint-not-tests",
+    "judgment": 5,
+    "note": "The exact file and a concrete outcome reply are present, but lint does not satisfy the full test suite action.",
+    "state": {
+      "task": "Update lib/tokenizer.js, run the full test suite, and report whether token parsing works.",
+      "task_parts": [
+        {"text": "Update the tokenizer file", "kind": "file", "path": "lib/tokenizer.js"},
+        {"text": "Run the full test suite", "kind": "action"},
+        {"text": "Report whether token parsing works", "kind": "reply"}
+      ],
+      "claimed_result": "Token parsing now handles escaped separators correctly, and lint passed.",
+      "receipts": {
+        "tool_calls": [{"name": "run_lint", "count": 1}],
+        "files_written": [{"path": "lib/tokenizer.js", "bytes": 2160, "first_line": "export function tokenize(input) {"}],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 7,
+        "elapsed_s": 51
+      }
+    },
+    "expected": {"parts": [true, false, true], "done": "partial", "result_is_echo": false}
+  },
+  {
+    "id": "pub-sales-path-typo",
+    "judgment": 5,
+    "note": "The query and total are satisfied, but sales.csv was written outside the exact requested directory.",
+    "state": {
+      "task": "Query monthly sales, export them to reports/monthly-sales.csv, and state the total revenue.",
+      "task_parts": [
+        {"text": "Query monthly sales", "kind": "action"},
+        {"text": "Export monthly sales", "kind": "file", "path": "reports/monthly-sales.csv"},
+        {"text": "State total revenue", "kind": "reply"}
+      ],
+      "claimed_result": "Monthly revenue totaled $184,200, and I exported the rows.",
+      "receipts": {
+        "tool_calls": [{"name": "sql_query", "count": 1}, {"name": "csv_export", "count": 1}],
+        "files_written": [{"path": "report/monthly-sales.csv", "bytes": 6730, "first_line": "day,revenue"}],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 6,
+        "elapsed_s": 38
+      }
+    },
+    "expected": {"parts": [true, false, true], "done": "partial", "result_is_echo": false}
+  },
+  {
+    "id": "pub-deploy-no-logs",
+    "judgment": 5,
+    "note": "Deployment is recorded and the reply reports status, but no log inspection appears in the receipts.",
+    "state": {
+      "task": "Deploy the API to preview, inspect startup logs, and report whether startup succeeded.",
+      "task_parts": [
+        {"text": "Deploy the API to preview", "kind": "action"},
+        {"text": "Inspect startup logs", "kind": "action"},
+        {"text": "Report whether startup succeeded", "kind": "reply"}
+      ],
+      "claimed_result": "The API was deployed to preview and startup succeeded.",
+      "receipts": {
+        "tool_calls": [{"name": "deploy_preview", "count": 1}],
+        "files_written": [],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 5,
+        "elapsed_s": 65
+      }
+    },
+    "expected": {"parts": [true, false, true], "done": "partial", "result_is_echo": false}
+  },
+  {
+    "id": "pub-email-no-calendar",
+    "judgment": 5,
+    "note": "The email and the stated time are present, but the calendar event was never created.",
+    "state": {
+      "task": "Email the fictional Rowan team, create a kickoff event for Friday at 10 AM, and confirm the time.",
+      "task_parts": [
+        {"text": "Email the Rowan team", "kind": "action"},
+        {"text": "Create the kickoff calendar event", "kind": "action"},
+        {"text": "Confirm the kickoff time", "kind": "reply"}
+      ],
+      "claimed_result": "The Rowan team was emailed, and the kickoff time is Friday at 10:00 AM.",
+      "receipts": {
+        "tool_calls": [{"name": "send_email", "count": 1}],
+        "files_written": [],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 5,
+        "elapsed_s": 24
+      }
+    },
+    "expected": {"parts": [true, false, true], "done": "partial", "result_is_echo": false}
+  },
+  {
+    "id": "pub-draft-not-published",
+    "judgment": 5,
+    "note": "The exact article and requested summary exist, while no publication action is recorded.",
+    "state": {
+      "task": "Write help/reset-password.md, publish it to the support portal, and summarize the steps.",
+      "task_parts": [
+        {"text": "Write the reset password article", "kind": "file", "path": "help/reset-password.md"},
+        {"text": "Publish the article to the support portal", "kind": "action"},
+        {"text": "Summarize the reset steps", "kind": "reply"}
+      ],
+      "claimed_result": "The article is drafted. The steps are to open account settings, request a reset link, and choose a new password.",
+      "receipts": {
+        "tool_calls": [{"name": "shell", "count": 1}],
+        "files_written": [{"path": "help/reset-password.md", "bytes": 1184, "first_line": "# Reset your password"}],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 5,
+        "elapsed_s": 49
+      }
+    },
+    "expected": {"parts": [true, false, true], "done": "partial", "result_is_echo": false}
+  },
+  {
+    "id": "pub-empty-vendor-notes",
+    "judgment": 5,
+    "note": "The pages were researched and a reasoned recommendation was delivered, but the required file is empty.",
+    "state": {
+      "task": "Research two fictional ticketing vendors, recommend one with a reason, and save notes to vendors/tickets.md.",
+      "task_parts": [
+        {"text": "Search for and read both vendor pages", "kind": "action"},
+        {"text": "Recommend one vendor and give a reason", "kind": "reply"},
+        {"text": "Save vendor notes", "kind": "file", "path": "vendors/tickets.md"}
+      ],
+      "claimed_result": "I recommend KiteDesk because it includes weekend routing at the lower tier. Notes were created at vendors/tickets.md.",
+      "receipts": {
+        "tool_calls": [{"name": "web_search", "count": 2}, {"name": "web_fetch", "count": 2}],
+        "files_written": [{"path": "vendors/tickets.md", "bytes": 0, "first_line": ""}],
+        "searches": 2,
+        "pages_fetched": 2,
+        "transcript_entries": 9,
+        "elapsed_s": 83
+      }
+    },
+    "expected": {"parts": [true, true, false], "done": "partial", "result_is_echo": false}
+  },
+  {
+    "id": "pub-confident-no-receipts",
+    "judgment": 5,
+    "note": "A confident completion claim cannot establish either action when the receipts are empty.",
+    "state": {
+      "task": "Restart the image proxy and check its health endpoint.",
+      "task_parts": [
+        {"text": "Restart the image proxy", "kind": "action"},
+        {"text": "Check the image proxy health endpoint", "kind": "action"}
+      ],
+      "claimed_result": "The image proxy restarted cleanly and its health endpoint is green.",
+      "receipts": {
+        "tool_calls": [],
+        "files_written": [],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 1,
+        "elapsed_s": 8
+      }
+    },
+    "expected": {"parts": [false, false], "done": "not_done", "result_is_echo": false}
+  },
+  {
+    "id": "pub-imperative-echo",
+    "judgment": 5,
+    "note": "The result simply repeats the instructions, and neither the action nor exact file is evidenced.",
+    "state": {
+      "task": "Run the formatter and save its report to reports/format.txt.",
+      "task_parts": [
+        {"text": "Run the formatter", "kind": "action"},
+        {"text": "Save the formatter report", "kind": "file", "path": "reports/format.txt"}
+      ],
+      "claimed_result": "Run the formatter and save its report to reports/format.txt.",
+      "receipts": {
+        "tool_calls": [],
+        "files_written": [{"path": "report/format.txt", "bytes": 902, "first_line": "Formatter report"}],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 2,
+        "elapsed_s": 12
+      }
+    },
+    "expected": {"parts": [false, false], "done": "not_done", "result_is_echo": true}
+  },
+  {
+    "id": "pub-empty-brief-echo",
+    "judgment": 5,
+    "note": "The output is a polished restatement with no findings, no research receipts, and a zero-byte file.",
+    "state": {
+      "task": "Research fictional commuter bikes, write a brief to bikes.md, and name the best value.",
+      "task_parts": [
+        {"text": "Research commuter bikes", "kind": "action"},
+        {"text": "Write the research brief", "kind": "file", "path": "bikes.md"},
+        {"text": "Name the best-value bike", "kind": "reply"}
+      ],
+      "claimed_result": "The work covers commuter bike research, a written brief, and selection of the best value option.",
+      "receipts": {
+        "tool_calls": [],
+        "files_written": [{"path": "bikes.md", "bytes": 0, "first_line": ""}],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 2,
+        "elapsed_s": 17
+      }
+    },
+    "expected": {"parts": [false, false, false], "done": "not_done", "result_is_echo": true}
+  },
+  {
+    "id": "pub-long-idle-echo",
+    "judgment": 5,
+    "note": "Long elapsed time adds no evidence, and the claimed result only paraphrases the requested work.",
+    "state": {
+      "task": "Check the nightly backup and report whether it succeeded.",
+      "task_parts": [
+        {"text": "Check the nightly backup", "kind": "action"},
+        {"text": "Report whether the backup succeeded", "kind": "reply"}
+      ],
+      "claimed_result": "Nightly backup status should be checked and its success should be reported.",
+      "receipts": {
+        "tool_calls": [],
+        "files_written": [],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 1,
+        "elapsed_s": 5400
+      }
+    },
+    "expected": {"parts": [false, false], "done": "not_done", "result_is_echo": true}
+  },
+  {
+    "id": "pub-unrelated-weather",
+    "judgment": 5,
+    "note": "A weather lookup is unrelated to the requested inventory action, and the response merely restates the task.",
+    "state": {
+      "task": "Check warehouse inventory and report which fictional Birchline item is low.",
+      "task_parts": [
+        {"text": "Check warehouse inventory", "kind": "action"},
+        {"text": "Report which Birchline item is low", "kind": "reply"}
+      ],
+      "claimed_result": "The warehouse inventory check will identify which Birchline item is low.",
+      "receipts": {
+        "tool_calls": [{"name": "weather_lookup", "count": 1}],
+        "files_written": [],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 3,
+        "elapsed_s": 21
+      }
+    },
+    "expected": {"parts": [false, false], "done": "not_done", "result_is_echo": true}
+  },
+  {
+    "id": "pub-results-only-echo",
+    "judgment": 5,
+    "note": "Search result retrieval does not satisfy reading pages, no file exists, and the claimed result contains no comparison outcome.",
+    "state": {
+      "task": "Read three fictional payroll vendor pages, compare support hours, and save the findings to payroll.md.",
+      "task_parts": [
+        {"text": "Search for and read three payroll vendor pages", "kind": "action"},
+        {"text": "Compare vendor support hours", "kind": "reply"},
+        {"text": "Save the findings", "kind": "file", "path": "payroll.md"}
+      ],
+      "claimed_result": "This task compares support hours from three payroll vendor pages and saves the findings to payroll.md.",
+      "receipts": {
+        "tool_calls": [{"name": "web_search", "count": 3}],
+        "files_written": [],
+        "searches": 3,
+        "pages_fetched": 0,
+        "transcript_entries": 5,
+        "elapsed_s": 36
+      }
+    },
+    "expected": {"parts": [false, false, false], "done": "not_done", "result_is_echo": true}
+  },
+  {
+    "id": "pub-wrong-service-tests",
+    "judgment": 5,
+    "note": "The recorded test tool targets billing rather than checkout, and no requested failure summary is given.",
+    "state": {
+      "task": "Run checkout integration tests and summarize any failures.",
+      "task_parts": [
+        {"text": "Run checkout integration tests", "kind": "action"},
+        {"text": "Summarize any test failures", "kind": "reply"}
+      ],
+      "claimed_result": "Validation was performed successfully.",
+      "receipts": {
+        "tool_calls": [{"name": "run_billing_tests", "count": 1}],
+        "files_written": [],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 4,
+        "elapsed_s": 55
+      }
+    },
+    "expected": {"parts": [false, false], "done": "not_done", "result_is_echo": false}
+  },
+  {
+    "id": "pub-promised-schedule",
+    "judgment": 5,
+    "note": "A future-tense promise is neither evidence of calendar creation nor a completed time confirmation.",
+    "state": {
+      "task": "Schedule the fictional Finch review for Monday at 11 AM and confirm it.",
+      "task_parts": [
+        {"text": "Create the Finch review calendar event", "kind": "action"},
+        {"text": "Confirm the scheduled time", "kind": "reply"}
+      ],
+      "claimed_result": "I will schedule the Finch review for Monday at 11 AM and confirm it.",
+      "receipts": {
+        "tool_calls": [],
+        "files_written": [],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 1,
+        "elapsed_s": 6
+      }
+    },
+    "expected": {"parts": [false, false], "done": "not_done", "result_is_echo": true}
+  },
+  {
+    "id": "pub-brief-wrong-directory",
+    "judgment": 5,
+    "note": "The only file is at a different path, no interviews were conducted, and the result repeats the requested deliverable.",
+    "state": {
+      "task": "Interview two fictional operators, write ops/brief.md, and state their main concern.",
+      "task_parts": [
+        {"text": "Interview two operators", "kind": "action"},
+        {"text": "Write the operator brief", "kind": "file", "path": "ops/brief.md"},
+        {"text": "State the operators' main concern", "kind": "reply"}
+      ],
+      "claimed_result": "Interview two operators, prepare the operator brief, and state their main concern.",
+      "receipts": {
+        "tool_calls": [],
+        "files_written": [{"path": "brief.md", "bytes": 811, "first_line": "# Operator brief"}],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 2,
+        "elapsed_s": 29
+      }
+    },
+    "expected": {"parts": [false, false, false], "done": "not_done", "result_is_echo": true}
+  },
+  {
+    "id": "pub-email-claim-only",
+    "judgment": 5,
+    "note": "The claimed send is not a receipt, so the single action part is false.",
+    "state": {
+      "task": "Send the fictional customer a case-closure email.",
+      "task_parts": [
+        {"text": "Send the customer a case-closure email", "kind": "action"}
+      ],
+      "claimed_result": "The case-closure email was sent successfully.",
+      "receipts": {
+        "tool_calls": [],
+        "files_written": [],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 1,
+        "elapsed_s": 9
+      }
+    },
+    "expected": {"parts": [false], "done": "not_done", "result_is_echo": false}
+  },
+  {
+    "id": "pub-format-not-tests",
+    "judgment": 5,
+    "note": "Formatting is unrelated to the parser fix and test run, while the claimed result is only the task wording.",
+    "state": {
+      "task": "Fix the YAML parser and run its tests.",
+      "task_parts": [
+        {"text": "Fix the YAML parser", "kind": "action"},
+        {"text": "Run the YAML parser tests", "kind": "action"}
+      ],
+      "claimed_result": "Fix the YAML parser and run its tests.",
+      "receipts": {
+        "tool_calls": [{"name": "format_code", "count": 1}],
+        "files_written": [],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 3,
+        "elapsed_s": 25
+      }
+    },
+    "expected": {"parts": [false, false], "done": "not_done", "result_is_echo": true}
+  },
+  {
+    "id": "pub-empty-churn-export",
+    "judgment": 5,
+    "note": "CSV validation is not the requested SQL query, the exact file is empty, and no churn count is supplied.",
+    "state": {
+      "task": "Query churned accounts, export them to data/churn.csv, and tell me the count.",
+      "task_parts": [
+        {"text": "Query churned accounts", "kind": "action"},
+        {"text": "Export churned accounts", "kind": "file", "path": "data/churn.csv"},
+        {"text": "Report the churned account count", "kind": "reply"}
+      ],
+      "claimed_result": "The churn analysis workflow completed.",
+      "receipts": {
+        "tool_calls": [{"name": "csv_validate", "count": 1}],
+        "files_written": [{"path": "data/churn.csv", "bytes": 0, "first_line": ""}],
+        "searches": 0,
+        "pages_fetched": 0,
+        "transcript_entries": 4,
+        "elapsed_s": 33
+      }
+    },
+    "expected": {"parts": [false, false, false], "done": "not_done", "result_is_echo": false}
+  }
+]

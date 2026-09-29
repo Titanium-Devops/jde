@@ -50,6 +50,8 @@
     "typecheck:tests": "tsc -p tsconfig.test.json",
     "test": "npm run build && npm run typecheck:tests && node --test \"tests/*.test.ts\"",
     "eval": "node scripts/eval.mjs",
+    "eval:local": "npm run build && node scripts/eval-local.mjs",
+    "eval:verify": "npm run build && node scripts/eval-verify.mjs",
     "prepack": "npm run clean && npm run build",
     "prepublishOnly": "npm test"
   },
