@@ -29,6 +29,10 @@
     "test": "npm run build && npm run typecheck:tests && node --test \"tests/*.test.ts\"",
     "eval": "node scripts/eval.mjs"
   },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.31.0",
+    "zod": "^4.6.5"
+  },
   "devDependencies": {
     "@types/node": "^22.10.2",
     "typescript": "^5.9.2"
