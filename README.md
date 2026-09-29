@@ -127,6 +127,36 @@ wording we had quietly tuned ourselves into.
 ## Quickstart
 
 ```bash
+npm i jde
+pip install jebadiah-decide && jeb serve     # the judge, on your own machine
+```
+
+```ts
+import { completionCheck } from "jde";
+const { verdict } = await completionCheck({ task, task_parts, claimed_result, receipts });
+if (verdict === "partial" || verdict === "not_done") redo();   // null: the judge did not answer
+```
+
+`task_parts` is the task split into its parts, and `receipts` is what the run's own tool log shows
+it did. [USAGE.md](USAGE.md#the-completion-check) has the shapes.
+
+## Use it from an agent
+
+No code: give the agent JDE as an MCP server.
+
+```bash
+claude mcp add jde -- npx -y -p jde jde-mcp
+```
+
+The agent gets `check_completion`, which its description tells it to call before it reports a task
+done, and `ask` for typed questions. Cursor and other clients:
+[examples/mcp](examples/mcp). In your own agent loop:
+[OpenAI Agents SDK](examples/openai-agents) and [LangGraph](examples/langgraph), each checking
+the run's receipts and sending the agent back when the work is not done.
+
+## Run the tests
+
+```bash
 npm install
 npm test          # no network, no API key
 ```
