@@ -52,6 +52,7 @@
     "eval": "node scripts/eval.mjs",
     "eval:local": "npm run build && node scripts/eval-local.mjs",
     "eval:verify": "npm run build && node scripts/eval-verify.mjs",
+    "regression": "node scripts/regression.mjs",
     "prepack": "npm run clean && npm run build",
     "prepublishOnly": "npm test"
   },

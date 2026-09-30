@@ -79,8 +79,10 @@ test("the null ledger records nothing and the memory ledger records in order", a
     { policy: POLICY, judge: codeJudge({ answers: { only: 0.1 } }), ledger },
   );
   assert.deepEqual(ledger.rows.map((row) => ("question" in row ? row.question : "wrong")), ["only", "aggregate"]);
-  // A noul of 0.1 is a confident false, so the row is a false in the top band, not a weak true.
+  // A noul of 0.1 is a confident false, and the question asks whether something holds, so the row
+  // is a false at 0.1 confidence in the bottom band. It used to be written down as 0.9 in the top
+  // band, which recorded how sure the judge was as though it were how well the thing had gone.
   assert.equal((ledger.rows[0] as LedgerRow).answer, "false");
-  assert.equal((ledger.rows[0] as LedgerRow).band, "90plus");
-  assert.equal((ledger.rows[0] as LedgerRow).confidence, 0.9);
+  assert.equal((ledger.rows[0] as LedgerRow).band, "0to90");
+  assert.equal((ledger.rows[0] as LedgerRow).confidence, 0.1);
 });

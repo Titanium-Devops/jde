@@ -6,7 +6,7 @@ export { jebJudge, JEB_API_KEY_ENV, JEB_ENDPOINT, JEB_ENDPOINT_ENV, JEB_MODEL, J
 export type { JebJudgeOptions } from "./jeb.ts";
 export { jevJudge, JEV_ENDPOINT, JEV_MODEL, TYPESAFE_API_KEY_ENV } from "./jev.ts";
 export type { JevJudgeOptions } from "./jev.ts";
-export { systemOneJudge } from "./systemone.ts";
+export { questionsForWire, systemOneJudge } from "./systemone.ts";
 export type { SystemOneJudgeOptions } from "./systemone.ts";
 export { codeJudge } from "./code.ts";
 export type { CodeAnswer, CodeJudgeOptions } from "./code.ts";

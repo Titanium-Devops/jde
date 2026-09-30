@@ -25,7 +25,7 @@ import { homedir, tmpdir } from "node:os";
 import { basename, dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { promisify } from "node:util";
-import { completionQuestions, JEB_ENDPOINT } from "../dist/index.js";
+import { completionQuestions, JEB_ENDPOINT, questionsForWire } from "../dist/index.js";
 
 const run = promisify(execFile);
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -168,7 +168,7 @@ export async function provenance({ endpoint, runtimeUrl, setPaths }) {
   for (const path of setPaths) {
     const text = await readFile(resolve(REPO, path), "utf8");
     const cases = JSON.parse(text);
-    for (const testCase of Array.isArray(cases) ? cases : cases.cases) questionSets.push(completionQuestions(testCase.state.task_parts));
+    for (const testCase of Array.isArray(cases) ? cases : cases.cases) questionSets.push(questionsForWire(completionQuestions(testCase.state.task_parts)));
     const rel = relative(REPO, resolve(REPO, path));
     const frozen = await frozenSha(rel);
     if (frozen !== undefined && frozen !== sha256(text)) {

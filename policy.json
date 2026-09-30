@@ -1,12 +1,61 @@
 {
   "completion-check": {
     "bands": [
-      { "at_least": 0.9, "action": "accept" },
-      { "at_least": 0.7, "action": "accept_with_note" },
-      { "at_least": 0, "action": "fall_back" }
+      {
+        "at_least": 0.9,
+        "action": "accept"
+      },
+      {
+        "at_least": 0.7,
+        "action": "accept_with_note"
+      },
+      {
+        "at_least": 0,
+        "action": "fall_back"
+      }
     ],
     "aggregate": "all_parts_at_least_0.7",
     "on_error": "fall_back",
+    "timeout_ms": 2000,
+    "judge": "jeb"
+  },
+  "task-restatement": {
+    "bands": [
+      {
+        "at_least": 0.9,
+        "action": "accept"
+      },
+      {
+        "at_least": 0.7,
+        "action": "accept_with_note"
+      },
+      {
+        "at_least": 0,
+        "action": "escalate"
+      }
+    ],
+    "aggregate": "all_parts_at_least_0.7",
+    "on_error": "proceed",
+    "timeout_ms": 2000,
+    "judge": "jeb"
+  },
+  "ask-gate": {
+    "bands": [
+      {
+        "at_least": 0.9,
+        "action": "accept"
+      },
+      {
+        "at_least": 0.7,
+        "action": "accept_with_note"
+      },
+      {
+        "at_least": 0,
+        "action": "pass_flagged"
+      }
+    ],
+    "aggregate": "min_confidence",
+    "on_error": "pass",
     "timeout_ms": 2000,
     "judge": "jeb"
   }

@@ -1,0 +1,40 @@
+{
+  "note": "The scores both blind sets recorded when they were spent. A spent set cannot measure an improvement, because its answers are known and anything tuned against it is tuned against a ruler. It can still tell you the same day that something broke. These numbers are the floor: the suite fails on a drop and prints a line when a score rises, because a rise on a set nobody should be tuning against is worth a look rather than a cheer.",
+  "judge": "jev",
+  "recorded": "completion-check on 2026-09-20, task-restatement on 2026-09-21",
+  "decisions": {
+    "completion-check": {
+      "cases": 30,
+      "questions": {
+        "correct": 99,
+        "total": 99
+      },
+      "verdicts": {
+        "correct": 30,
+        "total": 30
+      },
+      "note": "69 part answers plus 30 result_is_echo answers, every one correct"
+    },
+    "task-restatement": {
+      "cases": 40,
+      "questions": {
+        "correct": 221,
+        "total": 229
+      },
+      "verdicts": {
+        "correct": 36,
+        "total": 40
+      },
+      "observedVerdictRuns": [
+        36,
+        33,
+        37,
+        36,
+        36
+      ],
+      "observedNote": "Five runs of this sealed set on 2026-09-20 and 2026-09-21 scored 36, 33, 37, 36 and 36 of 40 verdicts with no change to the code. The judge's picks were identical every time; its stated confidence was not, moving by as much as 0.23 between identical requests. That movement never crossed the argmax boundary and so never changed an answer, and it crossed our 0.7 action floor nine times in 218 answers, which is what moved the verdicts. The cause is where our floors sit, not the judge. The suite therefore gates on the question count and reports the verdict count without gating it."
+    }
+  },
+  "gate": "questions",
+  "gateNote": "npm run regression fails on a drop in the question-level count only. The verdict count is reported beside it and never gated: it carries about four cases of natural drift."
+}

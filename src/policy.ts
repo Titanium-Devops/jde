@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import type { Answer, Answers, Band, PolicyBook, PolicyEntry } from "./types.ts";
+import type { Answer, Answers, Band, PolicyBook, PolicyEntry, Question } from "./types.ts";
 
 /**
  * Policy is data. Bands, the aggregate rule, the fallback action and the deadline live in a JSON
@@ -110,15 +110,63 @@ export function bandFor(confidence: number, bands: readonly Band[]): BandHit {
   return { band, label };
 }
 
+/**
+ * Whether a band label names the bottom of a policy's range. A policy always has a band at zero,
+ * because loading refuses one that does not, so the bottom band is the one whose label starts
+ * there. A caller asking this is asking whether the judge was unsure at all, and it lets them ask
+ * without writing the policy's own boundary into their code.
+ */
+export function isBottomBand(label: string | null): boolean {
+  if (label === null) return false;
+  return label === "0plus" || label.startsWith("0to");
+}
+
 function asPercent(value: number): string {
   return String(Math.round(value * 100));
 }
 
 /**
- * A noul's confidence is its distance from the middle, not its value: 0.02 is a confident false.
- * Every threshold in this package is a confidence, so the conversion happens here alone.
+ * Which answer to a question means it passed. Everything that is not a noul question passes on
+ * its own confidence, and a noul question that does not say passes on "true".
  */
-export function confidenceOf(answer: Answer): number {
+export function passingAnswerOf(question: Question | undefined): "true" | "false" | "either" {
+  if (question?.type !== "noul") return "true";
+  return question.passingAnswer ?? "true";
+}
+
+/**
+ * A noul's confidence is the probability of the answer that means it passed: a question asking
+ * whether a part was done, answered 0.04, is 0.04 confident and not 0.96. Every threshold in this
+ * package is a confidence, so the conversion happens here alone.
+ *
+ * A question that asks for a fact rather than a pass, `passingAnswer: "either"`, has no failing
+ * answer at all, and its confidence is how sure the judge was: there, and only there, the old
+ * formula was the right one.
+ *
+ * Without the question this cannot be known, so a call that omits it reads the question as passing
+ * on "true". That is right for every question phrased as "was this done", which is most of them,
+ * and wrong for one phrased as "is this broken", which is why the question is worth passing.
+ *
+ * This used to be the distance from the middle, which said how sure the judge was and not what it
+ * had said. A confident "no" scored 0.96, landed in the top band and was accepted; 88 rows of one
+ * run answered false at 0.9 or better and every one of them carried an accepting action. That
+ * number is still available, honestly named, as `certaintyOf()`.
+ */
+export function confidenceOf(answer: Answer, question?: Question): number {
+  if (answer.type !== "noul") return answer.confidence;
+  const passes = passingAnswerOf(question);
+  if (passes === "either") return certaintyOf(answer);
+  return passes === "false" ? 1 - answer.noul : answer.noul;
+}
+
+/**
+ * How sure the judge was of anything, whichever way it answered: the distance from the middle.
+ *
+ * This is not a confidence that anything passed and no band should be read off it as one. It
+ * answers one question, which is whether the judge knew. A caller that escalates what a judge
+ * could not decide needs it; a caller deciding what to do about the answer wants `confidenceOf()`.
+ */
+export function certaintyOf(answer: Answer): number {
   if (answer.type === "noul") return Math.max(answer.noul, 1 - answer.noul);
   return answer.confidence;
 }
@@ -130,7 +178,16 @@ export function answerText(answer: Answer): string {
   return String(answer.score);
 }
 
-export type AggregateRule = (answers: Answers) => number;
+/**
+ * What one answer is worth to an aggregate. `confidenceOf` bound to the questions that were asked
+ * is the one the bands see; `certaintyOf` is the other one, and the rules do not know the
+ * difference.
+ */
+export type Score = (answer: Answer, questionId: string) => number;
+
+const PASSES_ON_TRUE: Score = (answer) => confidenceOf(answer);
+
+export type AggregateRule = (answers: Answers, score?: Score) => number;
 
 const ALL_AT_LEAST = /^all_(?:parts_)?at_least_(\d*\.?\d+)$/;
 
@@ -159,14 +216,18 @@ export function aggregateFloor(name: string): number | undefined {
   return atLeast ? Number(atLeast[1]) : undefined;
 }
 
-function minConfidence(answers: Answers): number {
-  const values = Object.values(answers).map(confidenceOf);
+function scored(answers: Answers, score: Score = PASSES_ON_TRUE): number[] {
+  return Object.entries(answers).map(([id, answer]) => score(answer, id));
+}
+
+function minConfidence(answers: Answers, score?: Score): number {
+  const values = scored(answers, score);
   if (values.length === 0) return 0;
   return Math.min(...values);
 }
 
-function meanConfidence(answers: Answers): number {
-  const values = Object.values(answers).map(confidenceOf);
+function meanConfidence(answers: Answers, score?: Score): number {
+  const values = scored(answers, score);
   if (values.length === 0) return 0;
   return values.reduce((total, value) => total + value, 0) / values.length;
 }

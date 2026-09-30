@@ -48,11 +48,11 @@ a{color:var(--accent)}
 <p>The thesis is the same one JDE already runs on: facts stay in code, the model gets only the semantic step. pstack&#x27;s version is &quot;never hand the human a check you could run.&quot; JDE&#x27;s version is a ledger, calibrated probabilities and blind sets. This spec ports the five pstack ideas that survive that translation.</p>
 <p>What this spec asks Claude Code to build, in order:</p>
 <ul>
-<li><code>task-restatement</code> — a decision (score / per-part yes-no)</li>
-<li><code>ask-gate</code> — a decision (choice)</li>
-<li><code>claim-labeling</code> — a decision (choice + yes-no)</li>
-<li>Room hygiene — a rooms policy, with one optional decision (<code>promotable</code>, yes-no)</li>
-<li><code>playbook-route</code> — a decision (choice) plus a playbook-as-data format and a disposition check in code</li>
+<li><code>task-restatement</code>, a decision (score / per-part yes-no)</li>
+<li><code>ask-gate</code>, a decision (choice)</li>
+<li><code>claim-labeling</code>, a decision (choice + yes-no)</li>
+<li>Room hygiene, a rooms policy with one optional decision (<code>promotable</code>, yes-no)</li>
+<li><code>playbook-route</code>, a decision (choice) plus a playbook-as-data format and a disposition check in code</li>
 </ul>
 <p>Sources this spec draws on: <a href="https://github.com/Titanium-Devops/jde">JDE</a>, the <a href="https://github.com/cursor/plugins">pstack source</a> (v0.15.2), the <a href="https://cursor.com/marketplace/cursor/pstack">pstack marketplace page</a>, and Lauren Tan&#x27;s pstack guides <a href="https://x.com/poteto/status/2094457600259842065">Part 1</a> and <a href="https://x.com/poteto/status/2097732320606507506">Part 2</a>.</p>
 <h2>Ground rules every decision inherits</h2>
@@ -80,7 +80,7 @@ a{color:var(--accent)}
 <tr><td>5</td><td><code>playbook-route</code></td><td>decision + data format + code check</td><td>Needs the playbook catalog as JSON and the hardest blind set</td></tr>
 </tbody></table></div>
 <p>Each item ships independently. None of the five depends on a later one being done.</p>
-<h2>Decision 1 — <code>task-restatement</code></h2>
+<h2>Decision 1: <code>task-restatement</code></h2>
 <p>Before a bot does any work, it restates the task in its own words and Jev scores whether that restatement matches the request. This is pstack&#x27;s &quot;indirect prompt&quot; (restate the problem before acting) turned into a gate; it catches a misread before tokens are spent going the wrong direction, where <code>completion-check</code> catches it only after.</p>
 <p><strong>Fires:</strong> once per task, after the bot&#x27;s first turn produces a restatement block and before the first tool call. Applies to lead agents and to any bot that receives a task from a room or a schedule.</p>
 <p><strong>State:</strong> <code>{ task, taskParts, restatement, workspaceId }</code>. <code>taskParts</code> comes from the same parts extraction <code>completion-check</code> uses; do not build a second one.</p>
@@ -110,13 +110,13 @@ a{color:var(--accent)}
 <li>a restatement that reorders parts but covers all of them (must pass)</li>
 </ul>
 <p><strong>Done when:</strong> blind set passes, offline tests cover all three bands and the timeout path, the console shows the restatement and its band on the task, and the ledger row appears in api.titanium.bot/admin.</p>
-<h2>Decision 2 — <code>ask-gate</code></h2>
+<h2>Decision 2: <code>ask-gate</code></h2>
 <p>Before a bot sends a question to a human, Jev classifies it: answerable by a tool the bot has, a genuine preference call, or blocked on something the bot lacks. Only the last two reach the human. This is pstack&#x27;s AskQuestion rule (&quot;if it&#x27;s runnable, it&#x27;s not the human&#x27;s to answer&quot;) as a typed choice instead of a paragraph of instructions.</p>
 <p><strong>Fires:</strong> on every outbound message the bot marks as a question to a person, in rooms and in direct tasks. Sits in the send path, not in the bot&#x27;s prompt.</p>
 <p><strong>State:</strong> <code>{ question, taskSummary, toolManifest, recentToolCalls, workspaceId }</code>. <code>toolManifest</code> is the bot&#x27;s enabled skills as name plus one-line description, straight from the skills panel; do not hand the judge full tool schemas.</p>
 <p><strong>Questions:</strong></p>
 <ul>
-<li>choice, once: <code>{ runnable, preference, blocked }</code> — <em>Which best describes how this question gets answered?</em></li>
+<li>choice, once, <code>{ runnable, preference, blocked }</code>. <em>Which best describes how this question gets answered?</em></li>
 <li>choice, only when <code>runnable</code>: pick the tool from <code>toolManifest</code> (cardinality is the manifest length, so it stays under 255)</li>
 <li>yes-or-no, only when <code>runnable</code>: <em>Did the bot already try this tool for this question?</em> (a retry loop is not a reason to suppress again)</li>
 </ul>
@@ -140,15 +140,15 @@ a{color:var(--accent)}
 </ul>
 <p><strong>Metric to publish:</strong> questions-to-human per completed task, before and after, per workspace. That number is the pitch for this decision.</p>
 <p><strong>Done when:</strong> blind set passes, offline tests cover all three bands and the timeout path, the false-positive rate from the ledger is visible in admin, and a suppressed question is visible to the workspace owner in the bot&#x27;s trace (not hidden).</p>
-<h2>Decision 3 — <code>claim-labeling</code></h2>
+<h2>Decision 3: <code>claim-labeling</code></h2>
 <p>Research bots tag every claim they emit as <code>measured</code>, <code>inferred</code> or <code>guess</code>, and Jev checks that the label matches the evidence attached. A guess that a tool could turn into a measurement is sent back. This is the agent-side half of <code>completion-check</code>: the bot admits its confidence while writing, instead of the judge reconstructing it afterwards.</p>
 <p><strong>Agent-side contract (prompt/format change, not a decision):</strong> research output is a list of claims, each <code>{ text, label, receipts[] }</code>. A <code>measured</code> claim must carry at least one receipt in the same receipt format <code>completion-check</code> already consumes (URL read, tool result id, file pointer). This is the only prompt-level change in this spec, and it is a format rule, not guidance.</p>
 <p><strong>Fires:</strong> when a research bot finalizes an answer, before it posts to a room or a task, per claim.</p>
 <p><strong>State per claim:</strong> <code>{ claim, label, receipts, toolManifest }</code>.</p>
 <p><strong>Questions:</strong></p>
 <ul>
-<li>choice, per claim: <code>{ measured, inferred, guess }</code> — <em>Given the attached receipts, which label is honest?</em></li>
-<li>yes-or-no, per claim labeled <code>guess</code> or <code>inferred</code>: <em>Could a tool in the manifest turn this into a measurement?</em> — pstack&#x27;s &quot;never hand the human a check you could run&quot;, applied to the bot</li>
+<li>choice, per claim, <code>{ measured, inferred, guess }</code>. <em>Given the attached receipts, which label is honest?</em></li>
+<li>yes-or-no, per claim labeled <code>guess</code> or <code>inferred</code>: <em>Could a tool in the manifest turn this into a measurement?</em> That is pstack&#x27;s &quot;never hand the human a check you could run&quot;, applied to the bot.</li>
 </ul>
 <p><strong>Code, not questions:</strong> receipt present or absent (a <code>measured</code> label with zero receipts is downgraded in code, no judge call), receipt resolvable (the URL or tool id exists in this turn&#x27;s trace), and the per-answer aggregate.</p>
 <p><strong>Bands:</strong></p>
@@ -170,7 +170,7 @@ a{color:var(--accent)}
 <li>correctly labeled <code>inferred</code> chains (two measured claims plus a stated inference)</li>
 </ul>
 <p><strong>Done when:</strong> blind set passes, labels render in rooms and reports, downgrade rate per bot is visible in admin, and the <code>completion-check</code> eval still passes with labeled claims as its input.</p>
-<h2>Policy 4 — Room hygiene</h2>
+<h2>Policy 4: Room hygiene</h2>
 <p>Shared rooms carry conclusions and pointers, never working-out. The Titan.bot Marketing Team room today shows Titan posting multi-paragraph reasoning into a four-member room; every member&#x27;s next turn then pays for that reasoning as context. pstack solves this with subagent isolation (discovery runs apart, only conclusions promote, file pointers travel, readonly agents lose write-capable tools). Most of it is plumbing in rooms, not judgment.</p>
 <p><strong>Rules (enforced in code):</strong></p>
 <ul>
@@ -181,17 +181,17 @@ a{color:var(--accent)}
 <li>Readonly roles (reviewers, auditors, research-only bots) run with write-capable MCP tools stripped from their manifest at dispatch. The manifest passed to <code>ask-gate</code> and <code>claim-labeling</code> is the stripped one.</li>
 <li>Room context handed to a bot&#x27;s next turn is assembled from these posts, so keeping them small is what keeps the 75M-token allowance from draining on rooms.</li>
 </ul>
-<p><strong>Optional decision — <code>promotable</code></strong> (build only if rule 2 cannot be settled by message type alone):</p>
+<p><strong>Optional decision: <code>promotable</code></strong> (build only if rule 2 cannot be settled by message type alone):</p>
 <ul>
 <li>yes-or-no, per outbound room message: <em>Is this a conclusion or status, rather than working-out?</em></li>
-<li>Bands: <code>post</code> above threshold; <code>hold</code> below — the message goes to the bot&#x27;s trace instead, with a one-line status posted in its place; bottom band posts and flags.</li>
+<li>Bands: <code>post</code> above threshold. <code>hold</code> below sends the message to the bot&#x27;s trace instead, with a one-line status posted in its place. The bottom band posts and flags.</li>
 <li>Fallback on timeout: post (today&#x27;s behaviour), ledger <code>promotable: unjudged</code>.</li>
 <li>Blind set: conclusions, status lines, questions, raw chain-of-thought, a conclusion buried inside three paragraphs of reasoning (must hold), a long but legitimate summary (must post).</li>
 </ul>
 <p><strong>Done when:</strong> no room message body contains a reasoning trace, room message p95 length drops and stays down, tokens-per-room-turn is charted in admin, and readonly bots cannot be shown a write tool in their manifest.</p>
-<h2>Decision 5 — <code>playbook-route</code></h2>
+<h2>Decision 5: <code>playbook-route</code></h2>
 <p>A task goes in, a playbook id and a confidence come out, and every step of that playbook must end with a disposition before the task can be called done. pstack does this with a 2,635-word router prompt that picks from 23 markdown playbooks and a rule that skipped steps keep <code>skip: &lt;reason&gt;</code>. Here the pick is a typed choice, the playbooks are data, and &quot;did every step get a disposition&quot; is a loop in code. Routing becomes a ledger row instead of a reasoning paragraph.</p>
-<p><strong>Prerequisite — playbooks as data.</strong> A playbook is a JSON file, not markdown:</p>
+<p><strong>Prerequisite: playbooks as data.</strong> A playbook is a JSON file, not markdown:</p>
 <pre><code>{
   &quot;id&quot;: &quot;social-campaign-launch&quot;,
   &quot;appliesTo&quot;: &quot;one paragraph, written for the judge, on when this playbook is the right one&quot;,
@@ -208,7 +208,7 @@ a{color:var(--accent)}
 <p><strong>Questions:</strong></p>
 <ul>
 <li>choice, once: the playbook id from the filtered catalog</li>
-<li>yes-or-no, once: <em>Does no playbook in this catalog fit?</em> — the honest-abstain question; without it the judge is forced to pick the least-wrong option</li>
+<li>yes-or-no, once: <em>Does no playbook in this catalog fit?</em> That is the honest-abstain question. Without it the judge is forced to pick the least-wrong option.</li>
 </ul>
 <p><strong>Code, not questions:</strong> role filtering, catalog size, copying steps into the bot&#x27;s task list verbatim, and the disposition check.</p>
 <p><strong>Disposition check (code, runs at completion):</strong> every step id in the chosen playbook must have exactly one of <code>done: &lt;receipt&gt;</code>, <code>skip: &lt;reason&gt;</code>, or <code>blocked: &lt;reason&gt;</code> in the task record. A step with no disposition, or a <code>done</code> with no receipt where <code>verify</code> is <code>receipt</code>, fails the task before <code>completion-check</code> is ever asked. No judge is involved; this is the part that cannot drift.</p>
