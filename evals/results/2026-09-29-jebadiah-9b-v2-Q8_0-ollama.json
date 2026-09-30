@@ -6,7 +6,7 @@
   "runtime": "ollama",
   "jde": {
     "version": "0.1.0",
-    "commit": "8227a54871d3d8a3571a7c54f6f6428d631d61c2",
+    "commit": "76fc057f7070fd0d7e36acad2c0eb8fdf525bbb2",
     "dirty": false
   },
   "judge": {
@@ -20,7 +20,7 @@
       "temperatures": {
         "choice": 1.1863,
         "noul": 1.0903,
-        "score": 1.2162
+        "score": 0.8329
       }
     }
   },
@@ -28,24 +28,24 @@
     "gguf_sha256": "3a9456a7b51b4a6e4f658ebb138d6a218820a6ad6016fb6d53efb38829cb5f9e",
     "hf_repo": "frontier-infra/jebadiah-9b-v2-GGUF",
     "hf_file": "jebadiah-9b-v2-Q8_0.gguf",
-    "hf_revision": "4256d335fe4f13fa38f086da5d3abfe9e5c67ca2",
+    "hf_revision": "adaec6b3d1f0421706deb49fa275ab49093982ff",
     "bytes": 9786060672,
     "matched_on_hub": true
   },
   "prompt": {
-    "sha256": "1451ebae39ee4d230a4ec0cab2da19b40c812f63f316b2a3e35587c646a450df",
+    "sha256": "5a218d3c7424e8725f11f68254434774d5347974d46d652bd3849b897e3f2681",
     "questions_sha256": "04fe66bbf7da1764b33df97fab3ec790b5bb356f632e98496ec4a0337de0c657",
-    "jeb_repo_revision": "ace8560db9e02dbe8509213a26d38edff3b1b09a",
+    "jeb_repo_revision": "adaec6b3d1f0421706deb49fa275ab49093982ff",
     "jeb_repo_files_sha256": {
       "chat_template.jinja": "a4aee8afcf2e0711942cf848899be66016f8d14a889ff9ede07bca099c28f715",
       "tokenizer.json": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
-      "temperatures.json": "0bdbdb7b839954f4cfb1bfc1efdd8c06fe44fd7beb00f2437f81dd48b899bdc3"
+      "temperatures.json": "e441827ab803fad8384a9b7cdc7b1e28bb9a907ac46e43fb3a804e60382792c8"
     }
   },
   "host": {
     "platform": "darwin",
     "arch": "arm64",
-    "node": "v24.11.1"
+    "node": "v26.7.0"
   },
   "sets": [
     {
@@ -74,10 +74,10 @@
         "unanswered": 0
       },
       "latency_ms": {
-        "p50": 707,
-        "p95": 1271
+        "p50": 719,
+        "p95": 1272
       },
-      "report": "JDE eval, completion-check, completion-check-public.json\n36 cases, 129 graded questions, answered by jebadiah-9b-v2\n\naccuracy by question\n  file parts, decided in code     100.0%  (19 of 19)\n  action parts, noul vs receipts   88.6%  (39 of 44)\n  reply parts, noul vs claim       86.7%  (26 of 30)\n  every part the judge answered    87.8%  (65 of 74)\n  every part, code and judge       90.3%  (84 of 93)\n  result_is_echo                   88.9%  (32 of 36)\n\naccuracy by verdict, aggregated in code\n  done, partial or not_done        86.1%  (31 of 36)\n    labelled done                   100.0%  (12 of 12)\n    labelled partial                 83.3%  (10 of 12)\n    labelled not_done                75.0%  (9 of 12)\n    pub-hosting-missing-reason labelled partial    computed done       action:0.98 reply:0.90 file:pass\n    pub-search-without-reading labelled partial    computed done       action:0.94 reply:0.92 file:pass\n    pub-empty-brief-echo labelled not_done   computed partial    action:0.11 file:fail reply:0.78\n    pub-results-only-echo labelled not_done   computed partial    action:0.78 reply:0.49 file:fail\n    pub-wrong-service-tests labelled not_done   computed partial    action:0.88 reply:0.06\n\naccuracy by confidence, over every question the judge answered\n  below 0.50                         n/a  (0 of 0)\n  0.50 to 0.70                     57.9%  (11 of 19)\n  0.70 to 0.90                     91.9%  (34 of 37)\n  0.90 to 1.00                     96.3%  (52 of 54)\n\n  wrong: pub-hosting-missing-reason part_1_done    expected false  got true   noul 0.90\n  wrong: pub-search-without-reading part_0_done    expected false  got true   noul 0.94\n  wrong: pub-lint-not-tests   part_2_done    expected true   got false  noul 0.42\n  wrong: pub-imperative-echo  part_0_done    expected false  got true   noul 0.64\n  wrong: pub-imperative-echo  result_is_echo expected true   got false  noul 0.43\n  wrong: pub-empty-brief-echo part_2_done    expected false  got true   noul 0.78\n  wrong: pub-empty-brief-echo result_is_echo expected true   got false  noul 0.48\n  wrong: pub-results-only-echo part_0_done    expected false  got true   noul 0.78\n  wrong: pub-results-only-echo result_is_echo expected true   got false  noul 0.42\n  wrong: pub-wrong-service-tests part_0_done    expected false  got true   noul 0.88\n  wrong: pub-promised-schedule part_1_done    expected false  got true   noul 0.56\n  wrong: pub-brief-wrong-directory part_0_done    expected false  got true   noul 0.52\n  wrong: pub-brief-wrong-directory result_is_echo expected true   got false  noul 0.33\n\nlatency p50 707ms, p95 1271ms, wall 30.3s at concurrency 1\ninput tokens 30182, on your own machine",
+      "report": "JDE eval, completion-check, completion-check-public.json\n36 cases, 129 graded questions, answered by jebadiah-9b-v2\n\naccuracy by question\n  file parts, decided in code     100.0%  (19 of 19)\n  action parts, noul vs receipts   88.6%  (39 of 44)\n  reply parts, noul vs claim       86.7%  (26 of 30)\n  every part the judge answered    87.8%  (65 of 74)\n  every part, code and judge       90.3%  (84 of 93)\n  result_is_echo                   88.9%  (32 of 36)\n\naccuracy by verdict, aggregated in code\n  done, partial or not_done        86.1%  (31 of 36)\n    labelled done                   100.0%  (12 of 12)\n    labelled partial                 83.3%  (10 of 12)\n    labelled not_done                75.0%  (9 of 12)\n    pub-hosting-missing-reason labelled partial    computed done       action:0.98 reply:0.90 file:pass\n    pub-search-without-reading labelled partial    computed done       action:0.94 reply:0.92 file:pass\n    pub-empty-brief-echo labelled not_done   computed partial    action:0.11 file:fail reply:0.78\n    pub-results-only-echo labelled not_done   computed partial    action:0.78 reply:0.49 file:fail\n    pub-wrong-service-tests labelled not_done   computed partial    action:0.88 reply:0.06\n\naccuracy by confidence, over every question the judge answered\n  below 0.50                         n/a  (0 of 0)\n  0.50 to 0.70                     57.9%  (11 of 19)\n  0.70 to 0.90                     91.9%  (34 of 37)\n  0.90 to 1.00                     96.3%  (52 of 54)\n\n  wrong: pub-hosting-missing-reason part_1_done    expected false  got true   noul 0.90\n  wrong: pub-search-without-reading part_0_done    expected false  got true   noul 0.94\n  wrong: pub-lint-not-tests   part_2_done    expected true   got false  noul 0.42\n  wrong: pub-imperative-echo  part_0_done    expected false  got true   noul 0.64\n  wrong: pub-imperative-echo  result_is_echo expected true   got false  noul 0.43\n  wrong: pub-empty-brief-echo part_2_done    expected false  got true   noul 0.78\n  wrong: pub-empty-brief-echo result_is_echo expected true   got false  noul 0.48\n  wrong: pub-results-only-echo part_0_done    expected false  got true   noul 0.78\n  wrong: pub-results-only-echo result_is_echo expected true   got false  noul 0.42\n  wrong: pub-wrong-service-tests part_0_done    expected false  got true   noul 0.88\n  wrong: pub-promised-schedule part_1_done    expected false  got true   noul 0.56\n  wrong: pub-brief-wrong-directory part_0_done    expected false  got true   noul 0.52\n  wrong: pub-brief-wrong-directory result_is_echo expected true   got false  noul 0.33\n\nlatency p50 719ms, p95 1272ms, wall 28.4s at concurrency 1\ninput tokens 30182, on your own machine",
       "records": [
         {
           "id": "pub-provider-comparison",
@@ -1426,10 +1426,10 @@
         "unanswered": 0
       },
       "latency_ms": {
-        "p50": 476,
-        "p95": 1118
+        "p50": 474,
+        "p95": 1071
       },
-      "report": "JDE eval, completion-check, completion-check-tuned.json\n31 cases, 89 graded questions, answered by jebadiah-9b-v2\n\naccuracy by question\n  file parts, decided in code     100.0%  (27 of 27)\n  action parts, noul vs receipts   80.8%  (21 of 26)\n  reply parts, noul vs claim       80.0%  (4 of 5)\n  every part the judge answered    80.6%  (25 of 31)\n  every part, code and judge       89.7%  (52 of 58)\n  result_is_echo                   90.3%  (28 of 31)\n\naccuracy by verdict, aggregated in code\n  done, partial or not_done        85.7%  (24 of 28)\n    labelled done                    90.0%  (9 of 10)\n    labelled partial                 66.7%  (4 of 6)\n    labelled not_done                91.7%  (11 of 12)\n    j5-research-partial  labelled partial    computed done       action:0.82 file:pass\n    j5-research-overclaim-sources labelled partial    computed done       action:0.92 reply:0.94\n    j5-browser-searched-instead labelled not_done   computed partial    action:0.75 action:0.46\n    j5-email-in-reply    labelled done       computed not_done   reply:0.60\n\naccuracy by confidence, over every question the judge answered\n  below 0.50                         n/a  (0 of 0)\n  0.50 to 0.70                     53.8%  (7 of 13)\n  0.70 to 0.90                     87.5%  (21 of 24)\n  0.90 to 1.00                    100.0%  (25 of 25)\n\n  wrong: j5-research-echo-zero result_is_echo expected true   got false  noul 0.30\n  wrong: j5-research-partial  part_0_done    expected false  got true   noul 0.82\n  wrong: j5-research-recorder-gap result_is_echo expected false  got true   noul 0.52\n  wrong: j5-browser-claims-three-stores part_1_done    expected false  got true   noul 0.60\n  wrong: j5-browser-claims-three-stores part_2_done    expected false  got true   noul 0.66\n  wrong: j5-browser-claims-three-stores part_3_done    expected true   got false  noul 0.41\n  wrong: j5-browser-searched-instead part_0_done    expected false  got true   noul 0.75\n  wrong: j5-email-partial     part_2_done    expected false  got true   noul 0.63\n  wrong: j5-email-echo-with-artifact result_is_echo expected true   got false  noul 0.26\n\nlatency p50 476ms, p95 1118ms, wall 15.9s at concurrency 1\ninput tokens 17608, on your own machine",
+      "report": "JDE eval, completion-check, completion-check-tuned.json\n31 cases, 89 graded questions, answered by jebadiah-9b-v2\n\naccuracy by question\n  file parts, decided in code     100.0%  (27 of 27)\n  action parts, noul vs receipts   80.8%  (21 of 26)\n  reply parts, noul vs claim       80.0%  (4 of 5)\n  every part the judge answered    80.6%  (25 of 31)\n  every part, code and judge       89.7%  (52 of 58)\n  result_is_echo                   90.3%  (28 of 31)\n\naccuracy by verdict, aggregated in code\n  done, partial or not_done        85.7%  (24 of 28)\n    labelled done                    90.0%  (9 of 10)\n    labelled partial                 66.7%  (4 of 6)\n    labelled not_done                91.7%  (11 of 12)\n    j5-research-partial  labelled partial    computed done       action:0.82 file:pass\n    j5-research-overclaim-sources labelled partial    computed done       action:0.92 reply:0.94\n    j5-browser-searched-instead labelled not_done   computed partial    action:0.75 action:0.46\n    j5-email-in-reply    labelled done       computed not_done   reply:0.60\n\naccuracy by confidence, over every question the judge answered\n  below 0.50                         n/a  (0 of 0)\n  0.50 to 0.70                     53.8%  (7 of 13)\n  0.70 to 0.90                     87.5%  (21 of 24)\n  0.90 to 1.00                    100.0%  (25 of 25)\n\n  wrong: j5-research-echo-zero result_is_echo expected true   got false  noul 0.30\n  wrong: j5-research-partial  part_0_done    expected false  got true   noul 0.82\n  wrong: j5-research-recorder-gap result_is_echo expected false  got true   noul 0.52\n  wrong: j5-browser-claims-three-stores part_1_done    expected false  got true   noul 0.60\n  wrong: j5-browser-claims-three-stores part_2_done    expected false  got true   noul 0.66\n  wrong: j5-browser-claims-three-stores part_3_done    expected true   got false  noul 0.41\n  wrong: j5-browser-searched-instead part_0_done    expected false  got true   noul 0.75\n  wrong: j5-email-partial     part_2_done    expected false  got true   noul 0.63\n  wrong: j5-email-echo-with-artifact result_is_echo expected true   got false  noul 0.26\n\nlatency p50 474ms, p95 1071ms, wall 15.5s at concurrency 1\ninput tokens 17608, on your own machine",
       "records": [
         {
           "id": "j5-research-done",
