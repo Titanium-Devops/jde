@@ -47,10 +47,18 @@ await markReviewed(fileLedger(path), id, { wrong, by }, why === undefined ? {} :
 
 // fileLedger never throws, on purpose, so the only proof the marker landed is reading it back.
 const after = await readLedger(path);
-const joined = joinReviews(after).reviewed.find((entry) => entry.row.id === id);
-if (joined === undefined) {
+const afterJoin = joinReviews(after, { include: "all" });
+const joined = afterJoin.reviewed.find((entry) => entry.row.id === id)
+  ?? afterJoin.reviewedErrorRows.find((entry) => entry.row.id === id);
+const landedDangling = afterJoin.dangling.some((marker) => marker.id === id && marker.by === by);
+if (joined === undefined && !landedDangling) {
   console.error(`The marker did not reach ${path}. Check the path and its permissions.`);
   process.exit(1);
+}
+
+if (joined === undefined) {
+  console.log(`${id} marked ${wrong ? "wrong" : "right"} by ${by} (no matching judgment row; --force)`);
+  process.exit(0);
 }
 
 const verdict = joined.review.wrong ? "wrong" : "right";

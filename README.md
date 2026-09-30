@@ -54,12 +54,9 @@ if (check.verdict === "done" && !check.result_is_echo.value) deliver(result);
 else redispatch(check.parts);              // it did not do the work, and now you know
 ```
 
-Branch on `verdict`, not on `outcome.action`. A decision's `action` comes from how *sure* the
-judge was, and right now a judge that is sure a part **failed** is still a confident judge, so a
-confident failure bands as `accept`. Measured on 2026-09-21: 88 of 360 ledger rows answer `false`
-at 0.9 or better and every one of them carries `action: "accept"`. `verdict` reads the raw answers
-and is correct on all 30 blind cases. This is being fixed; until it is, `verdict` is the field to
-trust.
+Branch on `verdict`, not on `outcome.action`. Actions now use the confidence that a question passed,
+so a confident failure no longer bands as `accept`. Code-settled outcomes, such as file parts and
+ratio parrots, do not reach the aggregate, so `verdict` remains the field callers should branch on.
 
 Four things, each of which you would otherwise build yourself:
 

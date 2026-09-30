@@ -176,7 +176,7 @@ calibration.threshold;   // { confidence, reviewed, pooledError } or null
 calibration.shortfall;   // why it is null, in words
 ```
 
-Three rules this reader keeps:
+Four rules this reader keeps:
 
 - **An unreviewed row is not a correct row.** It is in neither the numerator nor the denominator.
 - **An empty bin has no error rate**, which is not the same as an error rate of zero.
@@ -320,7 +320,7 @@ labelled done.
 ## The task parts extractor
 
 ```ts
-import { extractTaskParts } from "@titanium/jde";
+import { extractTaskParts } from "jde";
 
 extractTaskParts(
   "Research the three managed Postgres providers, write the comparison to notes/pg-pricing.md, and tell me which to pick.",
@@ -397,7 +397,7 @@ satisfy; a model call on every task costs money on every turn and answers the sa
 ## The task restatement check
 
 ```ts
-import { taskRestatement } from "@titanium/jde";
+import { taskRestatement } from "jde";
 
 const outcome = await taskRestatement({
   task,
