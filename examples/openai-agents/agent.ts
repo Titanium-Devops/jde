@@ -2,8 +2,8 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
 import { Agent, run, tool } from "@openai/agents";
 import type { AgentInputItem, RunItem } from "@openai/agents";
-import { completionCheck } from "jde";
-import type { CompletionOutcome, Receipts, TaskPart } from "jde";
+import { completionCheck } from "@titanium-devops/jde";
+import type { CompletionOutcome, Receipts, TaskPart } from "@titanium-devops/jde";
 import { z } from "zod";
 
 /**

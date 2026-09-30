@@ -1,9 +1,8 @@
 # Releasing JDE to npm
 
-The package is `jde` on npm, and it ships the library and the `jde-mcp` MCP server. It was chosen
-on 2026-09-29, when the name was free. If npm refuses `jde` as too close to an existing name, use
-`jev-decision-engine` instead, and change the `name` in package.json, `npm i jde` in the README
-Quickstart and `-p jde` in the README, USAGE.md and `examples/mcp`.
+The package is `@titanium-devops/jde` on npm, under the titanium-devops npm org, and it ships
+the library and the `jde-mcp` MCP server. The command and MCP server names stay `jde-mcp` and
+`jde`. It moved from the unscoped `jde` to the scope on 2026-09-30, before the first publish.
 
 ## Before publishing
 
@@ -40,9 +39,9 @@ Never run `bw lock` or `bw logout` afterwards.
 In an empty directory, with nothing installed:
 
 ```bash
-npm view jde version                          # the version just published
-npx -y -p jde jde-mcp < /dev/null             # starts and exits cleanly on end of input
-npm i jde && node -e 'import("jde").then(m => console.log(typeof m.completionCheck))'   # function
+npm view @titanium-devops/jde version                          # the version just published
+npx -y -p @titanium-devops/jde jde-mcp < /dev/null             # starts and exits cleanly on end of input
+npm i @titanium-devops/jde && node -e 'import("@titanium-devops/jde").then(m => console.log(typeof m.completionCheck))'   # function
 ```
 
 Then tag the release: `git tag v<version> && git push origin v<version>`.

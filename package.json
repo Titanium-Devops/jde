@@ -1,5 +1,5 @@
 {
-  "name": "jde",
+  "name": "@titanium-devops/jde",
   "version": "0.1.0",
   "description": "JDE, the Jev Decision Engine: one place where an agent's judgments are asked, answered, thresholded and recorded.",
   "license": "MIT",
@@ -62,5 +62,8 @@
   "devDependencies": {
     "@types/node": "^22.10.2",
     "typescript": "^5.9.2"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

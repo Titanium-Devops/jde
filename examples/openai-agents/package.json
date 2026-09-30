@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@openai/agents": "^0.18.0",
-    "jde": "^0.1.0",
+    "@titanium-devops/jde": "^0.1.0",
     "zod": "^4.6.5"
   },
   "devDependencies": {

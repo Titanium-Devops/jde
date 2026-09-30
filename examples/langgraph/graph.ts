@@ -6,8 +6,8 @@ import { tool } from "@langchain/core/tools";
 import { Annotation, END, MessagesAnnotation, START, StateGraph } from "@langchain/langgraph";
 import { ToolNode } from "@langchain/langgraph/prebuilt";
 import { ChatOpenAI } from "@langchain/openai";
-import { completionCheck } from "jde";
-import type { CompletionVerdict, Receipts, TaskPart } from "jde";
+import { completionCheck } from "@titanium-devops/jde";
+import type { CompletionVerdict, Receipts, TaskPart } from "@titanium-devops/jde";
 import { z } from "zod";
 
 /**

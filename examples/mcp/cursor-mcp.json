@@ -2,7 +2,7 @@
   "mcpServers": {
     "jde": {
       "command": "npx",
-      "args": ["-y", "-p", "jde", "jde-mcp"],
+      "args": ["-y", "-p", "@titanium-devops/jde", "jde-mcp"],
       "env": {
         "JDE_TIMEOUT_MS": "5000"
       }

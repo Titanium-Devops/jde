@@ -13,7 +13,7 @@
     "@langchain/core": "^1.2.13",
     "@langchain/langgraph": "^1.4.18",
     "@langchain/openai": "^1.6.0",
-    "jde": "^0.1.0",
+    "@titanium-devops/jde": "^0.1.0",
     "zod": "^4.6.5"
   },
   "devDependencies": {
