@@ -144,12 +144,12 @@ wording we had quietly tuned ourselves into.
 ## Quickstart
 
 ```bash
-npm i jde
+npm i @titanium-devops/jde
 pip install jebadiah-decide && jeb serve     # the judge, on your own machine
 ```
 
 ```ts
-import { completionCheck } from "jde";
+import { completionCheck } from "@titanium-devops/jde";
 const { verdict } = await completionCheck({ task, task_parts, claimed_result, receipts });
 if (verdict === "partial" || verdict === "not_done") redo();   // null: the judge did not answer
 ```
@@ -162,7 +162,7 @@ it did. [USAGE.md](USAGE.md#the-completion-check) has the shapes.
 No code: give the agent JDE as an MCP server.
 
 ```bash
-claude mcp add jde -- npx -y -p jde jde-mcp
+claude mcp add jde -- npx -y -p @titanium-devops/jde jde-mcp
 ```
 
 The agent gets `check_completion`, which its description tells it to call before it reports a task

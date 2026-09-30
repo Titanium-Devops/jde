@@ -3,7 +3,7 @@
     "jde": {
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "-p", "jde", "jde-mcp"],
+      "args": ["-y", "-p", "@titanium-devops/jde", "jde-mcp"],
       "env": {
         "JDE_JEB_ENDPOINT": "http://localhost:8100/v1/systemone"
       }

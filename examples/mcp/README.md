@@ -10,7 +10,7 @@ pip install jebadiah-decide && jeb serve
 **Claude Code**
 
 ```bash
-claude mcp add jde -- npx -y -p jde jde-mcp
+claude mcp add jde -- npx -y -p @titanium-devops/jde jde-mcp
 ```
 
 **Cursor**: copy [`cursor-mcp.json`](cursor-mcp.json) to `.cursor/mcp.json` in your project, or
