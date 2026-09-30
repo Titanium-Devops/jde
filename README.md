@@ -45,15 +45,21 @@ what your agent decided yesterday or why.
 ## What JDE does
 
 ```ts
-const outcome = await ask({
-  decision: "completion-check",
+const check = await completionCheck({
   state: { task, taskParts, claimedResult, receipts },
   context: { agentId, turnId },
 });
 
-if (outcome.action === "accept") deliver(result);
-else redispatch(outcome.answers);          // it did not do the work, and now you know
+if (check.verdict === "done" && !check.result_is_echo.value) deliver(result);
+else redispatch(check.parts);              // it did not do the work, and now you know
 ```
+
+Branch on `verdict`, not on `outcome.action`. A decision's `action` comes from how *sure* the
+judge was, and right now a judge that is sure a part **failed** is still a confident judge, so a
+confident failure bands as `accept`. Measured on 2026-09-21: 88 of 360 ledger rows answer `false`
+at 0.9 or better and every one of them carries `action: "accept"`. `verdict` reads the raw answers
+and is correct on all 30 blind cases. This is being fixed; until it is, `verdict` is the field to
+trust.
 
 Four things, each of which you would otherwise build yourself:
 
@@ -122,6 +128,18 @@ measured on.
 
 Whether a file exists at a path, whether a count exceeds a budget, whether every part
 passed: none of those need a model, and asking one makes them worse.
+
+## The parts come from code too
+
+That check asks one question per part of a task, which means something has to say what the parts
+are. Nothing in a live agent did: every measured run above used parts a person typed into a case
+file. `extractTaskParts()` reads them out of the sentence instead, from the paths that were typed,
+the verbs that were used, and the conjunctions they were joined with. No model, no cost per turn,
+and the same answer to the same string every time.
+
+Scored against the 61 tasks whose parts were written by hand for the case sets, it gets the count,
+every kind and every path right on **57**. That is a development set rather than a blind one, and
+[USAGE.md](USAGE.md) has the numbers, the rules, and what it still gets wrong.
 
 ## Principles, and what they cost to learn
 

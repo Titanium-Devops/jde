@@ -174,3 +174,61 @@ test("the question wording is the measured wording", () => {
     "Is `claimed_result` a restatement of `task` rather than a report of an outcome?",
   );
 });
+
+test("a caller may pass a task instead of parts, and the parts are read out of it", async () => {
+  let seen: { task_parts: readonly TaskPart[] } | undefined;
+  const spy: Judge = {
+    id: "spy",
+    async ask(state: unknown, questions: Questions) {
+      seen = state as { task_parts: readonly TaskPart[] };
+      const answers: Record<string, { type: "noul"; noul: number }> = {};
+      for (const id of Object.keys(questions)) answers[id] = { type: "noul", noul: id === "result_is_echo" ? 0.02 : 0.95 };
+      return { answers };
+    },
+  };
+
+  const outcome = await completionCheck(
+    {
+      task: "Research the three managed Postgres providers, write the comparison to notes/pg-pricing.md, and tell me which to pick.",
+      claimed_result: "Compared three providers, wrote notes/pg-pricing.md, and Larkspur is the cheapest at our volume.",
+      receipts: { searches: 4, files_written: [{ path: "notes/pg-pricing.md", bytes: 2140 }] },
+    },
+    { policy: POLICY, judge: spy, ledger: memoryLedger() },
+  );
+
+  assert.deepEqual(seen?.task_parts.map((part) => part.kind), ["action", "file", "reply"]);
+  assert.equal(seen?.task_parts[1]?.kind === "file" ? seen.task_parts[1].path : null, "notes/pg-pricing.md");
+  assert.deepEqual(outcome.parts.map((part) => part.passes), [true, true, true]);
+  assert.equal(outcome.parts[1]?.evidence, "file written", "the extracted file part is still settled in code");
+  assert.equal(outcome.verdict, "done");
+});
+
+test("parts a caller passes are the parts that are judged, whatever the task says", async () => {
+  let seen: { task_parts: readonly TaskPart[] } | undefined;
+  const spy: Judge = {
+    id: "spy",
+    async ask(state: unknown, questions: Questions) {
+      seen = state as { task_parts: readonly TaskPart[] };
+      const answers: Record<string, { type: "noul"; noul: number }> = {};
+      for (const id of Object.keys(questions)) answers[id] = { type: "noul", noul: 0.9 };
+      return { answers };
+    },
+  };
+  await completionCheck(
+    { task: "Fetch the logs and write them to docs/outage.md.", task_parts: PARTS, claimed_result: "a claim", receipts: RECEIPTS },
+    { policy: POLICY, judge: spy, ledger: memoryLedger() },
+  );
+  assert.deepEqual(seen?.task_parts, PARTS);
+});
+
+test("a task with nothing in it is a programming error, not a judgment", async () => {
+  const options = { policy: POLICY, judge: codeJudge({ id: "code-1", answers: {} }), ledger: memoryLedger() };
+  await assert.rejects(
+    () => completionCheck({ task: "   ", claimed_result: "a claim", receipts: {} }, options),
+    (error: unknown) => error instanceof TypeError && /at least one part/.test(error.message),
+  );
+  await assert.rejects(
+    () => completionCheck({ task: "a task", task_parts: [], claimed_result: "a claim", receipts: {} }, options),
+    (error: unknown) => error instanceof TypeError && /at least one task part/.test(error.message),
+  );
+});

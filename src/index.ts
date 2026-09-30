@@ -4,6 +4,7 @@ import {
   aggregateFloor,
   answerText,
   bandFor,
+  certaintyOf,
   confidenceOf,
   loadPolicyBook,
   policyFor,
@@ -25,6 +26,7 @@ import type {
   PolicyEntry,
   Question,
   Questions,
+  RunKind,
 } from "./types.ts";
 
 export * from "./types.ts";
@@ -42,24 +44,43 @@ export {
   judgeNamed,
   JEV_ENDPOINT,
   JEV_MODEL,
+  questionsForWire,
   systemOneJudge,
   TYPESAFE_API_KEY_ENV,
 } from "./judge/index.ts";
 export type { CodeAnswer, CodeJudgeOptions, JebJudgeOptions, JevJudgeOptions, SystemOneJudgeOptions } from "./judge/index.ts";
-export { fileLedger, memoryLedger, nullLedger, markWrong, readLedger, defaultLedgerPath } from "./ledger.ts";
-export type { MemoryLedger } from "./ledger.ts";
+export {
+  fileLedger,
+  memoryLedger,
+  nullLedger,
+  markReviewed,
+  markRight,
+  markWrong,
+  readLedger,
+  taggedLedger,
+  defaultLedgerPath,
+} from "./ledger.ts";
+export type { MemoryLedger, ReviewOptions } from "./ledger.ts";
+export * from "./review.ts";
 export {
   aggregateFloor,
   answerText,
   bandFor,
+  certaintyOf,
   confidenceOf,
   defaultPolicyPath,
   forgetPolicyCache,
+  isBottomBand,
   loadPolicyBook,
+  passingAnswerOf,
   policyFor,
   validatePolicyEntry,
 } from "./policy.ts";
+export type { Score } from "./policy.ts";
+export * from "./decisions/ask-gate.ts";
 export * from "./decisions/completion-check.ts";
+export * from "./decisions/task-restatement.ts";
+export * from "./parts.ts";
 
 export interface AskOptions {
   /** Overrides the judge the policy names. A test passes its own; production passes nothing. */
@@ -159,6 +180,8 @@ export async function ask<State = unknown>(input: AskInput<State>, options: AskO
       action: entry.on_error,
       confidence: null,
       band: null,
+      certainty: null,
+      certaintyBand: null,
       decisions: rows,
       judge: judgeId,
       latencyMs,
@@ -168,7 +191,7 @@ export async function ask<State = unknown>(input: AskInput<State>, options: AskO
 
   for (const id of questionIds) {
     const answer = answers[id] as Answer;
-    const confidence = confidenceOf(answer);
+    const confidence = confidenceOf(answer, questions[id]);
     const band = bandFor(confidence, entry.bands);
     const row: LedgerRow = {
       id: newId(),
@@ -187,8 +210,14 @@ export async function ask<State = unknown>(input: AskInput<State>, options: AskO
     await ledger.append(row);
   }
 
-  const aggregateConfidence = aggregate(answers);
+  // Two aggregates over the same answers and the same rule, differing only in what one answer is
+  // worth. The bands and the action are read off the pass confidence, which is the one that says
+  // whether this went well. The certainty is carried beside it for the callers whose verdict turns
+  // on the judge having not known, which a pass confidence cannot tell apart from a confident no.
+  const aggregateConfidence = aggregate(answers, (answer, id) => confidenceOf(answer, questions[id]));
   const aggregateBand = bandFor(aggregateConfidence, entry.bands);
+  const aggregateCertainty = aggregate(answers, certaintyOf);
+  const certaintyBand = bandFor(aggregateCertainty, entry.bands);
   const aggregateRow: LedgerRow = {
     id: newId(),
     ts: now().toISOString(),
@@ -211,6 +240,8 @@ export async function ask<State = unknown>(input: AskInput<State>, options: AskO
     action: aggregateBand.band.action,
     confidence: aggregateConfidence,
     band: aggregateBand.label,
+    certainty: aggregateCertainty,
+    certaintyBand: certaintyBand.label,
     decisions: rows,
     judge: judgeId,
     latencyMs,
@@ -244,10 +275,17 @@ function resolvePolicy(decision: string, options: AskOptions): PolicyEntry {
   return entry;
 }
 
-function contextFields(context: AskInput["context"]): { agentId?: string; turnId?: string } {
-  const fields: { agentId?: string; turnId?: string } = {};
+function contextFields(context: AskInput["context"]): {
+  agentId?: string;
+  turnId?: string;
+  runKind?: RunKind;
+  runId?: string;
+} {
+  const fields: { agentId?: string; turnId?: string; runKind?: RunKind; runId?: string } = {};
   if (context?.agentId !== undefined) fields.agentId = context.agentId;
   if (context?.turnId !== undefined) fields.turnId = context.turnId;
+  if (context?.runKind !== undefined) fields.runKind = context.runKind;
+  if (context?.runId !== undefined) fields.runId = context.runId;
   return fields;
 }
 

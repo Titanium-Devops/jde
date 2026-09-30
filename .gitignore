@@ -5,3 +5,7 @@ out/
 
 # Blind sets never go public: once a model can train on them they stop measuring anything.
 cases/*-blind.json
+
+# Built locally by scripts/mk-playbook-catalog.mjs from the Titanium Bot community pack. Its
+# descriptions are the pack's own text, which is not ours to publish.
+cases/playbook-catalog.json
