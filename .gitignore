@@ -5,3 +5,6 @@ out/
 
 # Blind sets never go public: once a model can train on them they stop measuring anything.
 cases/*-blind.json
+
+# Graft local cache (directory or symlink)
+/graft
